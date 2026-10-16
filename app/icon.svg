@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>PVM</title>
+  <!-- Placeholder PVM tile (--ink / --ground); Phase 8 replaces it with the final mark. -->
+  <rect width="64" height="64" rx="18" fill="#121614"/>
+  <text x="32" y="41" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="800" letter-spacing="0.5" fill="#edefea">PVM</text>
+</svg>

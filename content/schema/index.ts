@@ -49,6 +49,8 @@ export const experienceSchema = z
   .strictObject({
     id,
     company: text,
+    /** Compact name for tight spots (landing timeline). Several entries may share one. */
+    shortName: text.optional(),
     location: text,
     title: text,
     start: yearMonth,
@@ -134,6 +136,23 @@ export const recommendationSchema = z.strictObject({
 });
 export const recommendationsSchema = z.array(recommendationSchema).min(1);
 
+export const personaIds = ['visitor', 'recruiter', 'engineer'] as const;
+export const personaIdSchema = z.enum(personaIds);
+export const personasSchema = z
+  .array(
+    z.strictObject({
+      id: personaIdSchema,
+      label: text,
+      /** Shown next to the toggle. */
+      hint: text,
+      /** Suggested prompt pills, in display order. */
+      prompts: z.array(text.max(60)).min(2).max(5),
+    }),
+  )
+  .refine((list) => personaIds.every((id) => list.some((p) => p.id === id)), {
+    message: 'every persona needs an entry',
+  });
+
 const githubRepoSchema = z.strictObject({
   name: text,
   description: z.string().nullable(),
@@ -179,4 +198,6 @@ export type Education = z.infer<typeof educationSchema>;
 export type Certification = z.infer<typeof certificationSchema>;
 export type Award = z.infer<typeof awardSchema>;
 export type Recommendation = z.infer<typeof recommendationSchema>;
+export type Persona = z.infer<typeof personasSchema>[number];
+export type PersonaId = z.infer<typeof personaIdSchema>;
 export type GitHubActivity = z.infer<typeof githubSchema>;

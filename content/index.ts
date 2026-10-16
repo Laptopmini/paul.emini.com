@@ -3,6 +3,7 @@ import certificationsJson from './certifications.json';
 import educationJson from './education.json';
 import experienceJson from './experience.json';
 import githubJson from './github.json';
+import personasJson from './personas.json';
 import profileJson from './profile.json';
 import projectsJson from './projects.json';
 import {
@@ -11,6 +12,7 @@ import {
   educationsSchema,
   experiencesSchema,
   githubSchema,
+  personasSchema,
   profileSchema,
   projectsSchema,
   skillsSchema,
@@ -29,6 +31,8 @@ export const education = educationsSchema.parse(educationJson);
 export const certifications = certificationsSchema.parse(certificationsJson);
 export const awards = awardsSchema.parse(awardsJson);
 export const github = githubSchema.parse(githubJson);
+export const personas = personasSchema.parse(personasJson);
+export const DEFAULT_PERSONA = 'visitor' as const;
 
 export type * from './schema';
 export { parseRecommendations } from './schema/recommendations';

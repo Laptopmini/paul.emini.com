@@ -12,6 +12,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: clip;
   min-height: 100dvh;
   background: var(--ground);
   color: var(--ink);
@@ -38,8 +39,19 @@ button {
     box-shadow var(--duration) var(--ease);
 }
 
-button {
+button,
+input {
   font: inherit;
+  color: inherit;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 :focus-visible {

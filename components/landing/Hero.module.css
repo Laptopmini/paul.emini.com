@@ -1,0 +1,46 @@
+.copy {
+  flex: 999 1 560px;
+  min-width: 0;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 28px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 96px;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.lede {
+  margin: 32px 0 0;
+  max-width: 620px;
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 52px;
+  }
+
+  .lede {
+    margin-top: 24px;
+    font-size: 18px;
+  }
+}

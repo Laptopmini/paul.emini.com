@@ -1,0 +1,106 @@
+.strata {
+  flex: 1 1 380px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  translate: var(--x) 0;
+  transition: box-shadow 250ms var(--ease);
+}
+
+.item:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.title {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.detail {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.feature {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--ground);
+}
+
+.feature .eyebrow {
+  color: var(--on-ink-muted);
+}
+
+.feature .detail {
+  color: var(--on-ink-2);
+}
+
+.earlier {
+  padding-block: 14px;
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--line-dashed);
+  color: var(--muted);
+}
+
+/*
+ * Parallax: as the page scrolls, rows fan in toward the axis and rise at different
+ * depths. Pure CSS scroll-driven animation; rows stay at their resting offsets where
+ * scroll timelines are unsupported or motion is reduced.
+ */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .item {
+      animation: drift linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 70vh;
+    }
+  }
+}
+
+@keyframes drift {
+  to {
+    translate: calc(var(--x) * 0.25) calc(var(--depth) * -1px);
+  }
+}
+
+@media (min-width: 641px) {
+  .detail {
+    white-space: nowrap;
+  }
+}
+
+/* Phone: hidden so the ask panel sits closer to the fold. Everything here is also
+   reachable through the agent. */
+@media (max-width: 640px) {
+  .strata {
+    display: none;
+  }
+}

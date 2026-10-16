@@ -1,0 +1,86 @@
+.dock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 22px;
+  border-radius: var(--radius-input);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-dock);
+  transition:
+    border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease);
+}
+
+.dock:focus-within {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 4px var(--accent-ring),
+    var(--shadow-dock);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+/* The dock's :focus-within ring is the focus indicator for the input. */
+.input:focus-visible {
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.counter {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.send {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 14px;
+  border: 0;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.send:hover {
+  transform: scale(1.06);
+}
+
+.send:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 640px) {
+  .dock {
+    padding-left: 16px;
+  }
+
+  .input {
+    font-size: 16px;
+  }
+
+  /* Phone: the counter appears once there is something to count (Mobile.dc.html). */
+  .counter[data-empty="true"] {
+    display: none;
+  }
+}

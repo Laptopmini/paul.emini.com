@@ -13,7 +13,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
 - **Never write the phone number** (or any part of the contact line besides email/LinkedIn/GitHub) into `/content` or anywhere else in this repo. It lives only inside `resume.pdf`.
 - Never change an existing `id`. A renamed company or project keeps its id. Only new entries get new ids (kebab-case).
 - Copy names verbatim. Certification names are official course titles (e.g. "Building Agentic RAG with Llamaindex"), so never "correct" their spelling or casing.
-- Do not touch `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
+- Do not touch `content/personas.json` (site config), `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
 
 ## Workflow
 
@@ -34,7 +34,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
    | Header line (city, email, links) | `profile.json` | `location`, `email`, `links`. Skip the phone. |
    | `## Profile` | `profile.json` → `summary`, `title` | `title` is the role the summary opens with ("Senior Software Developer"); a test enforces it. The hero renders `<title> <tagline>`, so `tagline` never repeats the title. It's site copy: flag it if the change makes it inaccurate, don't rewrite it silently. |
    | `## Top Skills` | `skills.json` | One group per bullet; `items` in source order. Keep `featured` a subset of `items`. |
-   | `## Experience` → `### Company \| Location` | `experience.json` | `**Title** \| Month YYYY – Month YYYY` → `title`, `start`/`end` as `YYYY-MM` (`end: null` for "Present"). Each `* **Label:** text` → `highlights[]` `label` + `text`. `> **Tech Stack:**` → `stack`. |
+   | `## Experience` → `### Company \| Location` | `experience.json` | `**Title** \| Month YYYY – Month YYYY` → `title`, `start`/`end` as `YYYY-MM` (`end: null` for "Present"). Each `* **Label:** text` → `highlights[]` `label` + `text`. `> **Tech Stack:**` → `stack`. For a new company, add a `shortName` (e.g. "Samsung") for the landing timeline. |
    | `## Projects` → `### Name \| Kind` | `projects.json` | `**Tagline** \| Month YYYY` → `tagline`, `date`. Intro paragraph → `summary`. Bullets → `highlights`. Tech Stack → `stack`. Strip Markdown emphasis. |
    | `## Education & Certifications` | `education.json`, `certifications.json` | Degree lines → education; `**Name** – Issuer \| *Issued Mon YYYY*` → certifications (`issued` as `YYYY-MM`). |
    | `## Awards` | `awards.json` | Heading line → `name`, `issuer`, `received`; paragraph → `description`. |

@@ -18,6 +18,9 @@
   --line-2: #c6ccc7; /* pill borders */
   --divider: #e3e6e1;
   --chip: #e1e4df; /* segmented control track */
+  --line-dashed: #b9c0bb; /* "earlier" timeline row */
+  --on-ink-muted: #a9b2ad; /* meta text on --ink */
+  --on-ink-2: #c9d0cc; /* body text on --ink */
 
   /* status chips (fixed, independent of accent) */
   --ok-bg: #e7f4ec;
@@ -28,6 +31,7 @@
   --shadow-lift: 0 8px 20px rgb(18 22 20 / 0.1);
   --shadow-card: 0 14px 32px rgb(18 22 20 / 0.14);
   --shadow-dock: 0 12px 40px rgb(18 22 20 / 0.08);
+  --shadow-seg: 0 1px 3px rgb(18 22 20 / 0.18);
 
   --radius-card: 18px;
   --radius-input: 20px;

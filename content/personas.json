@@ -1,0 +1,36 @@
+[
+  {
+    "id": "visitor",
+    "label": "Visitor",
+    "hint": "A friendly overview.",
+    "prompts": [
+      "What are your top skills?",
+      "What’s your most recent experience?",
+      "What have you been up to lately?",
+      "What do people say about you?",
+      "How was this site built?"
+    ]
+  },
+  {
+    "id": "recruiter",
+    "label": "Recruiter",
+    "hint": "Short answers, outcomes first.",
+    "prompts": [
+      "Give me the 30-second summary",
+      "What’s your most recent experience?",
+      "What are your top skills?",
+      "What do people say about you?"
+    ]
+  },
+  {
+    "id": "engineer",
+    "label": "Engineer",
+    "hint": "Deeper detail, architecture and trade-offs.",
+    "prompts": [
+      "How was this site built?",
+      "Walk me through Ralph-node",
+      "What open source do you contribute to?",
+      "How did you ship zero-break NPM releases?"
+    ]
+  }
+]

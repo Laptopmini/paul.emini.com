@@ -1,0 +1,101 @@
+.header {
+  width: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 28px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--target-min);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.monogram {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-tile);
+  background: var(--ink);
+  color: var(--ground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--target-min);
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--ink);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.cta:hover {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.cta:active {
+  transform: scale(0.96);
+}
+
+.short {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 20px;
+  }
+
+  .cta {
+    padding: 0 14px;
+  }
+
+  /* Phone: show "Résumé" (as in Chat.dc.html); the accessible name stays "Download résumé". */
+  .long {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .short {
+    display: inline;
+  }
+}
+
+/* Smallest phones (iPhone SE): keep the brand and résumé button on one row. */
+@media (max-width: 400px) {
+  .header {
+    gap: 12px;
+  }
+
+  .brand {
+    gap: 10px;
+    font-size: 16px;
+  }
+
+  .cta {
+    gap: 8px;
+    padding: 0 12px;
+  }
+}

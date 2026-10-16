@@ -2,6 +2,7 @@
   {
     "id": "smartthings",
     "company": "SmartThings, Inc.",
+    "shortName": "SmartThings",
     "location": "San Francisco, CA",
     "title": "Senior Software Developer",
     "start": "2020-01",
@@ -50,6 +51,7 @@
   {
     "id": "samsung-research-america",
     "company": "Samsung Research America",
+    "shortName": "Samsung",
     "location": "San Francisco, CA",
     "title": "Software Developer",
     "start": "2018-03",
@@ -89,6 +91,7 @@
   {
     "id": "samsung-ssic",
     "company": "Samsung Strategy & Innovation Center",
+    "shortName": "Samsung",
     "location": "San Francisco, CA",
     "title": "iOS Developer",
     "start": "2016-06",
@@ -122,6 +125,7 @@
   {
     "id": "prism",
     "company": "Prism, Inc.",
+    "shortName": "Prism",
     "location": "San Francisco, CA",
     "title": "iOS & Backend Developer",
     "start": "2015-10",
@@ -150,6 +154,7 @@
   {
     "id": "imprivata",
     "company": "Imprivata",
+    "shortName": "Imprivata",
     "location": "Santa Cruz, CA",
     "title": "Android Developer (Capstone Partnership)",
     "start": "2015-01",
