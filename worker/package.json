@@ -1,0 +1,20 @@
+{
+  "name": "worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@copilotkit/runtime": "^1.79.0",
+    "ai": "^6.0.306",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@ai-sdk/provider": "^3.0.18",
+    "@cloudflare/workers-types": "^5.20261015.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.151.0"
+  }
+}

@@ -1,0 +1,36 @@
+.main {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 96px 48px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 96px;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.lede {
+  margin: 32px 0 0;
+  max-width: 620px;
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 48px 20px;
+  }
+
+  .title {
+    font-size: 52px;
+  }
+}

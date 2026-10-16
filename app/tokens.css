@@ -1,0 +1,45 @@
+/*
+ * Design tokens. `--accent` is the ONLY color value to change:
+ * every accent shade is derived from it with color-mix().
+ */
+:root {
+  --accent: #2448e5;
+  --accent-strong: color-mix(in oklch, var(--accent) 75%, black);
+  --accent-tint: color-mix(in oklch, var(--accent) 12%, white);
+  --accent-ring: color-mix(in oklch, var(--accent) 22%, transparent);
+  --accent-contrast: #ffffff; /* text on the accent; revisit if --accent becomes light */
+
+  --ground: #edefea; /* page background */
+  --surface: #ffffff; /* cards */
+  --ink: #121614; /* text, dark cards, user bubbles */
+  --ink-2: #2e3532; /* body copy */
+  --muted: #4c5450; /* meta text (passes 4.5:1 on ground) */
+  --line: #d5d9d3; /* card borders */
+  --line-2: #c6ccc7; /* pill borders */
+  --divider: #e3e6e1;
+  --chip: #e1e4df; /* segmented control track */
+
+  /* status chips (fixed, independent of accent) */
+  --ok-bg: #e7f4ec;
+  --ok-fg: #0e6b45; /* PR merged */
+  --warn-bg: #fdeee4;
+  --warn-fg: #9a3a0a; /* issue */
+
+  --shadow-lift: 0 8px 20px rgb(18 22 20 / 0.1);
+  --shadow-card: 0 14px 32px rgb(18 22 20 / 0.14);
+  --shadow-dock: 0 12px 40px rgb(18 22 20 / 0.08);
+
+  --radius-card: 18px;
+  --radius-input: 20px;
+  --radius-tile: 11px;
+  --radius-link: 12px;
+  --radius-pill: 999px;
+  --target-min: 44px;
+
+  --duration: 180ms;
+  --ease: ease;
+
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-body: var(--font-instrument), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}

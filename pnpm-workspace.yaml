@@ -1,0 +1,7 @@
+packages:
+  - worker
+
+allowBuilds:
+  '@scarf/scarf': false
+  esbuild: true
+  workerd: true
