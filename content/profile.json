@@ -1,0 +1,17 @@
+{
+  "name": "Paul-Valentin Mini",
+  "firstName": "Paul-Valentin",
+  "monogram": "PVM",
+  "title": "Senior Software Developer",
+  "location": {
+    "city": "San Francisco",
+    "region": "CA"
+  },
+  "email": "paul@emini.com",
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/pvmini",
+    "github": "https://github.com/Laptopmini"
+  },
+  "tagline": "with 10+ years shipping React at global scale — now building with applied AI, generative UI and developer tooling.",
+  "summary": "Senior Software Developer with 10+ years of experience building at a global scale. Expert in React, Next.js, and modern JavaScript ecosystems, with a proven track record of overhauling developer consoles and building robust internal component libraries. Today I work across both halves of that stack: shipping production frontend at scale while applying deep expertise in Applied AI, Prompt Engineering, and LLM integrations to build tools that accelerate developer workflows and bootstrap product integrations. I have a proven track record of leading complex, cross-functional projects from proof-of-concept to zero-break production releases for enterprise platforms like Samsung SmartThings."
+}

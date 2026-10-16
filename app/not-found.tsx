@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './page.module.css';
 
 export default function NotFound() {
@@ -5,7 +6,7 @@ export default function NotFound() {
     <main className={styles.main}>
       <h1 className={styles.title}>Not found.</h1>
       <p className={styles.lede}>
-        <a href="/">Back to the home page</a>
+        <Link href="/">Back to the home page</Link>
       </p>
     </main>
   );

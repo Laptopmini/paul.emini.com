@@ -35,7 +35,7 @@ He possesses a rare combination of high-level technical intelligence and creativ
 
 I have known Paul for over a year now. I am very impressed with his knowledge of mobile app development, more specifically Swift programming. He provided some great feedback on some of our technical documentation as well as provided great ideas for improvement of Swift SDKs. It is a pleasure to work with him.
 
-## Dr. Luc JULIA
+## Dr. Luc Julia
 - **Title:** CTO & Senior Vice President of Innovation
 - **Company:** Samsung Electronics - Strategy and Innovation Center
 - **Relationship:** Managed Paul directly

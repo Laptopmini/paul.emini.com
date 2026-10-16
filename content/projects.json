@@ -1,0 +1,86 @@
+[
+  {
+    "id": "ragout",
+    "name": "Ragoût",
+    "kind": "Personal Project",
+    "tagline": "Multimodal RAG agent",
+    "date": "2026-06",
+    "blurb": "A car-mechanic assistant grounded in service manuals and bulletins — cites its sources and renders the relevant diagrams inline, fully offline.",
+    "summary": "An expert car-mechanic assistant grounded in a specific vehicle's service manuals and technical service bulletins. PDFs are parsed with Docling, diagrams are described by a local vision model, and everything is embedded into a persistent ChromaDB store via LlamaIndex — then served to a browser chat that cites its sources and renders the relevant diagrams inline.",
+    "highlights": [
+      {
+        "label": "Multimodal Ingestion",
+        "text": "Stored each diagram's vision-model description as a text node carrying its image path, making diagrams retrievable by ordinary text queries without multimodal embeddings."
+      },
+      {
+        "label": "Two-Pass Retrieval",
+        "text": "Resolved the vocabulary gap between how users ask (\"creaking noise\") and how figures are labeled (\"exploded view\") with a second retrieval pass scoped to the pages the first answer cited."
+      },
+      {
+        "label": "Source Authority & Routing",
+        "text": "Catalogued each document by title, type, and date so newer bulletins supersede older ones and the manual, preventing the agent from averaging conflicting specs. Broad questions route against document summaries first, keeping cost flat as the library grows."
+      },
+      {
+        "label": "Generative UI",
+        "text": "Served a tool-calling agent over AG-UI to a CopilotKit React frontend, running fully offline on local models via LM Studio."
+      }
+    ],
+    "stack": [
+      "Python",
+      "LlamaIndex",
+      "ChromaDB",
+      "Docling",
+      "AG-UI",
+      "CopilotKit",
+      "React",
+      "TypeScript",
+      "LM Studio"
+    ],
+    "tags": ["LlamaIndex", "ChromaDB", "AG-UI", "CopilotKit"],
+    "repo": "Laptopmini/ragout",
+    "curatedFrom": "0342d23a"
+  },
+  {
+    "id": "ralph-node",
+    "name": "Ralph-node",
+    "kind": "Personal Project",
+    "tagline": "AI development pipeline",
+    "date": "2026-04",
+    "blurb": "A zero-dependency orchestrator routing work across 5 models from 4 providers, gated by tests written before the code.",
+    "summary": "Built a fully custom, orchestrated AI development pipeline for Node.js from the ground up — no frameworks, no third-party dependencies. The project explores a single thesis: frontier models like Opus 4.7 can be used efficiently by routing tasks to the right model for the job, delivering production-quality output at a fraction of the cost.",
+    "highlights": [
+      {
+        "label": "Multi-Model Orchestration",
+        "text": "Designed a routing layer that distributes work across 5 models from 4 providers — Opus 4.7 for planning, DeepSeek V4 Pro for test generation, MiniMax M2.7 for implementation, Opus 4.6 for supervision, and Gemma 4 (local) for summaries."
+      },
+      {
+        "label": "Test-Gated Pipeline",
+        "text": "Every phase is gated behind a test suite and reviewed through automated PR gates. Test generation acts as TDD backpressure — tests are written before implementation, forcing the pipeline to define correct behavior upfront rather than retrofit it."
+      },
+      {
+        "label": "Ralph Loop",
+        "text": "Implementation runs as a tight feedback loop: generate, test, fail, revise — cycling until the suite passes before surfacing output for review."
+      },
+      {
+        "label": "Prompt Architecture",
+        "text": "Engineered role-specific prompts tuned to each model's strengths and cost profile, demonstrating that economics and quality are not mutually exclusive when building AI-native development workflows."
+      }
+    ],
+    "stack": [
+      "Claude",
+      "OpenCode",
+      "LM Studio",
+      "Bash",
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Jest",
+      "Playwright",
+      "Biome",
+      "GitHub Actions"
+    ],
+    "tags": ["Node.js", "TDD", "Multi-model"],
+    "repo": "Laptopmini/ralph-node",
+    "curatedFrom": "5da49091"
+  }
+]

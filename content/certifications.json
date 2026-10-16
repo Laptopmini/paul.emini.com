@@ -1,0 +1,38 @@
+[
+  {
+    "id": "fem-practical-prompt-engineering",
+    "name": "Practical Prompt Engineering",
+    "issuer": "Frontend Masters",
+    "issued": "2025-12"
+  },
+  {
+    "id": "fem-ai-agents-fundamentals-v2",
+    "name": "AI Agents Fundamentals, v2",
+    "issuer": "Frontend Masters",
+    "issued": "2026-03"
+  },
+  {
+    "id": "dlai-spec-driven-development",
+    "name": "Spec-Driven Development with Coding Agents",
+    "issuer": "DeepLearning.AI",
+    "issued": "2026-05"
+  },
+  {
+    "id": "dlai-agent-memory",
+    "name": "Agent Memory: Building Memory-Aware Agents",
+    "issuer": "DeepLearning.AI",
+    "issued": "2026-06"
+  },
+  {
+    "id": "dlai-agentic-rag-llamaindex",
+    "name": "Building Agentic RAG with Llamaindex",
+    "issuer": "DeepLearning.AI",
+    "issued": "2026-06"
+  },
+  {
+    "id": "dlai-generative-ui-agents",
+    "name": "Build Interactive Agents with Generative UI",
+    "issuer": "DeepLearning.AI",
+    "issued": "2026-07"
+  }
+]

@@ -1,5 +1,7 @@
-# Deploys the static export to GitHub Pages (custom domain via public/CNAME).
-# Requires: Settings → Pages → Source = "GitHub Actions", and DNS for paul.emini.com.
+# Deploys the static export to GitHub Pages (Settings → Pages → Source = "GitHub Actions").
+# The custom domain is set in Settings → Pages → Custom domain; a CNAME file is ignored
+# for Actions deployments. Until it is set, the site is served from
+# laptopmini.github.io/paul.emini.com/, so the build takes its base path from configure-pages.
 name: Deploy
 
 on:
@@ -27,8 +29,11 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - id: pages
+        uses: actions/configure-pages@v6
       - run: pnpm build
-      - uses: actions/configure-pages@v6
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
       - uses: actions/upload-pages-artifact@v5
         with:
           path: out

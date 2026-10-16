@@ -1,0 +1,68 @@
+[
+  {
+    "id": "frontend-web",
+    "label": "Frontend & Web",
+    "items": [
+      "JavaScript",
+      "TypeScript",
+      "Node.js",
+      "React",
+      "Next.js",
+      "Playwright",
+      "Jest",
+      "HTML/CSS",
+      "ESLint",
+      "Biome"
+    ],
+    "featured": ["React", "Next.js", "TypeScript", "Node.js", "Playwright", "Jest", "Biome"]
+  },
+  {
+    "id": "ai-ml",
+    "label": "AI & Machine Learning",
+    "items": [
+      "Prompt Engineering",
+      "AI Model Orchestration",
+      "RAG",
+      "Vector Search",
+      "Generative UI (AG-UI)",
+      "LLM Integration (Claude, OpenCode, LM Studio)",
+      "TDD",
+      "Computer Vision (OpenCV, Tesseract)"
+    ],
+    "featured": [
+      "Prompt Engineering",
+      "Generative UI (AG-UI)",
+      "RAG",
+      "AI Model Orchestration",
+      "Vector Search"
+    ]
+  },
+  {
+    "id": "infra-devops",
+    "label": "Infrastructure & DevOps",
+    "items": [
+      "Docker",
+      "Kubernetes",
+      "Terraform",
+      "GitHub Actions",
+      "Jenkins",
+      "Spinnaker",
+      "JFrog Artifactory (NPM)"
+    ],
+    "featured": ["Docker", "Kubernetes", "Terraform", "GitHub Actions"]
+  },
+  {
+    "id": "backend-mobile",
+    "label": "Backend & Mobile",
+    "items": [
+      "Python",
+      "Django",
+      "Swift",
+      "PostgreSQL",
+      "Redis",
+      "REST API Design",
+      "iOS/Android Development"
+    ],
+    "featured": ["Python", "Swift", "PostgreSQL", "Redis"]
+  }
+]
