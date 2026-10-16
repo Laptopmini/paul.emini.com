@@ -13,7 +13,8 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
-    command: `pnpm build && pnpm exec serve out -l ${PORT} --no-clipboard`,
+    // e2e builds include dev-only routes (/dev/cards); the deploy build never does.
+    command: `INCLUDE_DEV_ROUTES=1 pnpm build && pnpm exec serve out -l ${PORT} --no-clipboard`,
     port: PORT,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

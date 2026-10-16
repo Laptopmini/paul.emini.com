@@ -42,6 +42,26 @@ const PATHS = {
       <path d="m5 12 7-7 7 7" />
     </>
   ),
+  arrowUpRight: (
+    <>
+      <path d="M7 17 17 7" />
+      <path d="M8 7h9v9" />
+    </>
+  ),
+  graduation: (
+    <>
+      <path d="m2 9 10-5 10 5-10 5z" />
+      <path d="M6 11v5c3 2 9 2 12 0v-5" />
+    </>
+  ),
+  medal: (
+    <>
+      <circle cx="12" cy="9" r="6" />
+      <path d="m8.5 14-1.5 8 5-3 5 3-1.5-8" />
+    </>
+  ),
+  moon: <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" />,
+  star: <path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" />,
 } satisfies Record<string, ReactNode>;
 
 export type IconName = keyof typeof PATHS;

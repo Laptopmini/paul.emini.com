@@ -25,3 +25,5 @@ jobs:
       - run: pnpm test
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
+      - name: Production build excludes dev-only routes
+        run: pnpm build && test ! -e out/dev

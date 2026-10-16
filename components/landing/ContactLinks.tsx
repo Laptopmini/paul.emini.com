@@ -1,3 +1,4 @@
+import { ExternalLink, isExternalHref } from '@/components/ExternalLink';
 import { Icon, type IconName } from '@/components/Icon';
 import { profile } from '@/lib/content';
 import { handleFromUrl } from '@/lib/format';
@@ -28,19 +29,22 @@ const links: ContactLink[] = [
 export function ContactLinks() {
   return (
     <nav aria-label="Contact" className={styles.nav}>
-      {links.map((link) => (
-        <a
-          key={link.href}
-          href={link.href}
-          className={link.compact ? `${styles.link} ${styles.compact}` : styles.link}
-        >
-          <Icon name={link.icon} />
-          <span className={styles.label}>
-            {link.context && <span className="sr-only">{link.context}</span>}
-            {link.label}
-          </span>
-        </a>
-      ))}
+      {links.map((link) => {
+        const LinkTag = isExternalHref(link.href) ? ExternalLink : 'a';
+        return (
+          <LinkTag
+            key={link.href}
+            href={link.href}
+            className={link.compact ? `${styles.link} ${styles.compact}` : styles.link}
+          >
+            <Icon name={link.icon} />
+            <span className={styles.label}>
+              {link.context && <span className="sr-only">{link.context}</span>}
+              {link.label}
+            </span>
+          </LinkTag>
+        );
+      })}
     </nav>
   );
 }

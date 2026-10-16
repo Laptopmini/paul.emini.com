@@ -16,6 +16,7 @@
   --muted: #4c5450; /* meta text (passes 4.5:1 on ground) */
   --line: #d5d9d3; /* card borders */
   --line-2: #c6ccc7; /* pill borders */
+  --line-strong: #9aa39e; /* card hover border, resting state */
   --divider: #e3e6e1;
   --chip: #e1e4df; /* segmented control track */
   --line-dashed: #b9c0bb; /* "earlier" timeline row */
@@ -32,6 +33,7 @@
   --shadow-card: 0 14px 32px rgb(18 22 20 / 0.14);
   --shadow-dock: 0 12px 40px rgb(18 22 20 / 0.08);
   --shadow-seg: 0 1px 3px rgb(18 22 20 / 0.18);
+  --shadow-card-hover: 0 16px 36px rgb(18 22 20 / 0.1);
 
   --radius-card: 18px;
   --radius-input: 20px;
