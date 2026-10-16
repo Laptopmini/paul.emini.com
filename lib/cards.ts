@@ -59,17 +59,26 @@ export function initials(name: string): string {
 }
 
 const squash = (s: string) => s.replace(/\s+/g, ' ').trim();
+const sentences = (s: string) => s.split(/(?<=[.!?])\s+/).filter(Boolean);
 
 /**
  * The agent picks an excerpt for the question, but a recommendation is someone else's
- * words: only a verbatim passage of the body is shown. Anything else falls back to the
- * first sentence.
+ * words: only verbatim text is shown. A paraphrase falls back to the longest run of the
+ * requested sentences that is also contiguous in the source, else the first sentence.
  */
 export function pickExcerpt(recommendation: Recommendation, requested?: string): string {
   const body = squash(recommendation.body);
   const wanted = requested ? squash(requested).replace(/^[“"]|[”"]$/g, '') : '';
   if (wanted.length >= 20 && body.includes(wanted)) return wanted;
-  return body.split(/(?<=[.!?])\s+/)[0] ?? body;
+
+  const asked = new Set(sentences(wanted));
+  let best: string[] = [];
+  let run: string[] = [];
+  for (const sentence of sentences(body)) {
+    run = asked.has(sentence) ? [...run, sentence] : [];
+    if (run.length > best.length) best = run;
+  }
+  return best.length > 0 ? best.join(' ') : (sentences(body)[0] ?? body);
 }
 
 export function mailtoHref(email: string, subject: string, body: string): string {

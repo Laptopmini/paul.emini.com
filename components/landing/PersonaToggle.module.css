@@ -49,6 +49,11 @@
   box-shadow: var(--shadow-seg);
 }
 
+.compact .segment {
+  padding: 0 14px;
+  font-size: 13px;
+}
+
 .hint {
   font-size: 14px;
   color: var(--muted);

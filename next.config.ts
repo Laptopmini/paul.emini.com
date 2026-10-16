@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   reactStrictMode: true,
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
+  turbopack: {
+    rules: { '*.md': { loaders: ['./scripts/text-loader.cjs'], as: '*.js' } },
+  },
 };
 
 export default nextConfig;

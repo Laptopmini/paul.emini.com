@@ -32,6 +32,7 @@ export function ContactHandoff({
     <Card tone="accent">
       <h3 className={`${s.title} ${s.titleMd}`}>Want to talk to the real Paul?</h3>
       <p className={s.body}>I’ve drafted a note with what you asked about — edit it and send.</p>
+      <p className={s.draftSubject}>Subject: {subject}</p>
       <label htmlFor={fieldId} className="sr-only">
         Your message to Paul
       </label>

@@ -19,7 +19,7 @@ Reference designs live in `docs/design/*.dc.html` (exported from the design canv
 - **Phone number:** not shown on the site. It stays in the PDF only.
 - **Monogram:** `PVM`. The landing header shows "Paul‑Valentin Mini" with no sublabel. In the chat header it gains the sublabel "Senior Software Developer · San Francisco".
 - **Input:** text only, no attachments, `maxlength=400` with a visible counter.
-- **Persona toggle:** `Visitor` (default) · `Recruiter` · `Engineer`, introduced by the lead-in "Answer as if I'm a". Each persona has its own suggested prompts (below).
+- **Persona toggle:** `Friend` (default) · `Recruiter` · `Engineer`, introduced by the lead-in "Answer as if I'm a". Each persona has its own suggested prompts (below).
 - **Job-fit check:** post-launch backlog, not v1.
 - **LLM:** MiniMax (Paul's non-commercial subscription) as primary, behind a provider adapter. OpenRouter (dedicated key + hard spend cap) as fallback.
 
@@ -187,7 +187,7 @@ Each tool has a CopilotKit render that maps to a card in `/components/cards`:
 
 The selected persona is sent as readable state into the system prompt, and it changes depth and tone as well as the pills. Persist it per visitor in localStorage.
 
-- **Visitor:** a friendly overview. Pills: top skills · most recent experience · what have you been up to lately · what do people say about you · how was this site built
+- **Friend:** a friendly overview. Pills: top skills · most recent experience · what have you been up to lately · what do people say about you · how was this site built
 - **Recruiter:** short answers, outcomes first. Pills: 30-second summary · most recent experience · top skills · what do people say about you
 - **Engineer:** depth, architecture and trade-offs. Pills: how was this site built · walk me through Ralph-node · what open source do you contribute to · zero-break NPM releases
 

@@ -10,7 +10,9 @@
     "skipLibCheck": true,
     "noEmit": true,
     "isolatedModules": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+    "paths": { "@/*": ["./../*"] }
   },
-  "include": ["src"]
+  "include": ["src", "../types"]
 }

@@ -145,6 +145,8 @@ export const personasSchema = z
       label: text,
       /** Shown next to the toggle. */
       hint: text,
+      /** Tone and depth instructions for the agent (server-side system prompt only). */
+      guidance: text,
       /** Suggested prompt pills, in display order. */
       prompts: z.array(text.max(60)).min(2).max(5),
     }),
@@ -152,6 +154,16 @@ export const personasSchema = z
   .refine((list) => personaIds.every((id) => list.some((p) => p.id === id)), {
     message: 'every persona needs an entry',
   });
+
+/** Powers "How was this site built?" (getSiteArchitecture). Describe only what exists. */
+export const siteSchema = z.strictObject({
+  summary: text,
+  repo: z.string().regex(/^[\w.-]+\/[\w.-]+$/),
+  sections: z.array(z.strictObject({ id, label: text, points: z.array(text).min(1) })).min(1),
+});
+
+/** Bookkeeping written by /sync-resume. */
+export const metaSchema = z.strictObject({ resumeSyncedAt: isoDate });
 
 const githubRepoSchema = z.strictObject({
   name: text,
@@ -200,4 +212,6 @@ export type Award = z.infer<typeof awardSchema>;
 export type Recommendation = z.infer<typeof recommendationSchema>;
 export type Persona = z.infer<typeof personasSchema>[number];
 export type PersonaId = z.infer<typeof personaIdSchema>;
+export type Site = z.infer<typeof siteSchema>;
+export type Meta = z.infer<typeof metaSchema>;
 export type GitHubActivity = z.infer<typeof githubSchema>;

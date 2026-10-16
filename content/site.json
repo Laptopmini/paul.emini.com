@@ -1,0 +1,43 @@
+{
+  "summary": "A static Next.js site on GitHub Pages, with this agent served from a Cloudflare Worker. The site's code is part of the portfolio, so it's public.",
+  "repo": "Laptopmini/paul.emini.com",
+  "sections": [
+    {
+      "id": "frontend",
+      "label": "Frontend",
+      "points": [
+        "Next.js App Router with a static export, React 19 and strict TypeScript.",
+        "The landing page is fully server-rendered HTML, so it works with JavaScript off.",
+        "CSS Modules on design tokens; every accent shade derives from a single --accent variable via color-mix().",
+        "CSS scroll-driven animations for the timeline parallax and Motion springs for cards entering the chat, all off under prefers-reduced-motion."
+      ]
+    },
+    {
+      "id": "agent",
+      "label": "Agent",
+      "points": [
+        "CopilotKit's runtime speaks AG-UI from a Cloudflare Worker; the chat is a custom headless UI.",
+        "MiniMax M3 behind a provider adapter, with OpenRouter as the fallback.",
+        "Tools read the same typed content the cards render and return ids, so the model never free-writes job titles, dates or quotes.",
+        "Recommendation excerpts are only shown if they appear verbatim in the source text."
+      ]
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "points": [
+        "One source of truth: typed JSON and Markdown validated by Zod; invalid content fails the build.",
+        "A Claude Code skill syncs the résumé from a private repo, keeping ids stable.",
+        "Condensed card copy is fingerprinted against the résumé text, so it can't silently go stale."
+      ]
+    },
+    {
+      "id": "quality",
+      "label": "Quality",
+      "points": [
+        "Biome, Vitest and Playwright in GitHub Actions, including automated WCAG 2.2 AA checks with axe.",
+        "Lighthouse 95+ on the landing page."
+      ]
+    }
+  ]
+}

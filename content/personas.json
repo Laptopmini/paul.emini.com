@@ -1,8 +1,9 @@
 [
   {
     "id": "visitor",
-    "label": "Visitor",
+    "label": "Friend",
     "hint": "A friendly overview.",
+    "guidance": "Friendly and warm, plain language, light on jargon. Word limit: 50 words.",
     "prompts": [
       "What are your top skills?",
       "What’s your most recent experience?",
@@ -15,6 +16,7 @@
     "id": "recruiter",
     "label": "Recruiter",
     "hint": "Short answers, outcomes first.",
+    "guidance": "Outcomes first: scope, impact and results. Word limit: 40 words.",
     "prompts": [
       "Give me the 30-second summary",
       "What’s your most recent experience?",
@@ -26,6 +28,7 @@
     "id": "engineer",
     "label": "Engineer",
     "hint": "Deeper detail, architecture and trade-offs.",
+    "guidance": "Depth: architecture, trade-offs and implementation detail; technical vocabulary is fine. Word limit: 120 words.",
     "prompts": [
       "How was this site built?",
       "Walk me through Ralph-node",

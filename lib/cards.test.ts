@@ -59,6 +59,12 @@ describe('recommendations', () => {
     );
     expect(pickExcerpt(luc)).toMatch(/^Paul-Valentin Mini was brought on/);
   });
+
+  it('keeps the verbatim sentences of a partly paraphrased excerpt', () => {
+    const verbatim =
+      'His Swift knowledge, extensive understanding of platform limitations and great expertise with native iOS frameworks proved to be invaluable to the development of our product. Responding to our rapid innovation, he always managed to provide elegant solutions to hard engineering and user experience problems.';
+    expect(pickExcerpt(luc, `${verbatim} He is, frankly, a genius.`)).toBe(verbatim);
+  });
 });
 
 describe('contact', () => {

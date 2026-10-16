@@ -1,10 +1,24 @@
-import { type FormEvent, useId, useState } from 'react';
+import { type FormEvent, type Ref, useId, useState } from 'react';
 import { Icon } from '@/components/Icon';
+import { MAX_PROMPT_LENGTH } from '@/shared/agent';
 import styles from './ChatDock.module.css';
 
-export const MAX_PROMPT_LENGTH = 400;
-
-export function ChatDock({ onSubmit }: { onSubmit: (prompt: string) => void }) {
+export function ChatDock({
+  onSubmit,
+  label = 'Ask Paul’s agent',
+  placeholder = 'What can I help you with today?',
+  busy = false,
+  className,
+  inputRef,
+}: {
+  onSubmit: (prompt: string) => void;
+  label?: string;
+  placeholder?: string;
+  /** While the agent answers: typing is allowed, sending waits. */
+  busy?: boolean;
+  className?: string;
+  inputRef?: Ref<HTMLInputElement>;
+}) {
   const inputId = useId();
   const counterId = useId();
   const [value, setValue] = useState('');
@@ -12,20 +26,26 @@ export function ChatDock({ onSubmit }: { onSubmit: (prompt: string) => void }) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const prompt = value.trim();
-    if (prompt) onSubmit(prompt);
+    if (!prompt || busy) return;
+    onSubmit(prompt);
+    setValue('');
   };
 
   return (
-    <form className={styles.dock} onSubmit={handleSubmit}>
+    <form
+      className={className ? `${styles.dock} ${className}` : styles.dock}
+      onSubmit={handleSubmit}
+    >
       <label htmlFor={inputId} className="sr-only">
-        Ask Paul’s agent
+        {label}
       </label>
       <input
+        ref={inputRef}
         id={inputId}
         type="text"
         maxLength={MAX_PROMPT_LENGTH}
         autoComplete="off"
-        placeholder="What can I help you with today?"
+        placeholder={placeholder}
         aria-describedby={counterId}
         className={styles.input}
         value={value}
@@ -35,7 +55,7 @@ export function ChatDock({ onSubmit }: { onSubmit: (prompt: string) => void }) {
         <span className="sr-only">Characters used: </span>
         {value.length}/{MAX_PROMPT_LENGTH}
       </span>
-      <button type="submit" aria-label="Send" className={styles.send}>
+      <button type="submit" aria-label="Send" aria-disabled={busy} className={styles.send}>
         <Icon name="send" size={20} strokeWidth={2.2} />
       </button>
     </form>

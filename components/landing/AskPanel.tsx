@@ -1,6 +1,7 @@
 'use client';
 
 import type { Persona } from '@/content';
+import { preloadChat, startChat } from '@/lib/chat-store';
 import { usePersona } from '@/lib/persona-store';
 import styles from './AskPanel.module.css';
 import { ChatDock } from './ChatDock';
@@ -11,7 +12,7 @@ export function AskPanel({
   personas,
   defaultPersona,
 }: {
-  personas: Persona[];
+  personas: Pick<Persona, 'id' | 'label' | 'hint' | 'prompts'>[];
   defaultPersona: Persona['id'];
 }) {
   const [personaId, setPersona] = usePersona(
@@ -20,13 +21,17 @@ export function AskPanel({
   );
   const persona = personas.find((p) => p.id === personaId) ?? personas[0];
 
-  // Phase 5 connects this to the agent and the landing → chat view transition.
-  const ask = (_prompt: string) => {};
+  const ask = (prompt: string) => startChat(prompt);
 
   if (!persona) return null;
 
   return (
-    <section aria-label="Ask the agent" className={styles.section}>
+    <section
+      aria-label="Ask the agent"
+      className={styles.section}
+      onFocus={preloadChat}
+      onPointerEnter={preloadChat}
+    >
       <div className={styles.inner}>
         <PersonaToggle personas={personas} selected={persona} onSelect={setPersona} />
         <PromptPills prompts={persona.prompts} onPick={ask} />

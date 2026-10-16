@@ -3,10 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "typecheck": "tsc --noEmit"
+    "dev": "node scripts/dev.mjs",
+    "dev:mock": "node scripts/dev.mjs --var LLM_PROVIDER:mock",
+    "typecheck": "tsc --noEmit",
+    "dev:e2e": "node scripts/dev.mjs --port 8799 --var LLM_PROVIDER:mock"
   },
   "dependencies": {
+    "@ai-sdk/openai-compatible": "^2.0.83",
     "@copilotkit/runtime": "^1.79.0",
     "ai": "^6.0.306",
     "zod": "^4.6.7"

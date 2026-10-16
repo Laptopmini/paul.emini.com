@@ -13,7 +13,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
 - **Never write the phone number** (or any part of the contact line besides email/LinkedIn/GitHub) into `/content` or anywhere else in this repo. It lives only inside `resume.pdf`.
 - Never change an existing `id`. A renamed company or project keeps its id. Only new entries get new ids (kebab-case).
 - Copy names verbatim. Certification names are official course titles (e.g. "Building Agentic RAG with Llamaindex"), so never "correct" their spelling or casing.
-- Do not touch `content/personas.json` (site config), `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
+- Do not touch `content/personas.json`, `content/site.json` (site config), `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
 
 ## Workflow
 
@@ -51,7 +51,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
    cp content/resume.pdf public/resume.pdf
    ```
 
-6. **Record the commit.** `git -C ../my-resume rev-parse origin/main > content/.source-sha`
+6. **Record the commit.** `git -C ../my-resume rev-parse origin/main > content/.source-sha`, and set `resumeSyncedAt` in `content/meta.json` to today's date (`YYYY-MM-DD`). The chat shows it as "from résumé · synced <date>".
 
 7. **Verify.**
    ```sh

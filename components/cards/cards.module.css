@@ -128,13 +128,6 @@
   cursor: pointer;
 }
 
-.pill:hover {
-  background: var(--ink);
-  color: var(--surface);
-  border-color: var(--ink);
-  transform: translateY(-1px);
-}
-
 .pill:active {
   transform: scale(0.96);
 }
@@ -365,6 +358,13 @@ mark.skill {
 }
 
 /* ContactHandoff */
+.draftSubject {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
 
 .draft {
   width: 100%;
@@ -585,5 +585,14 @@ mark.skill {
   .contribRow > :nth-child(2) {
     grid-column: 1 / -1;
     grid-row: 2;
+  }
+}
+
+@media (hover: hover) {
+  .pill:hover {
+    background: var(--ink);
+    color: var(--surface);
+    border-color: var(--ink);
+    transform: translateY(-1px);
   }
 }

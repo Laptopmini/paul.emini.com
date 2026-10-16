@@ -7,7 +7,8 @@ Personal site + résumé for Paul-Valentin Mini (paul.emini.com), with an agent 
 ## Stack and commands
 
 - Next.js App Router, **static export** (`output: 'export'`), React 19, TypeScript strict. CSS Modules + CSS variables.
-- pnpm workspace: root = site, `/worker` = Cloudflare Worker (CopilotKit runtime).
+- pnpm workspace: root = site, `/worker` = Cloudflare Worker (CopilotKit runtime, MiniMax via a provider adapter, OpenRouter fallback).
+- `shared/agent.ts` is the tool contract between the Worker and the chat's card renderers. Change both sides together.
 - Biome (lint + format), Vitest (unit), Playwright (e2e).
 
 ```sh
@@ -19,7 +20,8 @@ pnpm typecheck      # tsc --noEmit
 pnpm test           # vitest
 pnpm test:content   # Zod validation of /content
 pnpm test:e2e       # playwright (builds + serves /out)
-pnpm worker:dev     # wrangler dev for /worker
+pnpm worker:dev     # Worker on :8787 with the real model (forwards only MINIMAX/OPENROUTER keys from your env)
+pnpm worker:mock    # Worker on :8787 with the scripted mock model (no keys)
 ```
 
 Run `pnpm check && pnpm typecheck && pnpm test` before calling work done.
@@ -40,6 +42,7 @@ Run `pnpm check && pnpm typecheck && pnpm test` before calling work done.
 - Never commit `resume.md` (raw or copied) from `../my-resume` into this repo.
 - Never write the phone number anywhere in this repo (`/content`, components, prompts, tests, fixtures). It exists only inside `resume.pdf`.
 - API keys are Worker secrets only. Never in the repo, `.env` files that get committed, or the client bundle.
+- The Worker trusts nothing from the client but the messages and a persona id: `worker/src/sanitize.ts` rebuilds every run body, and `stream-filter.ts` keeps reasoning out of the browser. Keep it that way.
 
 ## Interaction feedback and accessibility bar
 

@@ -21,7 +21,7 @@ test.describe('landing', () => {
 
   test('persona toggle switches pills and persists', async ({ page }) => {
     await page.goto('/');
-    const visitor = page.getByRole('button', { name: 'Visitor' });
+    const visitor = page.getByRole('button', { name: 'Friend' });
     const engineer = page.getByRole('button', { name: 'Engineer' });
     await expect(visitor).toHaveAttribute('aria-pressed', 'true');
     await expect(page.getByRole('button', { name: 'What are your top skills?' })).toBeVisible();
@@ -72,7 +72,7 @@ test.describe('landing', () => {
     test.skip(!isMobile, 'phone layout only');
     await page.goto('/');
     await expect(page.getByRole('list', { name: 'Recent timeline' })).toBeHidden();
-    await expect(page.getByRole('button', { name: 'Visitor' })).toBeInViewport();
+    await expect(page.getByRole('button', { name: 'Friend' })).toBeInViewport();
   });
 
   test('contact links have descriptive names and fit one row on phones', async ({
@@ -115,7 +115,7 @@ test.describe('landing without JavaScript', () => {
 
   test('shows the visitor persona, pills and dock', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('button', { name: 'Visitor' })).toHaveAttribute(
+    await expect(page.getByRole('button', { name: 'Friend' })).toHaveAttribute(
       'aria-pressed',
       'true',
     );
