@@ -16,6 +16,7 @@ export default defineConfig({
       'content/**/*.test.ts',
       'lib/**/*.test.ts',
       'worker/src/**/*.test.ts',
+      'scripts/**/*.test.ts',
     ],
   },
 });

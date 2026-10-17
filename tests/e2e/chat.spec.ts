@@ -170,6 +170,19 @@ test.describe('chat', () => {
     await expect(followUps(page).first()).toBeVisible();
   });
 
+  test('GitHub activity comes from the daily snapshot', async ({ page }) => {
+    await askFromLanding(page, 'What are your top skills?');
+    await expect(followUps(page)).toHaveCount(1);
+    const input = page.getByRole('textbox', { name: 'Ask a follow-up' });
+    await input.fill('Any GitHub activity?');
+    await input.press('Enter');
+    const rows = page
+      .getByRole('region', { name: 'Open source contributions' })
+      .getByRole('listitem');
+    await expect(rows).toHaveCount(3);
+    await expect(page.getByText(/checked public GitHub · refreshed/)).toBeVisible();
+  });
+
   test('off-topic questions get a redirect instead of an answer', async ({ page }) => {
     await askFromLanding(page, 'What are your top skills?');
     await expect(followUps(page)).toHaveCount(1);

@@ -71,6 +71,9 @@ export async function ask(question: string, persona = 'visitor'): Promise<Reply>
     const shown = (result as { questions?: unknown } | undefined)?.questions;
     if (name === 'suggestFollowUps' && Array.isArray(shown)) reply.followUps = shown as string[];
   }
+  // A resting card means the Worker held the question back (limits, provider down).
+  const resting = reply.tools.find((t) => t.name === 'agentResting');
+  if (resting) throw new Error(`The agent is resting: ${JSON.stringify(resting.result)}`);
   return reply;
 }
 

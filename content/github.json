@@ -1,6 +1,515 @@
 {
-  "fetchedAt": null,
+  "fetchedAt": "2026-10-17T05:39:41.203Z",
   "user": "Laptopmini",
-  "repos": [],
-  "contributions": []
+  "repos": [
+    {
+      "name": "paul.emini.com",
+      "description": "My personal website",
+      "url": "https://github.com/Laptopmini/paul.emini.com",
+      "language": "TypeScript",
+      "stars": 0,
+      "createdAt": "2026-10-16T01:27:05.000Z",
+      "pushedAt": "2026-10-17T05:31:29.000Z"
+    },
+    {
+      "name": "Laptopmini",
+      "description": null,
+      "url": "https://github.com/Laptopmini/Laptopmini",
+      "language": null,
+      "stars": 0,
+      "createdAt": "2026-10-15T01:18:57.000Z",
+      "pushedAt": "2026-10-15T01:30:40.000Z"
+    },
+    {
+      "name": "smartthings-agui",
+      "description": "Talk to your SmartThings home from any AG-UI agent: CopilotKit frontend tools, A2UI device cards, and a confirmation step before anything security-sensitive.",
+      "url": "https://github.com/Laptopmini/smartthings-agui",
+      "language": "TypeScript",
+      "stars": 0,
+      "createdAt": "2026-10-13T21:28:24.000Z",
+      "pushedAt": "2026-10-14T03:08:19.000Z"
+    },
+    {
+      "name": "tomodachi-llm",
+      "description": "A fan mod for Tomodachi Life: Living the Dream that integrates a LLM into the game, providing bespoke dialogues and captions for your gameplay.",
+      "url": "https://github.com/Laptopmini/tomodachi-llm",
+      "language": "Python",
+      "stars": 1,
+      "createdAt": "2026-10-08T19:12:13.000Z",
+      "pushedAt": "2026-10-12T03:29:15.000Z"
+    },
+    {
+      "name": "ragout",
+      "description": "An expert car-mechanic assistant powered by a multimodal RAG agent grounded in your specific vehicle's service manuals and technical service bulletins (TSBs)",
+      "url": "https://github.com/Laptopmini/ragout",
+      "language": "Python",
+      "stars": 1,
+      "createdAt": "2026-06-23T05:18:53.000Z",
+      "pushedAt": "2026-08-13T06:13:21.000Z"
+    },
+    {
+      "name": "ralph-node-base",
+      "description": "An execution of `ralph-node`'s initial PRD, establishing configuration for TypeScript, Jest (unit testing), and Playwright (E2E testing).",
+      "url": "https://github.com/Laptopmini/ralph-node-base",
+      "language": "Shell",
+      "stars": 0,
+      "createdAt": "2026-03-30T07:29:22.000Z",
+      "pushedAt": "2026-06-03T23:40:35.000Z"
+    },
+    {
+      "name": "ralph-node",
+      "description": "An orchestrated, test-gated AI development pipeline for Node.js using a Ralph loop — turn a simple paragraph into a planned, tested, reviewed, fully working implementation using PR-gated phases.",
+      "url": "https://github.com/Laptopmini/ralph-node",
+      "language": "Shell",
+      "stars": 0,
+      "createdAt": "2026-03-24T01:18:48.000Z",
+      "pushedAt": "2026-06-03T23:38:55.000Z"
+    },
+    {
+      "name": "resume-brightai",
+      "description": "A fork of ralph-node that was prompted to build a website based on my resume using Bright.ai's styling, hosted on GitHub Pages.",
+      "url": "https://github.com/Laptopmini/resume-brightai",
+      "language": "Shell",
+      "stars": 0,
+      "createdAt": "2026-04-30T16:02:36.000Z",
+      "pushedAt": "2026-04-30T19:12:41.000Z"
+    },
+    {
+      "name": "resume-rebuildmanufacturing",
+      "description": "A fork of ralph-node that was prompted to build a website based on my resume using Re:Build Manufacturing's styling, hosted on GitHub Pages.",
+      "url": "https://github.com/Laptopmini/resume-rebuildmanufacturing",
+      "language": "TypeScript",
+      "stars": 0,
+      "createdAt": "2026-04-29T05:20:09.000Z",
+      "pushedAt": "2026-04-30T04:23:53.000Z"
+    },
+    {
+      "name": "resume-benefitcosmetics",
+      "description": "A fork of ralph-node that was prompted to build a website based on my resume using Benefit Cosmetics' styling, hosted on GitHub Pages.",
+      "url": "https://github.com/Laptopmini/resume-benefitcosmetics",
+      "language": "Shell",
+      "stars": 0,
+      "createdAt": "2026-04-21T19:01:32.000Z",
+      "pushedAt": "2026-04-29T09:31:52.000Z"
+    },
+    {
+      "name": "ralph-to-do",
+      "description": "A static HTML based to-do list application with persistence, generated using ralph-node.",
+      "url": "https://github.com/Laptopmini/ralph-to-do",
+      "language": "TypeScript",
+      "stars": 0,
+      "createdAt": "2026-04-07T04:59:49.000Z",
+      "pushedAt": "2026-04-18T17:02:58.000Z"
+    },
+    {
+      "name": "ralph-html",
+      "description": "A static HTML app project boilerplate powered by `vercel/serve`, generated using `ralph-node`.",
+      "url": "https://github.com/Laptopmini/ralph-html",
+      "language": "TypeScript",
+      "stars": 0,
+      "createdAt": "2026-03-30T16:33:48.000Z",
+      "pushedAt": "2026-04-17T01:41:58.000Z"
+    },
+    {
+      "name": "ralph-hex-color-generator",
+      "description": "A static HTML random hex color generator app generated using `ralph-node`.",
+      "url": "https://github.com/Laptopmini/ralph-hex-color-generator",
+      "language": "TypeScript",
+      "stars": 0,
+      "createdAt": "2026-03-30T20:42:22.000Z",
+      "pushedAt": "2026-03-31T03:04:28.000Z"
+    },
+    {
+      "name": "ralph-simple-counter",
+      "description": "A static HTML number counter app generated using `ralph-node`.",
+      "url": "https://github.com/Laptopmini/ralph-simple-counter",
+      "language": "TypeScript",
+      "stars": 0,
+      "createdAt": "2026-03-30T18:50:32.000Z",
+      "pushedAt": "2026-03-31T03:02:30.000Z"
+    },
+    {
+      "name": "ralph-tic-tac-toe",
+      "description": "A static HTML tic-tac-toe game generated using `ralph-node`.",
+      "url": "https://github.com/Laptopmini/ralph-tic-tac-toe",
+      "language": "TypeScript",
+      "stars": 0,
+      "createdAt": "2026-03-30T23:25:51.000Z",
+      "pushedAt": "2026-03-31T03:00:49.000Z"
+    },
+    {
+      "name": "PorschePi",
+      "description": "RaspberryPi based custom head unit for classic Porsche, supporting wireless CarPlay and featuring an integrated Bang & Olufsen amplifier. ",
+      "url": "https://github.com/Laptopmini/PorschePi",
+      "language": "Shell",
+      "stars": 32,
+      "createdAt": "2022-05-19T18:53:15.000Z",
+      "pushedAt": "2023-01-16T21:15:16.000Z"
+    },
+    {
+      "name": "botkit-jira",
+      "description": "A tiny framework to verify a Slack user against JIRA.",
+      "url": "https://github.com/Laptopmini/botkit-jira",
+      "language": "JavaScript",
+      "stars": 0,
+      "createdAt": "2018-04-27T22:50:20.000Z",
+      "pushedAt": "2022-12-10T15:00:34.000Z"
+    },
+    {
+      "name": "Kodi-DB-XML-Parser",
+      "description": null,
+      "url": "https://github.com/Laptopmini/Kodi-DB-XML-Parser",
+      "language": "C++",
+      "stars": 0,
+      "createdAt": "2015-01-07T00:40:00.000Z",
+      "pushedAt": "2015-01-08T03:57:45.000Z"
+    }
+  ],
+  "contributions": [
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "feat(shell-docs): show a progress bar during client navigations",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7824,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7824",
+      "createdAt": "2026-10-14T21:30:21.000Z",
+      "updatedAt": "2026-10-16T23:31:07.000Z",
+      "comments": 4,
+      "additions": 109,
+      "deletions": 0
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "feat(adk-middleware): support Python 3.15",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3088,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3088",
+      "createdAt": "2026-10-16T21:54:05.000Z",
+      "updatedAt": "2026-10-16T23:27:58.000Z",
+      "comments": 2,
+      "additions": 1818,
+      "deletions": 969
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: BuiltInAgent passes its system prompt inside `messages`, so AI SDK v6 prints a prompt-injection warning on every run",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7846,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7846",
+      "createdAt": "2026-10-16T06:36:48.000Z",
+      "updatedAt": "2026-10-16T06:37:02.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(a2ui-toolkit): support Python 3.15",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3079,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3079",
+      "createdAt": "2026-10-15T17:03:22.000Z",
+      "updatedAt": "2026-10-15T20:34:40.000Z",
+      "comments": 6,
+      "additions": 84,
+      "deletions": 6
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(a2ui-renderer): type RendererProps.children as (id, basePath?)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7801,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7801",
+      "createdAt": "2026-10-13T16:38:52.000Z",
+      "updatedAt": "2026-10-15T16:34:41.000Z",
+      "comments": 2,
+      "additions": 83,
+      "deletions": 2
+    },
+    {
+      "kind": "issue",
+      "state": "closed",
+      "title": "🐛 Bug: a2ui-renderer: RendererProps.children is typed (id) => ReactNode, but list templates need (id, basePath)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7800,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7800",
+      "createdAt": "2026-10-13T16:34:55.000Z",
+      "updatedAt": "2026-10-15T06:47:42.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(ag-ui): send earlier tool calls and results to the LLM natively",
+      "repo": "run-llama/llama_index",
+      "number": 23501,
+      "url": "https://github.com/run-llama/llama_index/pull/23501",
+      "createdAt": "2026-10-14T07:01:50.000Z",
+      "updatedAt": "2026-10-15T00:48:04.000Z",
+      "comments": 2,
+      "additions": 229,
+      "deletions": 31
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: docs.copilotkit.ai: the announcement banner renders only after hydration, so the header and content jump down 40px on every load",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7825,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7825",
+      "createdAt": "2026-10-14T22:03:45.000Z",
+      "updatedAt": "2026-10-14T22:03:57.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🚀 Feature Request: docs.copilotkit.ai: show a progress bar during client navigations",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7823,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7823",
+      "createdAt": "2026-10-14T21:22:42.000Z",
+      "updatedAt": "2026-10-14T21:22:52.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(shell-docs): render DemoSource on the server so demo-content.json stays out of client bundles",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7822,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7822",
+      "createdAt": "2026-10-14T21:17:33.000Z",
+      "updatedAt": "2026-10-14T21:21:03.000Z",
+      "comments": 1,
+      "additions": 124,
+      "deletions": 17
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: docs.copilotkit.ai ships the entire demo-content.json (40 MB of JS) to the browser on most pages, and re-downloads it on navigation",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7821,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7821",
+      "createdAt": "2026-10-14T21:07:38.000Z",
+      "updatedAt": "2026-10-14T21:07:51.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: react-core / mcp-apps-renderer .d.mts written for Zod 3 break type-checking when the app's zod is v4 (1,683 errors with skipLibCheck: false)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7816,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7816",
+      "createdAt": "2026-10-14T16:56:45.000Z",
+      "updatedAt": "2026-10-14T17:33:53.000Z",
+      "comments": 2
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(runtime-client-gql): declare the packages its published types import",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7818,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7818",
+      "createdAt": "2026-10-14T17:05:34.000Z",
+      "updatedAt": "2026-10-14T17:09:49.000Z",
+      "comments": 1,
+      "additions": 9,
+      "deletions": 8
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: runtime-client-gql: published types import graphql and @graphql-typed-document-node/core, which are devDependencies (validate-dts-imports only runs for runtime)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7817,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7817",
+      "createdAt": "2026-10-14T16:58:51.000Z",
+      "updatedAt": "2026-10-14T16:59:04.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(a2ui-renderer): type createCatalog renderer props as the binder resolves them",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7815,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7815",
+      "createdAt": "2026-10-14T16:35:56.000Z",
+      "updatedAt": "2026-10-14T16:39:01.000Z",
+      "comments": 1,
+      "additions": 139,
+      "deletions": 6
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: a2ui-renderer: createCatalog renderer props are typed as the raw schema (Action props aren't callable, bound values unresolved, set<Prop> setters missing)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7814,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7814",
+      "createdAt": "2026-10-14T16:26:15.000Z",
+      "updatedAt": "2026-10-14T16:26:31.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "feat(ag-ui): stream ACTIVITY_SNAPSHOT and ACTIVITY_DELTA events",
+      "repo": "run-llama/llama_index",
+      "number": 23488,
+      "url": "https://github.com/run-llama/llama_index/pull/23488",
+      "createdAt": "2026-10-13T17:18:06.000Z",
+      "updatedAt": "2026-10-14T16:25:12.000Z",
+      "comments": 0,
+      "additions": 95,
+      "deletions": 1
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(ag-ui): pass RunAgentInput.context to the LLM",
+      "repo": "run-llama/llama_index",
+      "number": 23499,
+      "url": "https://github.com/run-llama/llama_index/pull/23499",
+      "createdAt": "2026-10-14T06:53:04.000Z",
+      "updatedAt": "2026-10-14T16:20:11.000Z",
+      "comments": 0,
+      "additions": 159,
+      "deletions": 3
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(ag-ui): keep the client's JSON Schema for dynamic frontend tools",
+      "repo": "run-llama/llama_index",
+      "number": 23497,
+      "url": "https://github.com/run-llama/llama_index/pull/23497",
+      "createdAt": "2026-10-14T06:48:09.000Z",
+      "updatedAt": "2026-10-14T16:20:09.000Z",
+      "comments": 0,
+      "additions": 109,
+      "deletions": 27
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(ag-ui): keep the server system_prompt out of MESSAGES_SNAPSHOT",
+      "repo": "run-llama/llama_index",
+      "number": 23495,
+      "url": "https://github.com/run-llama/llama_index/pull/23495",
+      "createdAt": "2026-10-14T06:24:16.000Z",
+      "updatedAt": "2026-10-14T16:20:07.000Z",
+      "comments": 0,
+      "additions": 118,
+      "deletions": 4
+    },
+    {
+      "kind": "issue",
+      "state": "closed",
+      "title": "Peek & Pop results in crash, fails to validateLayoutInRect",
+      "repo": "cnoon/CollectionViewAnimations",
+      "number": 6,
+      "url": "https://github.com/cnoon/CollectionViewAnimations/issues/6",
+      "createdAt": "2017-11-17T22:58:56.000Z",
+      "updatedAt": "2026-10-14T07:04:35.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug]: AG-UI router: prior tool calls are sent to the LLM as <tool_call> text, so models stop making native tool calls",
+      "repo": "run-llama/llama_index",
+      "number": 23500,
+      "url": "https://github.com/run-llama/llama_index/issues/23500",
+      "createdAt": "2026-10-14T06:55:32.000Z",
+      "updatedAt": "2026-10-14T06:55:32.000Z",
+      "comments": 0
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug]: AG-UI router: RunAgentInput.context is never passed to the LLM",
+      "repo": "run-llama/llama_index",
+      "number": 23498,
+      "url": "https://github.com/run-llama/llama_index/issues/23498",
+      "createdAt": "2026-10-14T06:50:46.000Z",
+      "updatedAt": "2026-10-14T06:50:46.000Z",
+      "comments": 0
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug]: AG-UI router: frontend tool parameters lose their types and enums (everything becomes str)",
+      "repo": "run-llama/llama_index",
+      "number": 23496,
+      "url": "https://github.com/run-llama/llama_index/issues/23496",
+      "createdAt": "2026-10-14T06:43:15.000Z",
+      "updatedAt": "2026-10-14T06:43:15.000Z",
+      "comments": 0
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug]: AG-UI router: system_prompt is emitted in MESSAGES_SNAPSHOT and grows by one copy every run",
+      "repo": "run-llama/llama_index",
+      "number": 23494,
+      "url": "https://github.com/run-llama/llama_index/issues/23494",
+      "createdAt": "2026-10-14T06:23:14.000Z",
+      "updatedAt": "2026-10-14T06:23:14.000Z",
+      "comments": 0
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(core): detect Context params in FunctionTool under postponed annotations",
+      "repo": "run-llama/llama_index",
+      "number": 23483,
+      "url": "https://github.com/run-llama/llama_index/pull/23483",
+      "createdAt": "2026-10-13T16:46:50.000Z",
+      "updatedAt": "2026-10-13T19:33:50.000Z",
+      "comments": 0,
+      "additions": 86,
+      "deletions": 15
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Feature Request]: AG-UI router: support ACTIVITY_SNAPSHOT / ACTIVITY_DELTA events",
+      "repo": "run-llama/llama_index",
+      "number": 23487,
+      "url": "https://github.com/run-llama/llama_index/issues/23487",
+      "createdAt": "2026-10-13T17:17:31.000Z",
+      "updatedAt": "2026-10-13T17:17:31.000Z",
+      "comments": 0
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: includeSchema: false still sends every custom component's JSON schema (and the default sends it twice)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7802,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7802",
+      "createdAt": "2026-10-13T17:09:15.000Z",
+      "updatedAt": "2026-10-13T17:09:29.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug]: FunctionTool doesn't detect ctx: Context when the module uses \"from __future__ import annotations\"",
+      "repo": "run-llama/llama_index",
+      "number": 23482,
+      "url": "https://github.com/run-llama/llama_index/issues/23482",
+      "createdAt": "2026-10-13T16:46:17.000Z",
+      "updatedAt": "2026-10-13T16:46:17.000Z",
+      "comments": 0
+    }
+  ]
 }

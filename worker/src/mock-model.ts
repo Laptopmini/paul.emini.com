@@ -27,7 +27,7 @@ const PLANS: [RegExp, Call[], string][] = [
     'Two projects stand out.',
   ],
   [
-    /open source|contribut/i,
+    /open source|contribut|github/i,
     [{ name: 'getContributions', args: { limit: 3 } }],
     'Here’s my recent open-source activity.',
   ],

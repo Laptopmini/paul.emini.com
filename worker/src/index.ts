@@ -12,6 +12,7 @@ import {
   quotaEvent,
   restingItems,
 } from './canned';
+import { githubActivity } from './github-data';
 import type { GuardState } from './guard-state';
 import { classifyFailure, dayOf, resetsAt } from './limits';
 import { SYSTEM_PROMPT, sessionContext } from './prompt';
@@ -29,6 +30,8 @@ export type Env = ProviderEnv &
   AlertEnv & {
     /** Comma-separated origins allowed to call the agent. */
     ALLOWED_ORIGINS?: string;
+    /** The site's published /github.json (daily snapshot); unset uses the bundled copy. */
+    GITHUB_DATA_URL?: string;
     GUARD: DurableObjectNamespace<GuardState>;
     /** Signs visitor sessions and keys the visitor hash. */
     SESSION_SECRET?: string;
@@ -77,7 +80,7 @@ function buildHandler(env: Env) {
       [AGENT_ID]: new BuiltInAgent({
         model: createModel(env),
         prompt: SYSTEM_PROMPT,
-        tools: createTools(recommendations),
+        tools: createTools(recommendations, () => githubActivity(env.GITHUB_DATA_URL)),
         maxSteps: 6,
         maxOutputTokens: 700,
         temperature: 0.4,

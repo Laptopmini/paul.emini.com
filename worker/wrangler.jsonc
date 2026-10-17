@@ -14,7 +14,8 @@
     "COPILOTKIT_TELEMETRY_DISABLED": "true",
     "ALLOWED_ORIGINS": "https://paul.emini.com,https://laptopmini.github.io",
     "VISITOR_DAILY_LIMIT": "25",
-    "GLOBAL_DAILY_LIMIT": "1000"
+    "GLOBAL_DAILY_LIMIT": "1000",
+    "GITHUB_DATA_URL": "https://laptopmini.github.io/paul.emini.com/github.json"
   },
   "durable_objects": { "bindings": [{ "name": "GUARD", "class_name": "GuardState" }] },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["GuardState"] }],
@@ -35,7 +36,9 @@
         // Cloudflare's documented always-pass Turnstile test secret.
         "TURNSTILE_SECRET": "1x0000000000000000000000000000000AA",
         "SESSION_SECRET": "local-development-only",
-        "ALLOW_TEST_VISITOR": "true"
+        "ALLOW_TEST_VISITOR": "true",
+        // Local runs use the bundled content/github.json.
+        "GITHUB_DATA_URL": ""
       },
       "durable_objects": { "bindings": [{ "name": "GUARD", "class_name": "GuardState" }] },
       "triggers": { "crons": [] }

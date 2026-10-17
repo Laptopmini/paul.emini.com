@@ -6,7 +6,7 @@
     "dev": "node scripts/dev.mjs",
     "dev:mock": "node scripts/dev.mjs --var LLM_PROVIDER:mock",
     "typecheck": "tsc --noEmit",
-    "dev:e2e": "node scripts/dev.mjs --port 8799 --var LLM_PROVIDER:mock --var VISITOR_DAILY_LIMIT:5 --var GLOBAL_DAILY_LIMIT:1000000000"
+    "dev:e2e": "node scripts/dev.mjs --port 8799 --persist-to .wrangler/state-e2e --var LLM_PROVIDER:mock --var VISITOR_DAILY_LIMIT:5 --var GLOBAL_DAILY_LIMIT:1000000000"
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "^2.0.83",

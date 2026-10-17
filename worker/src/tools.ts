@@ -4,7 +4,7 @@ import {
   certifications,
   education,
   experience,
-  github,
+  type GitHubActivity,
   profile,
   projects,
   type Recommendation,
@@ -47,7 +47,10 @@ const isError = (value: unknown): value is ToolError =>
 const NOT_A_VISITOR_QUESTION =
   /^(want|would you like|do you want|shall i|should i)\b|\b(are you|you're) hiring\b|\byour (team|company|organization|org)\b/i;
 
-export function createTools(recommendations: Recommendation[]) {
+export function createTools(
+  recommendations: Recommendation[],
+  loadGithub: () => Promise<GitHubActivity>,
+) {
   return [
     defineTool({
       name: 'getProfile',
@@ -138,6 +141,7 @@ export function createTools(recommendations: Recommendation[]) {
         'Paul’s recent public PRs and issues on repos he doesn’t own, from a daily GitHub cache.',
       parameters: toolArgs.getContributions,
       execute: async ({ limit }) => {
+        const github = await loadGithub();
         const items = github.contributions.slice(0, limit ?? 5);
         return {
           ids: items.map((c) => c.url),

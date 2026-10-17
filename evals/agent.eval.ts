@@ -52,6 +52,13 @@ describe.concurrent('answers from the résumé', () => {
     expectAnswer(await ask('What have you been up to lately?'), 'getProjects', 'getExperience');
   });
 
+  it('open-source activity, from the GitHub snapshot', async () => {
+    const r = await ask('Any GitHub activity?', 'engineer');
+    expectAnswer(r, 'getContributions');
+    // Talks about real contributions, never about caches or missing data.
+    expect(r.text).not.toMatch(/cache|populated|no data/i);
+  });
+
   it('how the site was built', async () => {
     expectAnswer(await ask('How was this site built?', 'engineer'), 'getSiteArchitecture');
   });
