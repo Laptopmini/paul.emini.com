@@ -12,7 +12,7 @@
   transition:
     transform var(--duration) var(--ease),
     border-color var(--duration) var(--ease),
-    box-shadow 200ms var(--ease);
+    box-shadow var(--duration) var(--ease);
 }
 
 .interactive:hover {

@@ -345,6 +345,11 @@ mark.skill {
 }
 
 .person a {
+  /* A full 44px target without moving the line: the extra height is taken back. */
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  margin-block: calc((1lh - var(--target-min)) / 2);
   text-decoration: underline;
   text-decoration-color: var(--line-2);
   text-underline-offset: 3px;

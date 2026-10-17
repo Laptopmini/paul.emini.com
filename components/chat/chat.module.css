@@ -188,7 +188,7 @@
   text-decoration-color: var(--accent-ring);
   text-underline-offset: 3px;
   overflow-wrap: anywhere;
-  transition: text-decoration-color 180ms ease;
+  transition: text-decoration-color var(--duration) var(--ease);
 }
 
 @media (hover: hover) {

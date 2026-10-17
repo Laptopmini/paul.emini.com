@@ -9,6 +9,9 @@ Personal site + résumé for Paul-Valentin Mini (paul.emini.com), with an agent 
 - Next.js App Router, **static export** (`output: 'export'`), React 19, TypeScript strict. CSS Modules + CSS variables.
 - pnpm workspace: root = site, `/worker` = Cloudflare Worker (CopilotKit runtime, MiniMax M3 via OpenRouter).
 - `shared/agent.ts` is the tool contract between the Worker and the chat's card renderers. Change both sides together.
+- The chat is headless CopilotKit. `next.config.ts` aliases CopilotKit's built-in UI packages (markdown, math, web components, inspector…) to an empty module to keep them out of the bundle. After upgrading CopilotKit, run `pnpm test:e2e`: a listed package that starts running at load time breaks the chat and must come off `UNUSED_CHAT_UI`.
+- Landing-page client code imports plain values from `shared/constants.ts`, never `shared/agent.ts` or `@/content` (both pull zod into the bundle).
+- Link preview and icons are generated at build (`app/og.png`, `app/icon.png`, `app/apple-icon.png`, colors read from `app/tokens.css`).
 - Biome (lint + format), Vitest (unit), Playwright (e2e).
 
 ```sh

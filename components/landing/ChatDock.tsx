@@ -2,11 +2,12 @@ import { type FormEvent, type Ref, useId, useState } from 'react';
 import { Icon } from '@/components/Icon';
 import { MAX_PROMPT_LENGTH } from '@/shared/constants';
 import styles from './ChatDock.module.css';
+import { DOCK_PLACEHOLDER } from './copy';
 
 export function ChatDock({
   onSubmit,
   label = 'Ask Paul’s agent',
-  placeholder = 'What can I help you with today?',
+  placeholder = DOCK_PLACEHOLDER,
   busy = false,
   className,
   inputRef,

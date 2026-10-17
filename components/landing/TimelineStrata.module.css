@@ -19,7 +19,7 @@
   background: var(--surface);
   border: 1px solid var(--line);
   translate: var(--x) 0;
-  transition: box-shadow 250ms var(--ease);
+  transition: box-shadow var(--duration) var(--ease);
 }
 
 .item:hover {

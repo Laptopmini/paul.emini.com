@@ -251,6 +251,52 @@ test.describe('chat', () => {
     await expect(resting.getByRole('link', { name: /Download résumé/ })).toBeVisible();
   });
 
+  test('works with the keyboard alone', async ({ page }) => {
+    await page.goto('/');
+    const pill = page.getByRole('button', { name: 'What are your top skills?' });
+    for (let i = 0; i < 40 && !(await pill.evaluate((el) => el === document.activeElement)); i++) {
+      await page.keyboard.press('Tab');
+    }
+    await expect(pill).toBeFocused();
+    await page.keyboard.press('Enter');
+    const input = page.getByRole('textbox', { name: 'Ask a follow-up' });
+    await expect(input).toBeFocused();
+    await expect(followUps(page)).toHaveCount(1);
+    await page.keyboard.type('What certifications do you have?');
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('region', { name: 'Certifications' })).toBeVisible();
+    await expect(input).toBeFocused();
+  });
+
+  test('every control is at least 44px, whatever the cards', async ({ page }) => {
+    await askFromLanding(page, 'What have you been up to lately?');
+    const input = page.getByRole('textbox', { name: 'Ask a follow-up' });
+    for (const [i, q] of [
+      'What do people say about you?',
+      'How can I reach you about hiring?',
+    ].entries()) {
+      await expect(followUps(page)).toHaveCount(i + 1);
+      await input.fill(q);
+      await input.press('Enter');
+    }
+    await expect(page.getByRole('link', { name: 'Open in email' })).toBeVisible();
+    await page.waitForFunction(() =>
+      document.getAnimations().every((a) => a.playState !== 'running'),
+    );
+    await page.waitForTimeout(600); // Motion springs aren't Web Animations
+    const small = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>('a, button, input, textarea')]
+        // Links inside a sentence are exempt (WCAG 2.5.8).
+        .filter((el) => el.offsetParent !== null && !el.closest('p'))
+        .map((el) => ({ el, r: el.getBoundingClientRect() }))
+        .filter(({ r }) => Math.round(r.width) < 44 || Math.round(r.height) < 44)
+        .map(
+          ({ el, r }) => `${Math.round(r.width)}x${Math.round(r.height)} ${el.textContent?.trim()}`,
+        ),
+    );
+    expect(small).toEqual([]);
+  });
+
   test('says so when the agent is unreachable', async ({ page, isMobile }) => {
     test.skip(isMobile, 'one viewport is enough; this waits for the connection timeout');
     await page.route('**/api/copilotkit/**', (route) => route.abort());
