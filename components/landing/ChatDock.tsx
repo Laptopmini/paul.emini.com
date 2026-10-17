@@ -1,6 +1,6 @@
 import { type FormEvent, type Ref, useId, useState } from 'react';
 import { Icon } from '@/components/Icon';
-import { MAX_PROMPT_LENGTH } from '@/shared/agent';
+import { MAX_PROMPT_LENGTH } from '@/shared/constants';
 import styles from './ChatDock.module.css';
 
 export function ChatDock({

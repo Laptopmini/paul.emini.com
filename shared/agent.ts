@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+export { AGENT_ID, MAX_PROMPT_LENGTH } from './constants';
+
 // Contract between the Worker (tool implementations) and the chat UI (card renderers).
 // Tools return ids plus facts for the model; cards look the ids up in /content.
 
@@ -98,6 +100,3 @@ export type QuotaValue = { remaining: number; limit: number; resetsAt: string };
 
 /** Header carrying the session the Worker issues after a Turnstile check. */
 export const SESSION_HEADER = 'x-agent-session';
-
-export const AGENT_ID = 'default';
-export const MAX_PROMPT_LENGTH = 400;
