@@ -20,6 +20,7 @@ pnpm typecheck      # tsc --noEmit
 pnpm test           # vitest
 pnpm test:content   # Zod validation of /content
 pnpm test:e2e       # playwright (builds + serves /out)
+pnpm test:evals     # agent evals on the real model, against a running `pnpm worker:dev` (~$0.02)
 pnpm worker:dev     # Worker on :8787 with the real model (forwards only OPENROUTER_API_KEY from your env)
 pnpm worker:mock    # Worker on :8787 with the scripted mock model (no keys)
 ```
@@ -42,7 +43,9 @@ Run `pnpm check && pnpm typecheck && pnpm test` before calling work done.
 - Never commit `resume.md` (raw or copied) from `../my-resume` into this repo.
 - Never write the phone number anywhere in this repo (`/content`, components, prompts, tests, fixtures). It exists only inside `resume.pdf`.
 - API keys are Worker secrets only. Never in the repo, `.env` files that get committed, or the client bundle.
-- The Worker trusts nothing from the client but the messages and a persona id: `worker/src/sanitize.ts` rebuilds every run body, and `stream-filter.ts` keeps reasoning out of the browser. Keep it that way.
+- The Worker trusts nothing from the client but the messages and a persona id: `worker/src/sanitize.ts` rebuilds every run body, and `stream-filter.ts` keeps reasoning and provider errors out of the browser. Keep it that way.
+- Guardrails (`worker/src/index.ts` → `guardedRun`): Turnstile-backed session, then the daily limits (`GuardState` Durable Object, visitors counted by a keyed hash of the IP, never the IP itself), then provider health, with the topic gate running alongside the model. Replies from guardrails are canned (`canned.ts`) and never call the model.
+- The `dev` Wrangler environment holds public test values (Turnstile test secret, a throwaway session secret, `ALLOW_TEST_VISITOR`), so it must never be deployed; it has no URL on purpose.
 
 ## Interaction feedback and accessibility bar
 

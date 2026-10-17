@@ -39,6 +39,14 @@ function select<T extends { id: string }>(all: T[], ids: string[] | undefined): 
 const isError = (value: unknown): value is ToolError =>
   typeof value === 'object' && value !== null && 'error' in value;
 
+/**
+ * Follow-ups are the visitor's questions about Paul. The model sometimes slips into
+ * offering ("Want to know…?") or asking about the visitor ("What role are you hiring
+ * for?"); those are dropped.
+ */
+const NOT_A_VISITOR_QUESTION =
+  /^(want|would you like|do you want|shall i|should i)\b|\b(are you|you're) hiring\b|\byour (team|company|organization|org)\b/i;
+
 export function createTools(recommendations: Recommendation[]) {
   return [
     defineTool({
@@ -265,7 +273,7 @@ export function createTools(recommendations: Recommendation[]) {
       execute: async ({ questions }): Promise<FollowUpsResult> => ({
         questions: questions
           .map((q) => q.trim())
-          .filter(Boolean)
+          .filter((q) => q && !NOT_A_VISITOR_QUESTION.test(q))
           .slice(0, 3),
       }),
     }),

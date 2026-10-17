@@ -52,7 +52,7 @@ export const toolArgs = {
       .min(2)
       .max(3)
       .describe(
-        'Questions the visitor could ask you next, written as the visitor speaking to you, e.g. "What was your most recent role?". Never a question or offer from you to the visitor ("Want to know…?", "What role are you hiring for?").',
+        'Questions the visitor could ask you next, written as the visitor speaking to you, e.g. "What was your most recent role?". Each is about Paul: never about the visitor, their company or role, and never an offer ("Want to know…?").',
       ),
   }),
 } as const;
@@ -81,6 +81,23 @@ export const RESUME_TOOLS: ToolName[] = [
   'getRecommendations',
   'showRecommendation',
 ];
+
+/**
+ * Cards the Worker sends on its own, without calling the model (guardrails). They travel
+ * as tool calls so the chat renders them like any card, and are stripped from the
+ * history before it reaches the model.
+ */
+export const CANNED_TOOLS = ['offTopicRedirect', 'agentResting'] as const;
+export type CannedTool = (typeof CANNED_TOOLS)[number];
+export type OffTopicResult = Record<string, never>;
+export type RestingResult = { reason: 'busy' | 'unavailable' };
+
+/** AG-UI CUSTOM event the Worker sends with every run: the visitor's questions left today. */
+export const QUOTA_EVENT = 'quota';
+export type QuotaValue = { remaining: number; limit: number; resetsAt: string };
+
+/** Header carrying the session the Worker issues after a Turnstile check. */
+export const SESSION_HEADER = 'x-agent-session';
 
 export const AGENT_ID = 'default';
 export const MAX_PROMPT_LENGTH = 400;

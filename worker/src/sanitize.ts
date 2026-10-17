@@ -1,5 +1,5 @@
 import { type PersonaId, personaIds } from '@/content/schema';
-import { MAX_PROMPT_LENGTH } from '@/shared/agent';
+import { CANNED_TOOLS, MAX_PROMPT_LENGTH } from '@/shared/agent';
 
 // The runtime puts the request's `context` and `state` into the system prompt and
 // accepts tool definitions from the client. None of that is trusted here: the body is
@@ -26,7 +26,56 @@ export type Sanitized = {
   clientThreadId: string;
   persona: PersonaId;
   userTurns: number;
+  /** Every question in the conversation; the last is the new one. */
+  questions: string[];
+  /** The visitor's new question, and the one before it (context for the topic gate). */
+  question: string;
+  previousQuestion?: string;
+  /** Follow-ups the agent last suggested; picking one skips the topic gate. */
+  lastFollowUps: string[];
 };
+
+type ToolCall = { id?: unknown; function?: { name?: unknown; arguments?: unknown } };
+
+const canned = new Set<unknown>(CANNED_TOOLS);
+
+/** Questions from the last suggestFollowUps call in the history. */
+function followUpsIn(messages: Message[]): string[] {
+  for (const m of [...messages].reverse()) {
+    const call = (m.toolCalls as ToolCall[] | undefined)?.find(
+      (c) => c.function?.name === 'suggestFollowUps',
+    );
+    if (!call) continue;
+    try {
+      const { questions } = JSON.parse(String(call.function?.arguments)) as { questions?: unknown };
+      return Array.isArray(questions) ? questions.filter((q) => typeof q === 'string') : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
+/**
+ * Cards the Worker sent on its own (off-topic, resting) aren't model tools: drop their
+ * calls and results so the model never sees tools it doesn't have.
+ */
+function withoutCannedCards(messages: Message[]): Message[] {
+  const dropped = new Set<unknown>();
+  return messages
+    .map((m) => {
+      if (!Array.isArray(m.toolCalls)) return m;
+      const calls = (m.toolCalls as ToolCall[]).filter((c) => {
+        if (!canned.has(c.function?.name)) return true;
+        dropped.add(c.id);
+        return false;
+      });
+      const { toolCalls: _, ...rest } = m;
+      return calls.length > 0 ? { ...rest, toolCalls: calls } : rest;
+    })
+    .filter((m) => !(m.role === 'tool' && dropped.has(m.toolCallId)))
+    .filter((m) => m.role !== 'assistant' || m.toolCalls || String(m.content ?? '').trim());
+}
 
 export class BadRequest extends Error {}
 
@@ -66,16 +115,19 @@ export function sanitizeRunBody(raw: unknown): Sanitized {
   if (!threadId || !runId) throw new BadRequest('threadId and runId are required');
   if (!Array.isArray(input.messages)) throw new BadRequest('messages must be an array');
 
-  const messages = (input.messages as Message[])
-    .slice(-MAX_MESSAGES)
-    .map(cleanMessage)
-    .filter((m): m is Message => m !== null);
+  const messages = withoutCannedCards(
+    (input.messages as Message[])
+      .slice(-MAX_MESSAGES)
+      .map(cleanMessage)
+      .filter((m): m is Message => m !== null),
+  );
   if (messages.at(-1)?.role !== 'user')
     throw new BadRequest('The last message must be from the user');
 
   const props = (input.forwardedProps ?? {}) as Record<string, unknown>;
   const persona = personaIds.find((id) => id === props.persona) ?? 'visitor';
-  const userTurns = messages.filter((m) => m.role === 'user').length;
+  const questions = messages.filter((m) => m.role === 'user').map((m) => String(m.content));
+  const userTurns = questions.length;
 
   // Every request carries the whole conversation, so runs don't need server-side thread
   // state. A fresh thread id per run means a run that is still winding down can never
@@ -83,6 +135,10 @@ export function sanitizeRunBody(raw: unknown): Sanitized {
   return {
     persona,
     userTurns,
+    questions,
+    question: questions.at(-1) ?? '',
+    previousQuestion: questions.at(-2),
+    lastFollowUps: followUpsIn(messages),
     clientThreadId: threadId,
     body: {
       threadId: crypto.randomUUID(),

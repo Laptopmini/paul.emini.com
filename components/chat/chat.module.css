@@ -326,6 +326,17 @@
   padding: 24px 48px 0;
 }
 
+.turnstile:not(:empty) {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.quota {
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .footnote {
   margin: 10px 0 0;
   text-align: center;

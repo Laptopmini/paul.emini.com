@@ -8,17 +8,37 @@
   "workers_dev": true,
   "preview_urls": false,
   "rules": [{ "type": "Text", "globs": ["**/*.md"], "fallthrough": false }],
+  // Secrets (wrangler secret put): OPENROUTER_API_KEY, SESSION_SECRET, TURNSTILE_SECRET,
+  // and optionally NTFY_URL / NTFY_TOKEN for alerts.
   "vars": {
     "COPILOTKIT_TELEMETRY_DISABLED": "true",
-    "ALLOWED_ORIGINS": "https://paul.emini.com,https://laptopmini.github.io"
+    "ALLOWED_ORIGINS": "https://paul.emini.com,https://laptopmini.github.io",
+    "VISITOR_DAILY_LIMIT": "25",
+    "GLOBAL_DAILY_LIMIT": "1000"
   },
+  "durable_objects": { "bindings": [{ "name": "GUARD", "class_name": "GuardState" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["GuardState"] }],
+  // Daily credit check on the OpenRouter key (alerts.ts).
+  "triggers": { "crons": ["0 15 * * *"] },
   "observability": { "enabled": true },
   "env": {
+    // Local only (wrangler dev --env dev). Its values are public test values, so it must
+    // never be reachable: no workers.dev URL, no routes.
     "dev": {
+      "workers_dev": false,
+      "preview_urls": false,
       "vars": {
         "COPILOTKIT_TELEMETRY_DISABLED": "true",
-        "ALLOWED_ORIGINS": "http://localhost:3000,http://localhost:4173"
-      }
+        "ALLOWED_ORIGINS": "http://localhost:3000,http://localhost:4173",
+        "VISITOR_DAILY_LIMIT": "25",
+        "GLOBAL_DAILY_LIMIT": "1000",
+        // Cloudflare's documented always-pass Turnstile test secret.
+        "TURNSTILE_SECRET": "1x0000000000000000000000000000000AA",
+        "SESSION_SECRET": "local-development-only",
+        "ALLOW_TEST_VISITOR": "true"
+      },
+      "durable_objects": { "bindings": [{ "name": "GUARD", "class_name": "GuardState" }] },
+      "triggers": { "crons": [] }
     }
   }
 }

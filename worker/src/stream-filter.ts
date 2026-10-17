@@ -58,6 +58,9 @@ export type RunIds = { threadId?: string; runId?: string };
  * visitor's stream gets a RUN_FINISHED and closes; `onFinish` should stop the run, and
  * the rest of the upstream is drained (never cancelled from outside, which would leave
  * the runtime's thread marked as running). Await `done` (e.g. with ctx.waitUntil).
+ *
+ * `hold` (the topic gate) is awaited before anything after RUN_STARTED is sent: null
+ * lets the run through, a list of events replaces it (and the run is stopped).
  */
 export function filterSseStream(
   body: ReadableStream<Uint8Array>,
@@ -66,9 +69,26 @@ export function filterSseStream(
     onFinish?: (run: RunIds) => Promise<unknown> | undefined;
     /** The visitor's thread id, restored on events that carry the server-side one. */
     clientThreadId?: string;
+    /** Sent right after RUN_STARTED (the visitor's quota). */
+    afterStart?: object[];
+    hold?: Promise<object[] | null>;
+    /** How the model run ended, once: answered, or failed with RUN_ERROR. */
+    onOutcome?: (ok: boolean) => void;
+    /** Events to show instead of a RUN_ERROR (the resting card), or null for the error. */
+    onError?: () => object[] | null;
+    /** Follow-ups to add when the model finished without calling suggestFollowUps. */
+    fallbackFollowUps?: () => object[];
   } = {},
 ): { stream: ReadableStream<Uint8Array>; done: Promise<void> } {
-  const { onFinish, clientThreadId } = options;
+  const { onFinish, clientThreadId, afterStart = [], onOutcome } = options;
+  let hold = options.hold;
+  let reported = false;
+  let sawFollowUps = false;
+  const report = (ok: boolean) => {
+    if (reported) return;
+    reported = true;
+    onOutcome?.(ok);
+  };
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
   const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
@@ -106,7 +126,39 @@ export function filterSseStream(
     }
     if (!event) return send(frame);
     if (event.type === 'RUN_STARTED') run = { threadId: event.threadId, runId: event.runId };
-    if (event.type === 'RUN_ERROR') return send(`data: ${JSON.stringify(RUN_ERROR)}`);
+    const end = async () => {
+      const threadId = clientThreadId ?? run.threadId;
+      await send(`data: ${JSON.stringify({ type: 'RUN_FINISHED', threadId, runId: run.runId })}`);
+      await close();
+      await onFinish?.(run);
+    };
+
+    if (hold && event.type !== 'RUN_STARTED') {
+      const replacement = await hold;
+      hold = undefined;
+      if (replacement) {
+        for (const e of replacement) await send(`data: ${JSON.stringify(e)}`);
+        return end();
+      }
+    }
+    if (event.type === 'RUN_ERROR') {
+      report(false);
+      const instead = options.onError?.();
+      if (!instead) return send(`data: ${JSON.stringify(RUN_ERROR)}`);
+      for (const e of instead) await send(`data: ${JSON.stringify(e)}`);
+      const threadId = clientThreadId ?? run.threadId;
+      await send(`data: ${JSON.stringify({ type: 'RUN_FINISHED', threadId, runId: run.runId })}`);
+      return close();
+    }
+    if (event.type === 'TOOL_CALL_START' && event.toolCallName === CLOSING_TOOL) {
+      sawFollowUps = true;
+    }
+    if (event.type === 'RUN_FINISHED') {
+      report(true);
+      if (!sawFollowUps && options.fallbackFollowUps) {
+        for (const e of options.fallbackFollowUps()) await send(`data: ${JSON.stringify(e)}`);
+      }
+    }
 
     const decision = decide(event);
     if (decision === 'drop') return;
@@ -118,11 +170,12 @@ export function filterSseStream(
       ? `data: ${JSON.stringify({ ...rest, ...(clientThreadId && event.threadId ? { threadId: clientThreadId } : {}) })}`
       : frame;
     await send(forClient);
+    if (event.type === 'RUN_STARTED') {
+      for (const e of afterStart) await send(`data: ${JSON.stringify(e)}`);
+    }
     if (decision === 'finish') {
-      const threadId = clientThreadId ?? run.threadId;
-      await send(`data: ${JSON.stringify({ type: 'RUN_FINISHED', threadId, runId: run.runId })}`);
-      await close();
-      await onFinish?.(run);
+      report(true);
+      await end();
     }
   };
 

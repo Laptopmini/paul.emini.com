@@ -22,12 +22,15 @@ async function run(
     chunkSize?: number;
     onCancel?: () => void;
     onFinish?: (run: RunIds) => undefined;
+    afterStart?: object[];
+    hold?: Promise<object[] | null>;
+    onOutcome?: (ok: boolean) => void;
   } = {},
 ) {
   const { stream, done } = filterSseStream(
     streamOf(encode(events), options.chunkSize ?? 7, options.onCancel),
     createEventFilter(),
-    { onFinish: options.onFinish, clientThreadId: 'client-thread' },
+    { ...options, clientThreadId: 'client-thread' },
   );
   const out = await new Response(stream).text();
   await done;
@@ -112,11 +115,79 @@ describe('event filter', () => {
     ]);
   });
 
-  it('replaces provider error details with a generic error', async () => {
-    const events = await run([
-      { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
-      { type: 'RUN_ERROR', message: 'insufficient balance (1008)' },
+  it('sends the quota after RUN_STARTED and reports a finished run', async () => {
+    const outcomes: boolean[] = [];
+    const events = await run(
+      [
+        { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+        { type: 'TEXT_MESSAGE_CONTENT', delta: 'Hi' },
+        { type: 'RUN_FINISHED', threadId: 't', runId: 'r' },
+      ],
+      { afterStart: [{ type: 'CUSTOM', name: 'quota' }], onOutcome: (ok) => outcomes.push(ok) },
+    );
+    expect(events.map((e) => e.type)).toEqual([
+      'RUN_STARTED',
+      'CUSTOM',
+      'TEXT_MESSAGE_CONTENT',
+      'RUN_FINISHED',
     ]);
+    expect(outcomes).toEqual([true]);
+  });
+
+  it('replaces the run when the gate holds it back, and stops the model', async () => {
+    let stopped = false;
+    const events = await run(
+      [
+        { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+        { type: 'TEXT_MESSAGE_CONTENT', delta: 'A poem about cats' },
+        { type: 'RUN_FINISHED', threadId: 't', runId: 'r' },
+      ],
+      {
+        hold: Promise.resolve([{ type: 'TOOL_CALL_START', toolCallName: 'offTopicRedirect' }]),
+        onFinish: () => {
+          stopped = true;
+        },
+      },
+    );
+    expect(events.map((e) => e.type)).toEqual(['RUN_STARTED', 'TOOL_CALL_START', 'RUN_FINISHED']);
+    expect(stopped).toBe(true);
+  });
+
+  it('adds follow-ups when the model finished without them', async () => {
+    const { stream } = filterSseStream(
+      streamOf(
+        encode([
+          { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+          { type: 'TEXT_MESSAGE_CONTENT', delta: 'Done.' },
+          { type: 'RUN_FINISHED', threadId: 't', runId: 'r' },
+        ]),
+        7,
+      ),
+      createEventFilter(),
+      { fallbackFollowUps: () => [{ type: 'TOOL_CALL_START', toolCallName: 'suggestFollowUps' }] },
+    );
+    const types = (await new Response(stream).text())
+      .split('\n\n')
+      .filter(Boolean)
+      .map((f) => (JSON.parse(f.slice(6)) as { type: string }).type);
+    expect(types).toEqual([
+      'RUN_STARTED',
+      'TEXT_MESSAGE_CONTENT',
+      'TOOL_CALL_START',
+      'RUN_FINISHED',
+    ]);
+  });
+
+  it('replaces provider error details with a generic error', async () => {
+    const outcomes: boolean[] = [];
+    const events = await run(
+      [
+        { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+        { type: 'RUN_ERROR', message: 'insufficient balance (1008)' },
+      ],
+      { onOutcome: (ok) => outcomes.push(ok) },
+    );
+    expect(outcomes).toEqual([false]);
     expect(events.at(-1)).toEqual({
       type: 'RUN_ERROR',
       message: 'The agent is unavailable right now.',

@@ -23,7 +23,7 @@ export default defineConfig({
     },
     {
       // e2e builds include dev-only routes (/dev/cards); the deploy build never does.
-      command: `INCLUDE_DEV_ROUTES=1 NEXT_PUBLIC_AGENT_URL=http://localhost:${AGENT_PORT}/api/copilotkit pnpm build && pnpm exec serve out -l ${PORT} --no-clipboard`,
+      command: `INCLUDE_DEV_ROUTES=1 NEXT_PUBLIC_AGENT_URL=http://localhost:${AGENT_PORT}/api/copilotkit NEXT_PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA pnpm build && pnpm exec serve out -l ${PORT} --no-clipboard`,
       port: PORT,
       reuseExistingServer: !process.env.CI,
       timeout: 180_000,

@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import type { LanguageModel } from 'ai';
 import { mockModel } from './mock-model';
@@ -17,8 +18,23 @@ type ProviderId = 'openrouter' | 'mock';
 
 const DEFAULT_MODEL = 'minimax/minimax-m3';
 
+/**
+ * The provider's last error status during the current run, for health tracking and
+ * alerts. Each run's request handling executes inside `providerCalls.run(...)`.
+ */
+export const providerCalls = new AsyncLocalStorage<{ status?: number }>();
+
+function recordingStatus(inner: typeof fetch): typeof fetch {
+  return async (input, init) => {
+    const response = await inner(input, init);
+    const store = providerCalls.getStore();
+    if (store && !response.ok) store.status = response.status;
+    return response;
+  };
+}
+
 /** Merges extra fields into every JSON request body. */
-function withJsonBody(extra: Record<string, unknown>): typeof fetch {
+export function withJsonBody(extra: Record<string, unknown>): typeof fetch {
   return async (input, init) => {
     if (init?.body && typeof init.body === 'string') {
       const body = JSON.parse(init.body) as Record<string, unknown>;
@@ -44,6 +60,6 @@ export function createModel(env: ProviderEnv): LanguageModel {
     includeUsage: true,
     headers: { 'HTTP-Referer': 'https://paul.emini.com', 'X-Title': 'paul.emini.com' },
     // Keep reasoning out of the visible text; OpenRouter returns it separately.
-    fetch: withJsonBody({ reasoning: { exclude: true } }),
+    fetch: recordingStatus(withJsonBody({ reasoning: { exclude: true } })),
   }).chatModel(env.LLM_MODEL || DEFAULT_MODEL);
 }

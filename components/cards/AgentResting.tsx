@@ -3,13 +3,18 @@ import { Icon } from '@/components/Icon';
 import { Card } from './Card';
 import s from './cards.module.css';
 
-/** Shown when the global daily cap is reached; the rest of the site keeps working. */
+/**
+ * Shown when the global daily cap is reached ("busy") or the model provider is down
+ * ("unavailable"); the rest of the site keeps working.
+ */
 export function AgentResting({
   email,
   browse,
+  reason = 'busy',
 }: {
   email: string;
   browse: { label: string; href: string }[];
+  reason?: 'busy' | 'unavailable';
 }) {
   return (
     <Card tone="dashed" role="status">
@@ -18,8 +23,10 @@ export function AgentResting({
         <h3 className={`${s.title} ${s.titleMd}`}>The agent is resting</h3>
       </div>
       <p className={s.body}>
-        It’s answered its share of questions for today. Everything is still here — browse it
-        directly, or{' '}
+        {reason === 'busy'
+          ? 'It’s answered its share of questions for today.'
+          : 'It can’t answer right now; it should be back soon.'}{' '}
+        Everything is still here — browse it directly, or{' '}
         <a className={s.inlineLink} href={`mailto:${email}`}>
           email Paul
         </a>

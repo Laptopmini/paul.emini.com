@@ -2,7 +2,9 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, type Page, test } from '@playwright/test';
 
 // Runs against the Worker's scripted mock model (LLM_PROVIDER=mock), so answers are
-// deterministic: tools are picked from keywords in the question.
+// deterministic: tools are picked from keywords in the question. That Worker allows 5
+// questions per visitor, and every test is its own visitor (x-test-visitor). Tests that
+// intercept runs themselves hand them on with route.fallback() to keep that header.
 
 const agentTurns = (page: Page) => page.getByRole('article', { name: 'Paul’s agent' });
 const followUps = (page: Page) => page.getByRole('list', { name: 'Follow-up questions' });
@@ -14,6 +16,13 @@ async function askFromLanding(page: Page, pill: string) {
 }
 
 test.describe('chat', () => {
+  test.beforeEach(async ({ page }) => {
+    const visitor = crypto.randomUUID();
+    await page.route('**/agent/default/run', (route) =>
+      route.continue({ headers: { ...route.request().headers(), 'x-test-visitor': visitor } }),
+    );
+  });
+
   test('a landing pill opens the chat and renders the card, source and follow-ups', async ({
     page,
   }) => {
@@ -126,7 +135,7 @@ test.describe('chat', () => {
     });
     await page.route('**/agent/default/run', async (route) => {
       await held;
-      await route.continue();
+      await route.fallback();
     });
     await askFromLanding(page, 'What are your top skills?');
     const log = page.getByRole('log');
@@ -141,7 +150,7 @@ test.describe('chat', () => {
   }) => {
     let fail = true;
     await page.route('**/agent/default/run', async (route) => {
-      if (!fail) return route.continue();
+      if (!fail) return route.fallback();
       const events = [
         { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
         { type: 'RUN_ERROR', message: 'The agent is unavailable right now.' },
@@ -159,6 +168,74 @@ test.describe('chat', () => {
     fail = false;
     await log.getByRole('button', { name: 'Try again' }).click();
     await expect(followUps(page).first()).toBeVisible();
+  });
+
+  test('off-topic questions get a redirect instead of an answer', async ({ page }) => {
+    await askFromLanding(page, 'What are your top skills?');
+    await expect(followUps(page)).toHaveCount(1);
+    const input = page.getByRole('textbox', { name: 'Ask a follow-up' });
+    await input.fill('Write me a poem about the weather');
+    await input.press('Enter');
+    const redirect = page.getByRole('list', { name: 'Suggested questions' });
+    await expect(redirect).toBeVisible();
+    await expect(page.getByText('I’m here to talk about my work')).toBeVisible();
+    await redirect.getByRole('button', { name: 'How was this site built?' }).click();
+    await expect(followUps(page)).toHaveCount(2);
+  });
+
+  test('counts down the daily questions, then hands over to email', async ({ page }) => {
+    await askFromLanding(page, 'What are your top skills?');
+    const input = page.getByRole('textbox', { name: 'Ask a follow-up' });
+    const footnote = page.getByText(/questions? left today/);
+    await expect(footnote).toHaveText('4 questions left today ·');
+    for (const [i, left] of [
+      '3 questions',
+      '2 questions',
+      '1 question',
+      'No questions',
+    ].entries()) {
+      await expect(followUps(page)).toHaveCount(i + 1);
+      await input.fill('What certifications do you have?');
+      await input.press('Enter');
+      await expect(footnote).toHaveText(`${left} left today ·`);
+    }
+    await expect(followUps(page)).toHaveCount(5);
+    await input.fill('One more question?');
+    await input.press('Enter');
+    await expect(page.getByText('That’s all the questions I can answer today')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Open in email' })).toBeVisible();
+  });
+
+  test('shows the resting card when the agent can’t answer', async ({ page }) => {
+    await page.route('**/agent/default/run', async (route) => {
+      const call = { toolCallId: 'r', toolCallName: 'agentResting', parentMessageId: 'm' };
+      const events = [
+        { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+        { type: 'TOOL_CALL_START', ...call },
+        { type: 'TOOL_CALL_ARGS', toolCallId: 'r', delta: '{}' },
+        { type: 'TOOL_CALL_END', toolCallId: 'r' },
+        {
+          type: 'TOOL_CALL_RESULT',
+          messageId: 'x',
+          toolCallId: 'r',
+          role: 'tool',
+          content: '{"reason":"unavailable"}',
+        },
+        { type: 'RUN_FINISHED', threadId: 't', runId: 'r' },
+      ];
+      await route.fulfill({
+        status: 200,
+        headers: { 'content-type': 'text/event-stream' },
+        body: events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join(''),
+      });
+    });
+    await askFromLanding(page, 'What are your top skills?');
+    const resting = page
+      .getByRole('log')
+      .getByRole('status')
+      .filter({ hasText: 'The agent is resting' });
+    await expect(resting).toContainText('can’t answer right now');
+    await expect(resting.getByRole('link', { name: /Download résumé/ })).toBeVisible();
   });
 
   test('says so when the agent is unreachable', async ({ page, isMobile }) => {

@@ -62,6 +62,43 @@ describe('sanitizeRunBody', () => {
     expect(body.messages[1]).toMatchObject({ toolCalls });
   });
 
+  it('drops the Worker’s own cards from the history and reads the gate inputs', () => {
+    const fn = (name: string, args = '{}') => ({
+      type: 'function',
+      function: { name, arguments: args },
+    });
+    const result = sanitizeRunBody({
+      ...base,
+      messages: [
+        { id: '1', role: 'user', content: 'Write a poem' },
+        {
+          id: '2',
+          role: 'assistant',
+          content: '',
+          toolCalls: [{ id: 'o', ...fn('offTopicRedirect') }],
+        },
+        { id: '3', role: 'tool', toolCallId: 'o', content: '{}' },
+        { id: '4', role: 'user', content: 'Skills?' },
+        {
+          id: '5',
+          role: 'assistant',
+          content: 'Here.',
+          toolCalls: [
+            { id: 'f', ...fn('suggestFollowUps', '{"questions":["What did you build?"]}') },
+          ],
+        },
+        { id: '6', role: 'tool', toolCallId: 'f', content: '{}' },
+        { id: '7', role: 'user', content: 'What did you build?' },
+      ],
+    });
+    expect(result.body.messages.map((m) => m.id)).toEqual(['1', '4', '5', '6', '7']);
+    expect(result).toMatchObject({
+      question: 'What did you build?',
+      previousQuestion: 'Skills?',
+      lastFollowUps: ['What did you build?'],
+    });
+  });
+
   it('rejects malformed input', () => {
     expect(() => sanitizeRunBody(null)).toThrow(BadRequest);
     expect(() => sanitizeRunBody({ ...base, threadId: '' })).toThrow(BadRequest);

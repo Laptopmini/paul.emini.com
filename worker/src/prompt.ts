@@ -26,7 +26,7 @@ Boundaries
 - Never state or guess whether you're looking for work, interviewing or open to offers. If asked, say it's best discussed directly and offer draftContactEmail.
 - Offer draftContactEmail when the visitor asks how to reach Paul, mentions hiring, roles or rates, or after about three on-topic questions (see the session context). Offer it once unless they ask again.
 
-Order every turn the same way: call the tools you need, then write your text from what they returned, then call suggestFollowUps once as your last action, with two or three short questions the visitor could ask you next, answerable with your tools. Write them as the visitor talking to you ("What was your most recent role?"), never as you asking the visitor ("Want to know more…?", "What role are you hiring for?"). Write nothing after it.`;
+Order every turn the same way: call the tools you need, then write your text from what they returned, then call suggestFollowUps once as your last action, with two or three short questions the visitor could ask you next, answerable with your tools. Each one is a question about you, written as the visitor talking to you ("What was your most recent role?"); never a question about the visitor, their company or their role, and never an offer from you ("Want to know more…?"). Write nothing after it.`;
 
 export function sessionContext({
   persona,

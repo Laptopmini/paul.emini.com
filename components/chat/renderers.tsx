@@ -2,7 +2,9 @@
 
 import { defineToolCallRenderer } from '@copilotkit/react-core/v2';
 import type { ReactElement } from 'react';
+import { z } from 'zod';
 import {
+  AgentResting,
   Award,
   CardEnter,
   CardSkeleton,
@@ -12,6 +14,7 @@ import {
   Education,
   ExperienceCard,
   ExperienceTimeline,
+  OffTopicRedirect,
   ProjectCard,
   Recommendation,
   TopSkills,
@@ -22,15 +25,19 @@ import {
   education,
   experience,
   github,
+  profile,
   projects,
   recommendations,
   skills,
 } from '@/content';
+import { RESUME_PDF } from '@/lib/content';
 import {
+  type CannedTool,
   type ContactResult,
   type FollowUpsResult,
   type IdsResult,
   type RecommendationResult,
+  type RestingResult,
   type SkillsResult,
   type ToolName,
   toolArgs,
@@ -70,6 +77,36 @@ function card<T>(name: ToolName, view: (data: T) => ReactElement | null, skeleto
     },
   });
 }
+
+/** Cards the Worker sends itself (guardrails): no arguments, shown on completion. */
+function cannedCard<T>(name: CannedTool, view: (data: T) => ReactElement | null) {
+  return defineToolCallRenderer({
+    name,
+    args: z.object({}),
+    render: ({ status, result }: Props) => {
+      if (String(status) !== 'complete') return null;
+      const data = parse<T>(result);
+      const element = data ? view(data) : null;
+      return element ? <CardEnter>{element}</CardEnter> : null;
+    },
+  });
+}
+
+function OffTopicCard() {
+  const { ask, suggestions } = useChatActions();
+  return (
+    <OffTopicRedirect
+      suggestions={suggestions.map((prompt) => ({ label: prompt, prompt }))}
+      onPick={ask}
+    />
+  );
+}
+
+const BROWSE = [
+  { label: 'Download résumé (PDF)', href: RESUME_PDF },
+  { label: 'LinkedIn', href: profile.links.linkedin },
+  { label: 'GitHub', href: profile.links.github },
+];
 
 function ExperienceResult({ ids }: IdsResult) {
   const { ask } = useChatActions();
@@ -147,6 +184,10 @@ export const renderers = [
     <ContactHandoff email={email} draft={draft} subject={subject} />
   )),
   card<FollowUpsResult>('suggestFollowUps', (data) => <FollowUpsCard {...data} />, false),
+  cannedCard('offTopicRedirect', () => <OffTopicCard />),
+  cannedCard<RestingResult>('agentResting', ({ reason }) => (
+    <AgentResting email={profile.email} browse={BROWSE} reason={reason} />
+  )),
   // Data-only tools: the model reads them; nothing to show.
   card('getProfile', () => null, false),
   card('getRecommendations', () => null, false),

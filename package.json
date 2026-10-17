@@ -13,6 +13,7 @@
     "test:e2e": "playwright test",
     "worker:dev": "pnpm --filter worker dev",
     "test:content": "vitest run content",
+    "test:evals": "vitest run --config vitest.evals.config.ts",
     "worker:mock": "pnpm --filter worker dev:mock"
   },
   "dependencies": {

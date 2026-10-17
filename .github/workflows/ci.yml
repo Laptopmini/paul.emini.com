@@ -27,3 +27,32 @@ jobs:
       - run: pnpm test:e2e
       - name: Production build excludes dev-only routes
         run: pnpm build && test ! -e out/dev
+
+  # Agent evals against the real model (about $0.02 a run). Needs the repository secret
+  # OPENROUTER_EVAL_KEY: a dedicated, capped key, separate from the Worker's.
+  evals:
+    runs-on: ubuntu-latest
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_EVAL_KEY }}
+    steps:
+      - if: env.OPENROUTER_API_KEY == ''
+        run: echo "::notice::OPENROUTER_EVAL_KEY is not set, so the agent evals were skipped."
+      - if: env.OPENROUTER_API_KEY != ''
+        uses: actions/checkout@v7
+      - if: env.OPENROUTER_API_KEY != ''
+        uses: pnpm/action-setup@v6
+      - if: env.OPENROUTER_API_KEY != ''
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - if: env.OPENROUTER_API_KEY != ''
+        run: pnpm install --frozen-lockfile
+      - name: Start the dev Worker
+        if: env.OPENROUTER_API_KEY != ''
+        run: |
+          pnpm worker:dev > worker.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf localhost:8787/health && exit 0; sleep 1; done
+          cat worker.log; exit 1
+      - if: env.OPENROUTER_API_KEY != ''
+        run: pnpm test:evals

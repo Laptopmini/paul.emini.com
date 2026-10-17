@@ -37,6 +37,8 @@ jobs:
           # Repository variable (not a secret): the Worker's public URL. Unset = the chat
           # shows its unavailable state and the rest of the site works.
           NEXT_PUBLIC_AGENT_URL: ${{ vars.AGENT_URL }}
+          # Repository variable (public): the Turnstile widget's site key.
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
       - uses: actions/upload-pages-artifact@v5
         with:
           path: out

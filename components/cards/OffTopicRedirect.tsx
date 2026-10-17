@@ -14,8 +14,8 @@ export function OffTopicRedirect({
   return (
     <Card>
       <p className={s.body}>
-        I’m here to talk about Paul’s work and background, so I’ll leave that one there. Here’s what
-        I can help with:
+        I’m here to talk about my work and background, so I’ll leave that one there. Here’s what I
+        can help with:
       </p>
       <ul className={s.pills} aria-label="Suggested questions">
         {suggestions.map((sg) => (

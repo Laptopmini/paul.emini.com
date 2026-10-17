@@ -11,6 +11,7 @@ import { CardEnter } from '@/components/cards';
 import { ChatDock } from '@/components/landing/ChatDock';
 import { DEFAULT_PERSONA, github, meta, personas } from '@/content';
 import { personaIds } from '@/content/schema';
+import { setTurnstileSlot } from '@/lib/agent-session';
 import { takePending, useChatState } from '@/lib/chat-store';
 import {
   arrangeItems,
@@ -21,6 +22,7 @@ import {
   toTurns,
 } from '@/lib/chat-turns';
 import { usePersona } from '@/lib/persona-store';
+import { QUOTA_EVENT, type QuotaValue } from '@/shared/agent';
 import { ChatActions } from './ChatActions';
 import { ChatHeader } from './ChatHeader';
 import styles from './chat.module.css';
@@ -28,6 +30,14 @@ import { FormattedText } from './FormattedText';
 
 const personaOptions = personas.map(({ id, label, hint }) => ({ id, label, hint }));
 const READY_TIMEOUT_MS = 10_000;
+/** The footnote starts counting down at this many questions left. */
+const QUOTA_NOTICE_AT = 5;
+
+function quotaNote(quota: QuotaValue | null): string | null {
+  if (!quota || quota.remaining > QUOTA_NOTICE_AT) return null;
+  if (quota.remaining === 0) return 'No questions left today';
+  return `${quota.remaining} question${quota.remaining === 1 ? '' : 's'} left today`;
+}
 
 function UserBubble({ text }: { text: string }) {
   return (
@@ -107,6 +117,7 @@ export function ChatView({ active }: { active: boolean }) {
   const [persona, setPersona] = usePersona(personaIds, DEFAULT_PERSONA);
   const [failedTurn, setFailedTurn] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState(false);
+  const [quota, setQuota] = useState<QuotaValue | null>(null);
   const { pending } = useChatState();
   const inputRef = useRef<HTMLInputElement>(null);
   const stickToBottom = useRef(true);
@@ -156,6 +167,16 @@ export function ChatView({ active }: { active: boolean }) {
     if (active) inputRef.current?.focus({ preventScroll: true });
   }, [active]);
 
+  // The Worker sends the visitor's questions left today with every run.
+  useEffect(() => {
+    const { unsubscribe } = agent.subscribe({
+      onCustomEvent: ({ event }) => {
+        if (event.name === QUOTA_EVENT) setQuota(event.value as QuotaValue);
+      },
+    });
+    return unsubscribe;
+  }, [agent]);
+
   // Follow the conversation while it grows, unless the visitor scrolls up to read.
   useEffect(() => {
     if (!active) return;
@@ -176,8 +197,10 @@ export function ChatView({ active }: { active: boolean }) {
   }, [contentKey, active]);
 
   const lastTurn = turns.at(-1);
+  const note = quotaNote(quota);
+  const suggestions = (personas.find((p) => p.id === persona) ?? personas[0])?.prompts ?? [];
   return (
-    <ChatActions.Provider value={{ ask, busy: running }}>
+    <ChatActions.Provider value={{ ask, busy: running, suggestions }}>
       <div className={styles.chat}>
         <ChatHeader personas={personaOptions} persona={persona} onPersona={setPersona} />
         <main className={styles.main} aria-label="Conversation">
@@ -216,6 +239,8 @@ export function ChatView({ active }: { active: boolean }) {
         </main>
         <div className={styles.dockBar}>
           <div className={styles.dockInner}>
+            {/* Turnstile shows a challenge here only if Cloudflare asks for one. */}
+            <div ref={setTurnstileSlot} className={styles.turnstile} />
             <ChatDock
               onSubmit={ask}
               busy={running || !isReady}
@@ -224,6 +249,7 @@ export function ChatView({ active }: { active: boolean }) {
               inputRef={inputRef}
             />
             <p className={styles.footnote}>
+              {note && <strong className={styles.quota}>{note} · </strong>}
               It can make mistakes — email Paul for anything that matters.
             </p>
           </div>

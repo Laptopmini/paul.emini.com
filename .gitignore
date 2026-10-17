@@ -11,3 +11,6 @@ playwright-report/
 !.env.example
 worker/.wrangler/
 worker/.dev.vars
+
+# Owner's local notes of production values (never read by any tool, never committed)
+.secrets.local
