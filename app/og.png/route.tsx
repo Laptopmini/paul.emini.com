@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { DOCK_PLACEHOLDER } from '@/components/landing/copy';
 import { profile } from '@/content';
-import { brandTokens, googleFont } from '@/lib/brand';
+import { brandFont, brandTokens } from '@/lib/brand';
 
 // The link preview card (/og.png), rendered at build time. Same words and colors as the
 // hero. A route rather than opengraph-image.tsx: the static export would write that one
@@ -13,9 +13,9 @@ export const OG_SIZE = { width: 1200, height: 630 };
 export async function GET() {
   const [t, display, body, mono] = await Promise.all([
     brandTokens(),
-    googleFont('Bricolage Grotesque', 800),
-    googleFont('Instrument Sans', 500),
-    googleFont('JetBrains Mono', 500),
+    brandFont('Bricolage Grotesque'),
+    brandFont('Instrument Sans'),
+    brandFont('JetBrains Mono'),
   ]);
   return new ImageResponse(
     <div

@@ -28,16 +28,16 @@ export async function brandTokens() {
   };
 }
 
-/**
- * A Google font as TTF for Satori (it doesn't read woff2). An old user agent makes the
- * CSS API answer with TrueType URLs.
- */
-export async function googleFont(family: string, weight: number): Promise<ArrayBuffer> {
-  const url = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, '+')}:wght@${weight}`;
-  const css = await (await fetch(url, { headers: { 'user-agent': 'Mozilla/4.0' } })).text();
-  const src = css.match(/src: url\((https:[^)]+)\) format\('(?:truetype|opentype)'\)/)?.[1];
-  if (!src) throw new Error(`No TrueType source for ${family} ${weight}`);
-  return (await fetch(src)).arrayBuffer();
+/** TrueType instances for Satori, which can't read the site's woff2 files. */
+const TTF = {
+  'Bricolage Grotesque': 'bricolage-grotesque-800.ttf',
+  'Instrument Sans': 'instrument-sans-500.ttf',
+  'JetBrains Mono': 'jetbrains-mono-500.ttf',
+} as const;
+
+export async function brandFont(family: keyof typeof TTF): Promise<ArrayBuffer> {
+  const file = await readFile(join(process.cwd(), 'assets/fonts', TTF[family]));
+  return file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength) as ArrayBuffer;
 }
 
 /** The site's public URL: GitHub Pages (with base path) until the custom domain is set. */

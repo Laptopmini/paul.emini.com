@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { profile } from '@/content';
-import { brandTokens, googleFont } from './brand';
+import { brandFont, brandTokens } from './brand';
 
 /**
  * The PVM tile (--ink with --ground letters, like the header mark) as a PNG of `px`
@@ -8,7 +8,7 @@ import { brandTokens, googleFont } from './brand';
  * applies its own mask.
  */
 export async function brandTile(px: number, { rounded = true } = {}) {
-  const [t, display] = await Promise.all([brandTokens(), googleFont('Bricolage Grotesque', 800)]);
+  const [t, display] = await Promise.all([brandTokens(), brandFont('Bricolage Grotesque')]);
   return new ImageResponse(
     <div
       style={{
