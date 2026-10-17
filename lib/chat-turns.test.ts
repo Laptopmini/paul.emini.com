@@ -113,6 +113,11 @@ describe('arrangeItems', () => {
     expect(ids(arrangeItems([text('t1'), tool('a')], false))).toEqual(['t1', 'a']);
   });
 
+  it('keeps the follow-ups last when the model wrote after them', () => {
+    const items = [tool('a'), tool('f', 'suggestFollowUps'), text('t')];
+    expect(ids(arrangeItems(items, false))).toEqual(['t', 'a', 'f']);
+  });
+
   it('holds cards back while their text is still on its way', () => {
     expect(ids(arrangeItems([tool('a')], true))).toEqual([]);
     expect(ids(arrangeItems([tool('a'), text('t')], true))).toEqual(['t']);

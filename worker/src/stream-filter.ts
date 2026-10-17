@@ -1,9 +1,12 @@
 // Filters the AG-UI event stream before it reaches the browser:
 // - reasoning events never leave the Worker (the model's private chain of thought);
 // - RUN_STARTED's echo of the server-side input is removed;
+// - RUN_ERROR carries a generic message: provider errors name the provider and the
+//   account's state ("insufficient balance"), which belong in the Worker's logs only;
 // - the turn ends as soon as suggestFollowUps has returned: the Worker sends
-//   RUN_FINISHED itself and cancels the model stream, so nothing the model produces
-//   after the follow-up pills reaches the visitor (or costs more tokens).
+//   RUN_FINISHED itself and stops the run, so nothing the model produces after the
+//   follow-up pills reaches the visitor (or costs more tokens). If the model called it
+//   before writing anything, the turn ends after its first text message instead.
 
 const HIDDEN = /^(REASONING|THINKING)_/;
 const CLOSING_TOOL = 'suggestFollowUps';
@@ -13,22 +16,37 @@ type AgUiEvent = {
   input?: unknown;
   toolCallId?: string;
   toolCallName?: string;
+  delta?: string;
   threadId?: string;
   runId?: string;
 };
 export type Decision = 'keep' | 'drop' | 'finish';
 
+const RUN_ERROR = {
+  type: 'RUN_ERROR',
+  message: 'The agent is unavailable right now.',
+  code: 'agent_unavailable',
+};
+
 export function createEventFilter() {
   let closingCallId: string | undefined;
+  let wroteText = false;
+  let closed = false; // follow-ups returned, waiting for the reply's text
   return (event: AgUiEvent): Decision => {
     const type = event.type ?? '';
     if (HIDDEN.test(type)) return 'drop';
+    if (type === 'TEXT_MESSAGE_CONTENT' && event.delta?.trim()) wroteText = true;
     if (type === 'TOOL_CALL_START' && event.toolCallName === CLOSING_TOOL) {
       closingCallId = event.toolCallId;
     }
     if (type === 'TOOL_CALL_RESULT' && closingCallId && event.toolCallId === closingCallId) {
-      return 'finish';
+      if (wroteText) return 'finish';
+      closed = true;
+      return 'keep';
     }
+    if (closed && type === 'TEXT_MESSAGE_END' && wroteText) return 'finish';
+    // Anything but text after the follow-ups (another tool call) is dropped.
+    if (closed && type.startsWith('TOOL_CALL_')) return 'drop';
     return 'keep';
   };
 }
@@ -88,6 +106,7 @@ export function filterSseStream(
     }
     if (!event) return send(frame);
     if (event.type === 'RUN_STARTED') run = { threadId: event.threadId, runId: event.runId };
+    if (event.type === 'RUN_ERROR') return send(`data: ${JSON.stringify(RUN_ERROR)}`);
 
     const decision = decide(event);
     if (decision === 'drop') return;

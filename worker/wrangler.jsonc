@@ -4,10 +4,12 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
+  // The site calls the agent on its workers.dev URL; per-version preview URLs aren't used.
+  "workers_dev": true,
+  "preview_urls": false,
   "rules": [{ "type": "Text", "globs": ["**/*.md"], "fallthrough": false }],
   "vars": {
     "COPILOTKIT_TELEMETRY_DISABLED": "true",
-    "LLM_PROVIDER": "minimax",
     "ALLOWED_ORIGINS": "https://paul.emini.com,https://laptopmini.github.io"
   },
   "observability": { "enabled": true },
@@ -15,7 +17,6 @@
     "dev": {
       "vars": {
         "COPILOTKIT_TELEMETRY_DISABLED": "true",
-        "LLM_PROVIDER": "minimax",
         "ALLOWED_ORIGINS": "http://localhost:3000,http://localhost:4173"
       }
     }

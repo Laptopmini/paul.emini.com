@@ -17,7 +17,7 @@
       "label": "Agent",
       "points": [
         "CopilotKit's runtime speaks AG-UI from a Cloudflare Worker; the chat is a custom headless UI.",
-        "MiniMax M3 behind a provider adapter, with OpenRouter as the fallback.",
+        "MiniMax M3 through OpenRouter, on a dedicated key with a spend cap and a model allow-list.",
         "Tools read the same typed content the cards render and return ids, so the model never free-writes job titles, dates or quotes.",
         "Recommendation excerpts are only shown if they appear verbatim in the source text."
       ]

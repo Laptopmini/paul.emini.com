@@ -48,6 +48,7 @@ describe('event filter', () => {
         { type: 'REASONING_MESSAGE_CONTENT', delta: 'secret thoughts' },
         { type: 'REASONING_END' },
         { type: 'TEXT_MESSAGE_START' },
+        { type: 'TEXT_MESSAGE_CONTENT', delta: 'Here you go.' },
         { type: 'TEXT_MESSAGE_END' },
         { type: 'TOOL_CALL_START', toolCallId: 'f', toolCallName: 'suggestFollowUps' },
         { type: 'TOOL_CALL_END', toolCallId: 'f' },
@@ -68,6 +69,7 @@ describe('event filter', () => {
     expect(events.map((e) => e.type)).toEqual([
       'RUN_STARTED',
       'TEXT_MESSAGE_START',
+      'TEXT_MESSAGE_CONTENT',
       'TEXT_MESSAGE_END',
       'TOOL_CALL_START',
       'TOOL_CALL_END',
@@ -81,6 +83,45 @@ describe('event filter', () => {
     // from outside (that leaves the runtime's thread marked as running).
     expect(stopped).toEqual({ threadId: 't', runId: 'r' });
     expect(cancelled).toBe(false);
+  });
+
+  it('waits for the reply’s text when the follow-ups came first', async () => {
+    const events = await run([
+      { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+      { type: 'TOOL_CALL_START', toolCallId: 'f', toolCallName: 'suggestFollowUps' },
+      { type: 'TOOL_CALL_END', toolCallId: 'f' },
+      { type: 'TOOL_CALL_RESULT', toolCallId: 'f' },
+      { type: 'TOOL_CALL_START', toolCallId: 'x', toolCallName: 'getSkills' },
+      { type: 'TOOL_CALL_END', toolCallId: 'x' },
+      { type: 'TEXT_MESSAGE_START' },
+      { type: 'TEXT_MESSAGE_CONTENT', delta: 'Here’s where I’m strongest.' },
+      { type: 'TEXT_MESSAGE_END' },
+      { type: 'TEXT_MESSAGE_START' },
+      { type: 'TEXT_MESSAGE_CONTENT', delta: 'One more thing' },
+      { type: 'RUN_FINISHED', threadId: 't', runId: 'r' },
+    ]);
+    expect(events.map((e) => e.type)).toEqual([
+      'RUN_STARTED',
+      'TOOL_CALL_START',
+      'TOOL_CALL_END',
+      'TOOL_CALL_RESULT',
+      'TEXT_MESSAGE_START',
+      'TEXT_MESSAGE_CONTENT',
+      'TEXT_MESSAGE_END',
+      'RUN_FINISHED',
+    ]);
+  });
+
+  it('replaces provider error details with a generic error', async () => {
+    const events = await run([
+      { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+      { type: 'RUN_ERROR', message: 'insufficient balance (1008)' },
+    ]);
+    expect(events.at(-1)).toEqual({
+      type: 'RUN_ERROR',
+      message: 'The agent is unavailable right now.',
+      code: 'agent_unavailable',
+    });
   });
 
   it('passes everything else through, across arbitrary chunk boundaries', async () => {

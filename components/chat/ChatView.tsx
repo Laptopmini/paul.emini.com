@@ -6,7 +6,7 @@ import {
   useCopilotKit,
   useRenderToolCall,
 } from '@copilotkit/react-core/v2';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CardEnter } from '@/components/cards';
 import { ChatDock } from '@/components/landing/ChatDock';
 import { DEFAULT_PERSONA, github, meta, personas } from '@/content';
@@ -111,7 +111,9 @@ export function ChatView({ active }: { active: boolean }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const stickToBottom = useRef(true);
 
-  const turns = useMemo(() => toTurns(agent.messages as MessageLike[]), [agent.messages]);
+  // Not memoized on agent.messages: addMessage mutates that array in place, so a memo
+  // would hide the visitor's question until the reply replaced the array.
+  const turns = toTurns(agent.messages as MessageLike[]);
   const running = agent.isRunning;
 
   const run = useCallback(async () => {

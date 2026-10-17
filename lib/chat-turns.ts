@@ -75,19 +75,23 @@ const isCard = (item: TurnItem) =>
  */
 export function arrangeItems(items: readonly TurnItem[], working: boolean): TurnItem[] {
   const out: TurnItem[] = [];
+  const followUps: TurnItem[] = [];
   let cards: TurnItem[] = [];
   for (const [i, item] of items.entries()) {
+    if (item.kind === 'tool' && !isCard(item)) {
+      followUps.push(item); // always last, even when the model called it before writing
+      continue;
+    }
     if (isCard(item)) {
       cards.push(item);
       continue;
     }
     const streaming = working && i === items.length - 1;
-    if (item.kind === 'text') out.push(item, ...(streaming ? [] : cards));
-    else out.push(...cards, item);
+    out.push(item, ...(streaming ? [] : cards));
     cards = [];
   }
   if (!working) out.push(...cards);
-  return out;
+  return [...out, ...followUps];
 }
 
 const GITHUB = new Set(['getContributions']);

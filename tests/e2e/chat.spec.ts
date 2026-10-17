@@ -119,6 +119,48 @@ test.describe('chat', () => {
     expect(results.violations.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
   });
 
+  test('shows the question right away, before the reply starts', async ({ page }) => {
+    let release = () => {};
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await page.route('**/agent/default/run', async (route) => {
+      await held;
+      await route.continue();
+    });
+    await askFromLanding(page, 'What are your top skills?');
+    const log = page.getByRole('log');
+    await expect(log.getByText('What are your top skills?')).toBeVisible();
+    await expect(log.getByRole('status')).toContainText('Thinking');
+    release();
+    await expect(followUps(page).first()).toBeVisible();
+  });
+
+  test('a failed run keeps the question and offers a retry, without provider details', async ({
+    page,
+  }) => {
+    let fail = true;
+    await page.route('**/agent/default/run', async (route) => {
+      if (!fail) return route.continue();
+      const events = [
+        { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+        { type: 'RUN_ERROR', message: 'The agent is unavailable right now.' },
+      ];
+      await route.fulfill({
+        status: 200,
+        headers: { 'content-type': 'text/event-stream' },
+        body: events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join(''),
+      });
+    });
+    await askFromLanding(page, 'What are your top skills?');
+    const log = page.getByRole('log');
+    await expect(log.getByText('What are your top skills?')).toBeVisible();
+    await expect(log.getByRole('alert')).toContainText('couldn’t answer');
+    fail = false;
+    await log.getByRole('button', { name: 'Try again' }).click();
+    await expect(followUps(page).first()).toBeVisible();
+  });
+
   test('says so when the agent is unreachable', async ({ page, isMobile }) => {
     test.skip(isMobile, 'one viewport is enough; this waits for the connection timeout');
     await page.route('**/api/copilotkit/**', (route) => route.abort());

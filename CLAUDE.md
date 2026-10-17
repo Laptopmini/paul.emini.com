@@ -7,7 +7,7 @@ Personal site + résumé for Paul-Valentin Mini (paul.emini.com), with an agent 
 ## Stack and commands
 
 - Next.js App Router, **static export** (`output: 'export'`), React 19, TypeScript strict. CSS Modules + CSS variables.
-- pnpm workspace: root = site, `/worker` = Cloudflare Worker (CopilotKit runtime, MiniMax via a provider adapter, OpenRouter fallback).
+- pnpm workspace: root = site, `/worker` = Cloudflare Worker (CopilotKit runtime, MiniMax M3 via OpenRouter).
 - `shared/agent.ts` is the tool contract between the Worker and the chat's card renderers. Change both sides together.
 - Biome (lint + format), Vitest (unit), Playwright (e2e).
 
@@ -20,7 +20,7 @@ pnpm typecheck      # tsc --noEmit
 pnpm test           # vitest
 pnpm test:content   # Zod validation of /content
 pnpm test:e2e       # playwright (builds + serves /out)
-pnpm worker:dev     # Worker on :8787 with the real model (forwards only MINIMAX/OPENROUTER keys from your env)
+pnpm worker:dev     # Worker on :8787 with the real model (forwards only OPENROUTER_API_KEY from your env)
 pnpm worker:mock    # Worker on :8787 with the scripted mock model (no keys)
 ```
 
@@ -58,5 +58,5 @@ Accessibility is non-negotiable:
 
 ## Working rules
 
-- Ask before anything needing an account or secret (DNS, GitHub Pages settings, Cloudflare, MiniMax/OpenRouter keys).
+- Ask before anything needing an account or secret (DNS, GitHub Pages settings, Cloudflare, OpenRouter keys).
 - Verify package versions at install time; prefer latest stable.

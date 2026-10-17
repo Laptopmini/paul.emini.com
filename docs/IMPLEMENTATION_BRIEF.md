@@ -21,7 +21,7 @@ Reference designs live in `docs/design/*.dc.html` (exported from the design canv
 - **Input:** text only, no attachments, `maxlength=400` with a visible counter.
 - **Persona toggle:** `Friend` (default) · `Recruiter` · `Engineer`, introduced by the lead-in "Answer as if I'm a". Each persona has its own suggested prompts (below).
 - **Job-fit check:** post-launch backlog, not v1.
-- **LLM:** MiniMax (Paul's non-commercial subscription) as primary, behind a provider adapter. OpenRouter (dedicated key + hard spend cap) as fallback.
+- **LLM:** MiniMax M3 through OpenRouter, on a dedicated key with a hard spend cap and a model allow-list (MiniMax M3, MiMo-V2.6-Flash, Ling 3.1 Flash). Measured cost: about $0.001 per question.
 
 ## 2. Stack
 
@@ -206,15 +206,25 @@ Offer `draftContactEmail` proactively when the visitor:
 
 ### Misuse prevention (layered, cheapest first)
 
-1. **Input:** text only, 400 chars, at most ~20 turns per session, a per-IP daily limit, Turnstile.
+1. **Input:** text only, 400 chars, Turnstile, and **25 questions per visitor per day** (counted per hashed IP, reset at midnight UTC). A typical visit is 3–8 questions, so 25 leaves plenty of room; at ~$0.0013 a question, one visitor's worst day is about $0.03.
+   - From 5 questions left, the chat shows "N questions left today" under the dock.
+   - At the limit the Worker doesn't call the model. It sends a fixed reply in Paul's voice ("That's all I can answer today, but the real me is happy to keep going") with the `ContactHandoff` card and the résumé PDF link, and says when questions reset.
 2. **Topic gate:** a cheap classification call (or embedding similarity against `/content`) before the main model. Off-topic messages get the canned `OffTopicRedirect` reply with pills, and the main model is never called.
 3. **Agent:** a scoped system prompt, tool-first answers, and a max output token cap.
-4. **Global daily cap:** when it's reached, show the `AgentResting` state. The rest of the site still works, and there's a browse-the-content fallback.
+4. **Global daily cap:** 1,000 questions a day (about $1.30, so roughly $40 a month at most). When it's reached, show the `AgentResting` state, which also offers the email draft. The rest of the site still works, and there's a browse-the-content fallback. The OpenRouter key's own spend cap is the last backstop.
 5. **Evals in CI:** Playwright and Vitest suites with off-topic, jailbreak and boundary prompts. The build fails on regression.
 
-### Provider adapter
+### Model provider
 
-One interface with MiniMax and OpenRouter implementations, chosen by env. API keys are Worker secrets only, never in the repo or the client bundle.
+OpenRouter only (`LLM_PROVIDER=mock` swaps in the scripted model for tests). The model id is `LLM_MODEL`, limited to the key's allow-list. API keys are Worker secrets only, never in the repo or the client bundle.
+
+**Owner alerts.** When OpenRouter fails (out of credits, spend cap hit, key rejected, rate-limited, outage), the chat shows `AgentResting`. The Worker keeps provider health in KV or the quota Durable Object and sends Paul a push notification through ntfy only when the state changes, not on every failed request:
+- the agent is down, with the error class and status code
+- recovered
+- a daily Cron Trigger warns when the key's remaining credit (`GET /api/v1/key`) runs low, before it runs out
+- optional: if one model keeps failing, retry on another model from the allow-list
+
+The ntfy topic URL (unguessable, or protected with an access token) is a Worker secret. Never put keys, prompts or visitor text in a notification.
 
 ## 8. Accessibility & quality bar
 
@@ -233,7 +243,7 @@ One interface with MiniMax and OpenRouter implementations, chosen by env. API ke
 3. **Landing:** hero, contact links, timeline strata with scroll-driven parallax, persona toggle, pills, dock. Match `Main.dc.html`.
 4. **Cards:** every component in `Catalogue.dc.html`, with a Storybook-like `/dev/cards` route (excluded from the production build).
 5. **Worker spike, then the agent:** CopilotKit runtime on Workers, tools, personas, generative UI renders, the landing → chat view transition. Match `Chat.dc.html` and `Mobile.dc.html`.
-6. **Guardrails:** topic gate, quotas, Turnstile, resting state, eval suite.
+6. **Guardrails:** topic gate, quotas, Turnstile, resting state, eval suite, provider failover with ntfy alerts.
 7. **GitHub job:** `fetch-github.ts` and the daily Action.
 8. **Polish:** motion pass, accessibility audit, Lighthouse, OG image, favicon (PVM tile).
 
