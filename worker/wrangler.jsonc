@@ -15,7 +15,7 @@
     "ALLOWED_ORIGINS": "https://paul.emini.com,https://laptopmini.github.io",
     "VISITOR_DAILY_LIMIT": "25",
     "GLOBAL_DAILY_LIMIT": "1000",
-    "GITHUB_DATA_URL": "https://laptopmini.github.io/paul.emini.com/github.json"
+    "GITHUB_DATA_URL": "https://paul.emini.com/github.json"
   },
   "durable_objects": { "bindings": [{ "name": "GUARD", "class_name": "GuardState" }] },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["GuardState"] }],
