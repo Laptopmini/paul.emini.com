@@ -6,12 +6,12 @@ import {
   useCopilotKit,
   useRenderToolCall,
 } from '@copilotkit/react-core/v2';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { CardEnter } from '@/components/cards';
 import { ChatDock } from '@/components/landing/ChatDock';
 import { DEFAULT_PERSONA, github, meta, personas } from '@/content';
 import { personaIds } from '@/content/schema';
-import { setTurnstileSlot } from '@/lib/agent-session';
+import { isHumanCheckShown, onHumanCheckChange, setTurnstileSlot } from '@/lib/agent-session';
 import { takePending, useChatState } from '@/lib/chat-store';
 import {
   arrangeItems,
@@ -118,6 +118,7 @@ export function ChatView({ active }: { active: boolean }) {
   const [failedTurn, setFailedTurn] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState(false);
   const [quota, setQuota] = useState<QuotaValue | null>(null);
+  const humanCheck = useSyncExternalStore(onHumanCheckChange, isHumanCheckShown, () => false);
   const { pending } = useChatState();
   const inputRef = useRef<HTMLInputElement>(null);
   const stickToBottom = useRef(true);
@@ -157,11 +158,12 @@ export function ChatView({ active }: { active: boolean }) {
     if (prompt) ask(prompt);
   }, [pending, isReady, ask]);
 
+  // Waiting on the visitor to tick Turnstile's box isn't the agent being unreachable.
   useEffect(() => {
-    if (isReady) return;
+    if (isReady || humanCheck) return;
     const timer = window.setTimeout(() => setUnavailable(true), READY_TIMEOUT_MS);
     return () => window.clearTimeout(timer);
-  }, [isReady]);
+  }, [isReady, humanCheck]);
 
   useEffect(() => {
     if (active) inputRef.current?.focus({ preventScroll: true });
@@ -218,14 +220,17 @@ export function ChatView({ active }: { active: boolean }) {
               </div>
             ))}
             {turns.length === 0 && !unavailable && (
-              <p className={styles.working} role="status">
-                <span className={styles.dots} aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </span>
-                Connecting…
-              </p>
+              <div className={styles.turn}>
+                {pending && <UserBubble text={pending.prompt} />}
+                <p className={styles.working} role="status">
+                  <span className={styles.dots} aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                  </span>
+                  {humanCheck ? 'One quick check: tick the box below to start.' : 'Connecting…'}
+                </p>
+              </div>
             )}
             {unavailable && !isReady && (
               <div className={styles.error} role="alert">

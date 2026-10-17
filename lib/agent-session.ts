@@ -12,6 +12,8 @@ type TurnstileApi = {
       appearance: 'interaction-only';
       callback: (token: string) => void;
       'error-callback': () => void;
+      'before-interactive-callback': () => void;
+      'after-interactive-callback': () => void;
     },
   ) => string;
   remove: (widgetId: string) => void;
@@ -34,6 +36,22 @@ let pending: Promise<string> | null = null;
 let script: Promise<TurnstileApi> | null = null;
 let slot: HTMLElement | null = null;
 let slotWaiters: ((el: HTMLElement) => void)[] = [];
+
+/** True while Turnstile waits for the visitor to tick its box (most never see it). */
+let checking = false;
+const checkListeners = new Set<() => void>();
+function setChecking(value: boolean) {
+  if (checking === value) return;
+  checking = value;
+  for (const listener of checkListeners) listener();
+}
+export const isHumanCheckShown = () => checking;
+export function onHumanCheckChange(listener: () => void) {
+  checkListeners.add(listener);
+  return () => {
+    checkListeners.delete(listener);
+  };
+}
 
 /** Where a Turnstile challenge appears if Cloudflare asks the visitor to interact. */
 export function setTurnstileSlot(el: HTMLElement | null) {
@@ -70,13 +88,17 @@ async function turnstileToken(): Promise<string> {
       sitekey: TURNSTILE_SITE_KEY,
       appearance: 'interaction-only',
       callback: (token) => {
+        setChecking(false);
         turnstile.remove(id);
         resolve(token);
       },
       'error-callback': () => {
+        setChecking(false);
         turnstile.remove(id);
         reject(new Error('Turnstile check failed'));
       },
+      'before-interactive-callback': () => setChecking(true),
+      'after-interactive-callback': () => setChecking(false),
     });
   });
 }
