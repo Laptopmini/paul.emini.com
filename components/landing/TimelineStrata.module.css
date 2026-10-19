@@ -1,5 +1,12 @@
-.strata {
+.wrap {
   flex: 1 1 380px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.strata {
   min-width: 0;
   margin: 0;
   padding: 0;
@@ -10,11 +17,6 @@
 }
 
 .item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 18px 20px;
   border-radius: 16px;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -22,8 +24,40 @@
   transition: box-shadow var(--duration) var(--ease);
 }
 
+/* The whole row is the link to its part of the résumé. */
+.link {
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: inherit;
+}
+
 .item:hover {
   box-shadow: var(--shadow-card);
+}
+
+.full {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--target-min);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--accent-strong);
+}
+
+.full svg {
+  transition: transform var(--duration) var(--ease);
+}
+
+@media (hover: hover) {
+  .full:hover svg {
+    transform: translate(2px, -2px);
+  }
 }
 
 .eyebrow {
@@ -62,8 +96,11 @@
   color: var(--on-ink-2);
 }
 
-.earlier {
+.earlier .link {
   padding-block: 14px;
+}
+
+.earlier {
   background: transparent;
   border-style: dashed;
   border-color: var(--line-dashed);
@@ -102,5 +139,10 @@
 @media (max-width: 640px) {
   .strata {
     display: none;
+  }
+
+  /* Phones skip the timeline; the link to the résumé stays, under the contact links. */
+  .full {
+    align-self: flex-start;
   }
 }

@@ -10,22 +10,28 @@ import s from './cards.module.css';
 
 /**
  * A recommendation with the excerpt the agent picked for the question. The excerpt is
- * only shown if it's verbatim from the source; the full text expands inline.
+ * only shown if it's verbatim from the source; the full text expands inline. `full`
+ * (the /resume page) shows the full text from the start, with no toggle.
  */
 export function Recommendation({
   recommendation: r,
   excerpt,
+  full = false,
+  id,
 }: {
   recommendation: RecommendationEntry;
   excerpt?: string;
+  full?: boolean;
+  id?: string;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [toggled, setExpanded] = useState(false);
+  const expanded = full || toggled;
   const fullId = useId();
   const quote = pickExcerpt(r, excerpt);
   const paragraphs = r.body.split(/\n\s*\n/);
 
   return (
-    <Card as="figure">
+    <Card as="figure" id={id}>
       <blockquote className={s.quote} cite={r.linkedin}>
         <p>“{quote}”</p>
       </blockquote>
@@ -38,15 +44,17 @@ export function Recommendation({
           ))}
         </div>
       )}
-      <button
-        type="button"
-        className={s.linkButton}
-        aria-expanded={expanded}
-        aria-controls={fullId}
-        onClick={() => setExpanded((v) => !v)}
-      >
-        {expanded ? 'Show less' : 'Read the full recommendation'}
-      </button>
+      {!full && (
+        <button
+          type="button"
+          className={s.linkButton}
+          aria-expanded={expanded}
+          aria-controls={fullId}
+          onClick={() => setExpanded((v) => !v)}
+        >
+          {expanded ? 'Show less' : 'Read the full recommendation'}
+        </button>
+      )}
       <figcaption className={s.caption}>
         <span className={s.avatar} aria-hidden="true">
           {initials(r.name)}

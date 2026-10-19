@@ -3,13 +3,15 @@ import {
   type Contribution,
   contributionDetail,
   contributionStatus,
+  formatDate,
   formatRelative,
 } from '@/lib/cards';
 import { Card } from './Card';
 import s from './cards.module.css';
 
 /** PRs and issues on repos Paul doesn't own, from the daily GitHub cache. */
-export function Contributions({ items, now }: { items: Contribution[]; now: Date }) {
+/** `now` gives relative times ("3 d ago"); without it (static pages), plain dates. */
+export function Contributions({ items, now }: { items: Contribution[]; now?: Date }) {
   return (
     <Card as="section" aria-label="Open source contributions" className={s.listCard}>
       {items.length === 0 ? (
@@ -30,7 +32,7 @@ export function Contributions({ items, now }: { items: Contribution[]; now: Date
                   </p>
                 </div>
                 <time className={s.mono} dateTime={c.updatedAt}>
-                  {formatRelative(c.updatedAt, now)}
+                  {now ? formatRelative(c.updatedAt, now) : formatDate(c.updatedAt)}
                 </time>
               </li>
             );

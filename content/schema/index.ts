@@ -135,6 +135,8 @@ export const recommendationSchema = z.strictObject({
   body: text,
 });
 export const recommendationsSchema = z.array(recommendationSchema).min(1);
+/** Site copy: one sentence per recommendation, copied word for word, shown above the full text on /resume. */
+export const recommendationHighlightsSchema = z.record(id, text);
 
 /**
  * Long-form write-ups of one piece of work, synced from my-resume `case-studies/*.md`

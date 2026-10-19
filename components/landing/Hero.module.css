@@ -34,6 +34,28 @@
   color: var(--ink-2);
 }
 
+.proof {
+  margin: 18px 0 0;
+  max-width: 620px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.proofLink {
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--duration) var(--ease);
+}
+
+@media (hover: hover) {
+  .proofLink:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
 @media (max-width: 640px) {
   .title {
     font-size: 52px;

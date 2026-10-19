@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import type { CSSProperties } from 'react';
+import { Icon } from '@/components/Icon';
 import { experience, projects } from '@/lib/content';
 import { buildStrata } from '@/lib/strata';
 import styles from './TimelineStrata.module.css';
@@ -11,29 +13,36 @@ export function TimelineStrata() {
   const strata = buildStrata(projects, experience);
 
   return (
-    <ol className={styles.strata} aria-label="Recent timeline">
-      {strata.map((s, i) => (
-        <li
-          key={s.key}
-          className={`${styles.item} ${styles[s.kind]}`}
-          style={{ '--x': `${OFFSETS[i] ?? 0}px`, '--depth': DEPTHS[i] ?? 0 } as CSSProperties}
-        >
-          {s.kind === 'earlier' ? (
-            <>
-              <span className={styles.eyebrow}>{s.eyebrow}</span>
-              <span className={styles.detail}>{s.detail}</span>
-            </>
-          ) : (
-            <>
-              <span>
-                <span className={styles.eyebrow}>{s.eyebrow}</span>
-                <span className={styles.title}>{s.title}</span>
-              </span>
-              <span className={styles.detail}>{s.detail}</span>
-            </>
-          )}
-        </li>
-      ))}
-    </ol>
+    <div className={styles.wrap}>
+      <ol className={styles.strata} aria-label="Recent timeline">
+        {strata.map((s, i) => (
+          <li
+            key={s.key}
+            className={`${styles.item} ${styles[s.kind]}`}
+            style={{ '--x': `${OFFSETS[i] ?? 0}px`, '--depth': DEPTHS[i] ?? 0 } as CSSProperties}
+          >
+            <Link href={s.href} className={styles.link}>
+              {s.kind === 'earlier' ? (
+                <>
+                  <span className={styles.eyebrow}>{s.eyebrow}</span>
+                  <span className={styles.detail}>{s.detail}</span>
+                </>
+              ) : (
+                <>
+                  <span>
+                    <span className={styles.eyebrow}>{s.eyebrow}</span>
+                    <span className={styles.title}>{s.title}</span>
+                  </span>
+                  <span className={styles.detail}>{s.detail}</span>
+                </>
+              )}
+            </Link>
+          </li>
+        ))}
+      </ol>
+      <Link href="/resume/" className={styles.full}>
+        Full résumé <Icon name="arrowUpRight" size={16} />
+      </Link>
+    </div>
   );
 }

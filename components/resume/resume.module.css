@@ -1,0 +1,291 @@
+/* /resume and /work/*: a readable document on the site's tokens. */
+
+.page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 16px 48px 96px;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--line);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.role {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--accent-strong);
+}
+
+.summary,
+.text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--target-min);
+  padding: 0 20px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.primary {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.secondary {
+  border: 1.5px solid var(--ink);
+}
+
+.primary:active,
+.secondary:active {
+  transform: scale(0.96);
+}
+
+@media (hover: hover) {
+  .secondary:hover {
+    background: var(--ink);
+    color: var(--ground);
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 56px;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.teaser {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+  border-radius: var(--radius-card);
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.teaser p {
+  color: var(--on-ink-2);
+}
+
+.mention {
+  gap: 14px;
+}
+
+.mention blockquote {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Full-text recommendations read better one per row. */
+.stackList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mentionCaption {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px 0;
+  border-top: 1px solid var(--divider);
+  scroll-margin-top: 24px;
+}
+
+.entry:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.entryHead {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.entryTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.entryMeta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.stack {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.related {
+  margin: 0;
+  font-size: 15px;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--target-min);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--accent-strong);
+}
+
+.teaser .more {
+  color: var(--ground);
+}
+
+.more svg {
+  transition: transform var(--duration) var(--ease);
+}
+
+@media (hover: hover) {
+  .more:hover svg {
+    transform: translate(2px, -2px);
+  }
+}
+
+.skills {
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.skills dt {
+  font-weight: 600;
+}
+
+.skills dd {
+  margin: 4px 0 0;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.plain {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 8px 20px 72px;
+  }
+
+  .name {
+    font-size: 44px;
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+}
+
+.caseTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+@media (max-width: 640px) {
+  .caseTitle {
+    font-size: 34px;
+  }
+}

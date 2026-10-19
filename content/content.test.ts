@@ -98,6 +98,16 @@ describe('content', () => {
     }
   });
 
+  it('recommendation highlights are verbatim sentences, one per recommendation', () => {
+    const highlights = JSON.parse(
+      readFileSync(join(dir, 'recommendation-highlights.json'), 'utf8'),
+    );
+    expect(Object.keys(highlights).sort()).toEqual(recommendations.map((r) => r.id).sort());
+    for (const r of recommendations) {
+      expect(r.body.replace(/\s+/g, ' ')).toContain(highlights[r.id]);
+    }
+  });
+
   it('every mention names Paul and only Paul', () => {
     // Quotes keep only Paul's name: other people credited in the same post are left out.
     const others = recommendations.map((r) => r.name);

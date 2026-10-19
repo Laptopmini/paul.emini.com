@@ -6,7 +6,12 @@ import { buildStrata } from './strata';
 describe('buildStrata', () => {
   it('matches the landing board from current content', () => {
     expect(buildStrata(projects, experience)).toEqual([
-      expect.objectContaining({ kind: 'feature', title: 'Ragoût', eyebrow: 'Jun 2026 · Project' }),
+      expect.objectContaining({
+        kind: 'feature',
+        title: 'Ragoût',
+        eyebrow: 'Jun 2026 · Project',
+        href: '/resume/#ragout',
+      }),
       expect.objectContaining({
         kind: 'entry',
         title: 'Ralph-node',
@@ -17,10 +22,12 @@ describe('buildStrata', () => {
         title: 'SmartThings',
         eyebrow: '2020 – 2026',
         detail: 'Senior Software Developer',
+        href: '/resume/#smartthings',
       }),
       {
         kind: 'earlier',
         key: 'earlier',
+        href: '/resume/#samsung-research-america',
         eyebrow: '2015 – 2020',
         detail: 'Samsung · Prism · Imprivata',
       },

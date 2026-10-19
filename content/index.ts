@@ -9,6 +9,7 @@ import metaJson from './meta.json';
 import personasJson from './personas.json';
 import profileJson from './profile.json';
 import projectsJson from './projects.json';
+import recommendationHighlightsJson from './recommendation-highlights.json';
 import recommendationsMd from './recommendations.md';
 import {
   awardsSchema,
@@ -22,6 +23,7 @@ import {
   personasSchema,
   profileSchema,
   projectsSchema,
+  recommendationHighlightsSchema,
   siteSchema,
   skillsSchema,
 } from './schema';
@@ -51,3 +53,6 @@ export const DEFAULT_PERSONA = 'visitor' as const;
 export type * from './schema';
 export { parseRecommendations } from './schema/recommendations';
 export const recommendations = parseRecommendations(recommendationsMd);
+export const recommendationHighlights = recommendationHighlightsSchema.parse(
+  recommendationHighlightsJson,
+);
