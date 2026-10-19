@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Résumé · Paul-Valentin Mini — desktop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{--accent:#2448E5;--accent-strong:color-mix(in oklch,var(--accent) 75%,black);--accent-tint:color-mix(in oklch,var(--accent) 12%,white);--accent-ring:color-mix(in oklch,var(--accent) 22%,transparent);--ground:#EDEFEA;--surface:#FFFFFF;--ink:#121614;--ink-2:#2E3532;--muted:#4C5450;--line:#D5D9D3;--line-2:#C6CCC7;--divider:#E3E6E1;--chip:#E1E4DF;--on-ink-muted:#A9B2AD;--on-ink-2:#C9D0CC;--ok-bg:#E7F4EC;--ok-fg:#0E6B45;--warn-bg:#FDEEE4;--warn-fg:#9A3A0A;--display:'Bricolage Grotesque',sans-serif;--body:'Instrument Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+body{margin:0;background:var(--ground)}
+a{color:var(--ink);text-decoration:none}a:hover{color:var(--accent)}
+*{box-sizing:border-box}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+a,button,.lift{transition:transform .18s ease,background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .2s ease}
+.wrap{width:100%;max-width:1340px;margin:0 auto;padding-left:48px;padding-right:48px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted);margin:0}
+.h2{margin:0;font-family:var(--display);font-weight:800;font-size:36px;letter-spacing:-.02em}
+.sec{display:flex;flex-direction:column;gap:24px;padding-top:88px;scroll-margin-top:96px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px}
+.lift:hover{transform:translateY(-3px);border-color:#9AA39E;box-shadow:0 16px 36px rgba(18,22,20,.10)}
+.chip{display:inline-flex;align-items:center;padding:5px 10px;border-radius:8px;background:var(--ground);font-size:13px}
+.chip.on{background:var(--ink);color:#fff}
+.pillbtn{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 20px;border-radius:999px;font-weight:600;font-size:15px;border:1.5px solid var(--ink);cursor:pointer;font-family:var(--body)}
+.pillbtn.solid{background:var(--ink);color:var(--ground)}
+.pillbtn.solid:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.pillbtn.ghost{background:transparent;color:var(--ink)}
+.pillbtn.ghost:hover{background:var(--ink);color:var(--ground)}
+.pillbtn:active,.ctl:active{transform:scale(.96)}
+.more{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:600;font-size:15px;color:var(--accent)}
+.more svg{transition:transform .18s ease}.more:hover svg{transform:translate(2px,-2px)}
+/* layout */
+.cols{display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start}
+.rail{flex:0 0 220px;position:sticky;top:96px}
+.content{flex:999 1 640px;min-width:0}
+.toc a{display:flex;align-items:center;gap:12px;min-height:40px;padding-left:14px;border-left:2px solid var(--line);color:var(--muted);font-size:15px;font-weight:500}
+.toc a:hover{color:var(--ink);border-color:var(--ink-2)}
+.toc a[aria-current=true]{color:var(--ink);border-color:var(--accent);font-weight:600}
+.toc .n{font-family:var(--mono);font-size:11px;color:var(--muted)}
+/* experience timeline */
+.tl{position:relative;display:flex;flex-direction:column}
+.tl::before{content:"";position:absolute;left:131px;top:10px;bottom:10px;width:2px;background:linear-gradient(var(--accent) 0 38%,var(--line) 38% 100%);border-radius:2px}
+.role{display:grid;grid-template-columns:120px 24px minmax(0,1fr);column-gap:0;padding-bottom:20px}
+.role .when{padding-top:22px;text-align:right;padding-right:6px}
+.role .node{position:relative}
+.role .node::after{content:"";position:absolute;left:5px;top:26px;width:12px;height:12px;border-radius:50%;background:var(--ground);border:2px solid var(--accent)}
+.role.past .node::after{border-color:var(--line-2)}
+.role details{padding:20px 24px}
+.role summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.role summary::-webkit-details-marker{display:none}
+.role .chev{flex:none;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--ground);transition:transform .2s ease}
+.role details[open] .chev{transform:rotate(180deg)}
+.role ul{margin:16px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.55;color:var(--ink-2)}
+.role .stack{margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
+/* carousel */
+.viewport{overflow:hidden;border-radius:22px;padding:4px 0}
+.track{display:flex;gap:20px;transition:transform .6s cubic-bezier(.2,.7,.1,1)}
+.rec{flex:0 0 min(760px,86%);display:flex;flex-direction:column;gap:20px;padding:32px;min-height:440px}
+.rec mark{background:linear-gradient(var(--accent-tint),var(--accent-tint));color:var(--ink);padding:0 2px;border-radius:3px}
+.ctl{width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink)}
+.ctl:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dot{position:relative;height:8px;width:8px;border-radius:999px;border:0;padding:0;background:var(--line-2);cursor:pointer;overflow:hidden;transition:width .3s ease}
+.dot[aria-current=true]{width:44px;background:var(--line)}
+.dot .fill{position:absolute;inset:0;width:0;background:var(--accent)}
+.dot[aria-current=true] .fill{animation:fill 7s linear forwards}
+.carousel[data-paused=true] .dot .fill{animation-play-state:paused}
+.dotwrap{display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;background:transparent;cursor:pointer}
+@keyframes fill{to{width:100%}}
+.status{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:24px;margin-top:1px;padding:0 10px;border-radius:999px;font-family:var(--mono);font-size:12px;line-height:1;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.track{transition:none}.dot[aria-current=true] .fill{animation:none;width:100%}.lift:hover{transform:none}}
+@media (max-width:900px){.rail{display:none}.wrap{padding-left:20px;padding-right:20px}.hero-name{font-size:56px !important}.tl::before{left:11px}.role{grid-template-columns:24px minmax(0,1fr)}.role .when{display:none}}
+</style>
+</helmet>
+<div style="min-height: 5600px; font-family: var(--body); color: var(--ink); background: var(--ground); padding-bottom: 120px">
+
+<header style="position: sticky; top: 0; z-index: 5; background: rgba(237,239,234,0.86); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line)">
+<div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 12px; padding-bottom: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; border-radius: 11px; background: var(--ink); color: var(--ground); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; font-size: 13px; letter-spacing: 0.02em">PVM</span>
+<span style="font-family: var(--display); font-weight: 700; font-size: 17px">Paul‑Valentin Mini</span>
+</a>
+<nav aria-label="Site" style="display: flex; align-items: center; gap: 6px">
+<a href="#" aria-current="page" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 12px; font-weight: 600; font-size: 15px; background: var(--chip)">Résumé</a>
+<a href="CaseStudyDesktop.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 12px; font-weight: 500; font-size: 15px">Case study</a>
+<a href="Main.dc.html" style="margin-left: 8px; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--ink); color: #FFFFFF; font-weight: 600; font-size: 14px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20l1-5.2A8 8 0 1 1 21 12z"/></svg>Ask my agent</a>
+</nav>
+</div>
+</header>
+
+<main class="wrap">
+
+<section aria-labelledby="name" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 56px; align-items: end; padding-top: 72px; padding-bottom: 64px; border-bottom: 1px solid var(--line)">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<p class="mono" style="display: flex; align-items: center; gap: 10px; font-size: 14px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>San Francisco, CA</p>
+<h1 id="name" class="hero-name" style="margin: 0; font-family: var(--display); font-weight: 800; font-size: 88px; line-height: 0.95; letter-spacing: -0.035em">Paul‑Valentin<br>Mini</h1>
+<p style="margin: 0; font-size: 24px; font-weight: 600; color: var(--accent-strong)">Senior Software Developer</p>
+<p style="margin: 0; max-width: 640px; font-size: 18px; line-height: 1.6; color: var(--ink-2)">Senior Software Developer with 10+ years of experience building at a global scale. Expert in React, Next.js, and modern JavaScript ecosystems, with a proven track record of overhauling developer consoles and building robust internal component libraries. Today I work across both halves of that stack: shipping production frontend at scale while applying deep expertise in Applied AI, Prompt Engineering, and LLM integrations.</p>
+</div>
+<aside aria-label="At a glance" class="card" style="padding: 28px; display: flex; flex-direction: column; gap: 22px">
+<dl style="margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px">
+<div><dt class="mono">EXPERIENCE</dt><dd style="margin: 4px 0 0; font-family: var(--display); font-weight: 800; font-size: 40px; letter-spacing: -0.02em">10+ yrs</dd></div>
+<div><dt class="mono">MOST RECENT</dt><dd style="margin: 4px 0 0; font-weight: 600; font-size: 17px; line-height: 1.35">SmartThings<br><span style="font-weight: 400; color: var(--muted); font-size: 15px">2020 – 2026</span></dd></div>
+<div><dt class="mono">FOCUS</dt><dd style="margin: 4px 0 0; font-size: 15px; line-height: 1.45">React · Next.js · Generative UI · Applied AI</dd></div>
+<div><dt class="mono">OPEN SOURCE</dt><dd style="margin: 4px 0 0; font-size: 15px; line-height: 1.45">CopilotKit · AG‑UI · LlamaIndex</dd></div>
+</dl>
+<nav aria-label="Contact" style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 18px; border-top: 1px solid var(--divider)">
+<a href="mailto:paul@emini.com" class="lift" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); font-size: 14px; font-weight: 500"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>paul@emini.com</a>
+<a href="https://www.linkedin.com/in/pvmini" class="lift" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); font-size: 14px; font-weight: 500">LinkedIn</a>
+<a href="https://github.com/Laptopmini" class="lift" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); font-size: 14px; font-weight: 500">GitHub</a>
+</nav>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<a href="#" class="pillbtn solid"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Download PDF</a>
+<a href="Main.dc.html" class="pillbtn ghost">Ask my agent instead</a>
+</div>
+</aside>
+</section>
+
+<div class="cols">
+<nav class="rail toc" aria-label="On this page" style="padding-top: 88px">
+<p class="mono" style="margin-bottom: 12px">ON THIS PAGE</p>
+<a href="#highlights"><span class="n">01</span>Highlights</a>
+<a href="#experience" aria-current="true"><span class="n">02</span>Experience</a>
+<a href="#projects"><span class="n">03</span>Projects</a>
+<a href="#skills"><span class="n">04</span>Skills</a>
+<a href="#recommendations"><span class="n">05</span>Recommendations</a>
+<a href="#education"><span class="n">06</span>Education</a>
+<a href="#open-source"><span class="n">07</span>Open source</a>
+<div style="margin-top: 20px; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden" aria-hidden="true"><div style="width: 28%; height: 100%; background: var(--accent)"></div></div>
+<p class="mono" style="margin-top: 8px">Reading progress</p>
+</nav>
+
+<div class="content">
+
+<section id="highlights" class="sec" aria-labelledby="h-highlights">
+<h2 id="h-highlights" class="h2">Highlights</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px">
+<article class="lift" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 28px; padding: 32px; border-radius: 18px; background: var(--ink); color: var(--ground)">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<p class="mono" style="color: var(--on-ink-muted)">CASE STUDY · SMARTTHINGS · SEP 2025 – JAN 2026</p>
+<h3 style="margin: 0; font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1.08; letter-spacing: -0.02em">The Unified Journey: rebuilding how partners onboard products on SmartThings</h3>
+<a href="CaseStudyDesktop.dc.html" class="more" style="color: #FFFFFF">Read the case study <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+</div>
+<div style="display: flex; flex-direction: column; justify-content: space-between; gap: 20px">
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: var(--on-ink-2)">One overgrown form became a guided, modular journey other teams can extend. Every partner moved to it with zero breakage, and it shipped as the redesigned Developer Center.</p>
+<dl style="margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.14)">
+<div><dt class="mono" style="color: var(--on-ink-muted)">PARTNERS</dt><dd style="margin: 2px 0 0; font-family: var(--display); font-weight: 800; font-size: 28px">120+</dd></div>
+<div><dt class="mono" style="color: var(--on-ink-muted)">PROTOCOLS</dt><dd style="margin: 2px 0 0; font-family: var(--display); font-weight: 800; font-size: 28px">12</dd></div>
+<div><dt class="mono" style="color: var(--on-ink-muted)">BREAKAGE</dt><dd style="margin: 2px 0 0; font-family: var(--display); font-weight: 800; font-size: 28px">Zero</dd></div>
+</dl>
+</div>
+</article>
+<figure class="card lift" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<p class="mono">PUBLIC MENTION · MAR 2026</p>
+<blockquote style="margin: 0; font-family: var(--display); font-weight: 500; font-size: 19px; line-height: 1.4">“The SmartThings Developer Center has been redesigned from the ground up, bringing the full integration journey for our partners into a single, unified console.”</blockquote>
+<figcaption style="font-size: 14px; color: var(--muted)"><strong style="color: var(--ink)">Mark Benson</strong>, Head of SmartThings at Samsung · <a href="https://www.linkedin.com/feed/update/urn:li:activity:7442232066680741889/" style="color: var(--accent); font-weight: 600">LinkedIn post</a></figcaption>
+</figure>
+<article class="card lift" style="padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; justify-content: space-between"><p class="mono">AWARD · SMARTTHINGS · JUN 2026</p><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg></div>
+<h3 style="margin: 0; font-family: var(--display); font-weight: 700; font-size: 22px; line-height: 1.2">Living Our Values (L.O.V.) Award</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-2)">Given to a foundational pillar of the team — the steady, dependable force that consistently delivers outcomes that matter.</p>
+</article>
+</div>
+</section>
+
+<section id="experience" class="sec" aria-labelledby="h-experience">
+<div class="sec-head"><h2 id="h-experience" class="h2">Experience</h2><p class="mono">5 ROLES · 2015 – 2026</p></div>
+<div class="tl">
+<article class="role">
+<p class="mono when">2020 – 2026<br>6 yr 6 mo</p><span class="node" aria-hidden="true"></span>
+<details open class="card">
+<summary><div><h3 style="margin: 0; font-family: var(--display); font-weight: 700; font-size: 24px">SmartThings, Inc.</h3><p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2)">Senior Software Developer · San Francisco, CA</p></div><span class="chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+<ul>
+<li><strong>Frontend Architecture &amp; Global Leadership:</strong> Lead developer for the SmartThings Developer Console, unifying UX across multiple web products while partnering with global teams (Poland, Indonesia, Korea).</li>
+<li><strong>AI Integration &amp; Tooling:</strong> Designated power user in the company’s AI pilot program; engineered a template repository of AI-driven prompts and skills to bootstrap product integrations.</li>
+<li><strong>End-to-End Product Leadership:</strong> Initiated and led the complete refactoring of the onboarding experience, from proof-of-concept to production. <a href="CaseStudyDesktop.dc.html" style="color: var(--accent); font-weight: 600">Read the case study →</a></li>
+<li><strong>Developer Experience (DX) Infrastructure:</strong> Built a React component library enforcing Samsung’s One Design guidelines, with zero-break global NPM releases and an SDK autogenerated from OpenAPI.</li>
+</ul>
+<p class="stack">JavaScript · TypeScript · React · Next.js · Docker · Spinnaker · Kubernetes · Terraform · GitHub Actions · Jenkins · Copilot · Claude · Gemini · Python</p>
+</details>
+</article>
+<article class="role past">
+<p class="mono when">2018 – 2020<br>1 yr 10 mo</p><span class="node" aria-hidden="true"></span>
+<details open class="card">
+<summary><div><h3 style="margin: 0; font-family: var(--display); font-weight: 700; font-size: 24px">Samsung Research America</h3><p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2)">Software Developer · San Francisco, CA</p></div><span class="chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+<ul>
+<li><strong>Frontend Transition:</strong> Moved to web frontend for ARTIK Cloud and helped launch the Developer Workspace.</li>
+<li><strong>SDK Development:</strong> Built a modern JavaScript SDK and Starter Kits for 3rd-party developers.</li>
+<li><strong>Cross-Platform Maintenance:</strong> Kept ARTIK Cloud’s iOS developer tooling running alongside the web work.</li>
+</ul>
+<p class="stack">JavaScript · TypeScript · React · Next.js · Docker · Spinnaker · Kubernetes · Swift</p>
+</details>
+</article>
+<article class="role past">
+<p class="mono when">2016 – 2018</p><span class="node" aria-hidden="true"></span>
+<details class="card">
+<summary><div><h3 style="margin: 0; font-family: var(--display); font-weight: 700; font-size: 20px">Samsung Strategy &amp; Innovation Center</h3><p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2)">iOS Developer · lead iOS developer for ARTIK Cloud, under Luc Julia</p></div><span class="chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+<ul>
+<li><strong>Executive Collaboration:</strong> Hired under Luc Julia (co-creator of Siri) as lead iOS developer for ARTIK Cloud.</li>
+<li><strong>App Engineering:</strong> Designed and built the ARTIK Cloud iOS app from the ground up.</li>
+<li><strong>Universal SDK:</strong> Shipped a universal SDK for iOS, tvOS, watchOS and macOS.</li>
+<li><strong>OS Optimization:</strong> Worked within Apple’s background and location limits to keep data syncing reliable.</li>
+</ul>
+<p class="stack">Swift · Objective-C · App Store Connect · TestFlight</p>
+</details>
+</article>
+<article class="role past">
+<p class="mono when">2015 – 2016</p><span class="node" aria-hidden="true"></span>
+<details class="card">
+<summary><div><h3 style="margin: 0; font-family: var(--display); font-weight: 700; font-size: 20px">Prism, Inc.</h3><p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2)">iOS &amp; Backend Developer · computer vision before iOS Visual Search</p></div><span class="chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+<ul>
+<li><strong>Full-Stack Engineering:</strong> Built an iOS app and its backend for automated image classification.</li>
+<li><strong>Computer Vision:</strong> Identified apps from screenshots with OpenCV and Tesseract, before iOS Visual Search existed.</li>
+<li><strong>API Architecture:</strong> Designed a REST API on PostgreSQL with Redis caching.</li>
+</ul>
+<p class="stack">Python · Django · PostgreSQL · Redis · SQLite · tesseract-ocr · OpenCV</p>
+</details>
+</article>
+<article class="role past" style="padding-bottom: 0">
+<p class="mono when">2015</p><span class="node" aria-hidden="true"></span>
+<details class="card">
+<summary><div><h3 style="margin: 0; font-family: var(--display); font-weight: 700; font-size: 20px">Imprivata</h3><p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2)">Android Developer (Capstone Partnership) · HIPAA-compliant document sharing</p></div><span class="chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+<ul>
+<li><strong>HIPAA-Compliant Mobile App:</strong> Built an end-to-end encrypted Android app for patient document sharing.</li>
+<li><strong>Data Synchronization:</strong> Designed the sync between on-device SQLite and a Python/MySQL backend.</li>
+</ul>
+<p class="stack">Java · Android Studio · MySQL · SQLite · REST · Python</p>
+</details>
+</article>
+</div>
+</section>
+
+<section id="projects" class="sec" aria-labelledby="h-projects">
+<div class="sec-head"><h2 id="h-projects" class="h2">Projects</h2><a href="https://github.com/Laptopmini" class="more">All repos on GitHub <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px">
+<article class="card lift" style="padding: 26px; display: flex; flex-direction: column; gap: 14px">
+<p class="mono">PERSONAL PROJECT · JUN 2026 · ★ 1</p>
+<div><h3 style="margin: 0; font-family: var(--display); font-weight: 700; font-size: 28px">Ragoût</h3><p style="margin: 2px 0 0; color: var(--muted)">Multimodal RAG agent</p></div>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-2)">An expert car-mechanic assistant grounded in a vehicle’s service manuals and bulletins. It cites its sources and renders the relevant diagrams inline, fully offline.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--divider)">
+<li style="padding: 10px 0; border-bottom: 1px solid var(--divider); font-size: 14px"><strong>Multimodal ingestion</strong> — diagrams retrievable by plain-text queries</li>
+<li style="padding: 10px 0; border-bottom: 1px solid var(--divider); font-size: 14px"><strong>Two-pass retrieval</strong> — bridges “creaking noise” and “exploded view”</li>
+<li style="padding: 10px 0; border-bottom: 1px solid var(--divider); font-size: 14px"><strong>Source authority</strong> — newer bulletins supersede the manual</li>
+<li style="padding: 10px 0; font-size: 14px"><strong>Generative UI</strong> — AG-UI agent with a CopilotKit frontend</li>
+</ul>
+<a href="https://github.com/Laptopmini/ragout" class="more" style="margin-top: auto">View the repo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+</article>
+<article class="card lift" style="padding: 26px; display: flex; flex-direction: column; gap: 14px">
+<p class="mono">PERSONAL PROJECT · APR 2026</p>
+<div><h3 style="margin: 0; font-family: var(--display); font-weight: 700; font-size: 28px">Ralph-node</h3><p style="margin: 2px 0 0; color: var(--muted)">AI development pipeline</p></div>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-2)">A zero-dependency orchestrator that routes work across 5 models from 4 providers, gated by tests written before the code.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--divider)">
+<li style="padding: 10px 0; border-bottom: 1px solid var(--divider); font-size: 14px"><strong>Multi-model orchestration</strong> — the right model for each job</li>
+<li style="padding: 10px 0; border-bottom: 1px solid var(--divider); font-size: 14px"><strong>Test-gated pipeline</strong> — TDD as backpressure</li>
+<li style="padding: 10px 0; border-bottom: 1px solid var(--divider); font-size: 14px"><strong>Ralph loop</strong> — generate, test, fail, revise</li>
+<li style="padding: 10px 0; font-size: 14px"><strong>Prompt architecture</strong> — role prompts tuned per model</li>
+</ul>
+<a href="https://github.com/Laptopmini/ralph-node" class="more" style="margin-top: auto">View the repo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+</article>
+</div>
+<h3 style="margin: 16px 0 0; font-family: var(--display); font-weight: 800; font-size: 22px">More on GitHub</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px">
+<a href="https://github.com/Laptopmini/PorschePi" class="card lift" style="padding: 18px; display: flex; flex-direction: column; gap: 8px"><span class="mono">SHELL · ★ 32</span><strong style="font-size: 16px">PorschePi</strong><span style="font-size: 14px; line-height: 1.5; color: var(--ink-2)">Raspberry Pi head unit for classic Porsches, inspired by the PCCM.</span></a>
+<a href="https://github.com/Laptopmini/smartthings-agui" class="card lift" style="padding: 18px; display: flex; flex-direction: column; gap: 8px"><span class="mono">TYPESCRIPT · ★ 0</span><strong style="font-size: 16px">smartthings-agui</strong><span style="font-size: 14px; line-height: 1.5; color: var(--ink-2)">Talk to your SmartThings home from any AG-UI agent, with device cards.</span></a>
+<a href="https://github.com/Laptopmini/tomodachi-llm" class="card lift" style="padding: 18px; display: flex; flex-direction: column; gap: 8px"><span class="mono">PYTHON · ★ 1</span><strong style="font-size: 16px">tomodachi-llm</strong><span style="font-size: 14px; line-height: 1.5; color: var(--ink-2)">A fan mod that brings an LLM into Tomodachi Life.</span></a>
+<a href="https://github.com/Laptopmini/paul.emini.com" class="card lift" style="padding: 18px; display: flex; flex-direction: column; gap: 8px"><span class="mono">TYPESCRIPT · ★ 0</span><strong style="font-size: 16px">paul.emini.com</strong><span style="font-size: 14px; line-height: 1.5; color: var(--ink-2)">This website, agent included.</span></a>
+</div>
+</section>
+
+<section id="skills" class="sec" aria-labelledby="h-skills">
+<h2 id="h-skills" class="h2">Skills</h2>
+<dl style="margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px">
+<div class="card" style="padding: 22px"><dt style="font-family: var(--display); font-weight: 700; font-size: 18px">Frontend &amp; Web</dt><dd style="margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px"><span class="chip on">React</span><span class="chip on">Next.js</span><span class="chip on">TypeScript</span><span class="chip on">Node.js</span><span class="chip">JavaScript</span><span class="chip">Playwright</span><span class="chip">Jest</span><span class="chip">HTML/CSS</span><span class="chip">ESLint</span><span class="chip">Biome</span></dd></div>
+<div class="card" style="padding: 22px"><dt style="font-family: var(--display); font-weight: 700; font-size: 18px">AI &amp; Machine Learning</dt><dd style="margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px"><span class="chip on">Prompt Engineering</span><span class="chip on">Generative UI (AG-UI)</span><span class="chip on">RAG</span><span class="chip">AI Model Orchestration</span><span class="chip">Vector Search</span><span class="chip">LLM Integration</span><span class="chip">TDD</span><span class="chip">Computer Vision</span></dd></div>
+<div class="card" style="padding: 22px"><dt style="font-family: var(--display); font-weight: 700; font-size: 18px">Infrastructure &amp; DevOps</dt><dd style="margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px"><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">GitHub Actions</span><span class="chip">Jenkins</span><span class="chip">Spinnaker</span><span class="chip">JFrog Artifactory</span></dd></div>
+<div class="card" style="padding: 22px"><dt style="font-family: var(--display); font-weight: 700; font-size: 18px">Backend &amp; Mobile</dt><dd style="margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px"><span class="chip">Python</span><span class="chip">Django</span><span class="chip">Swift</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">REST API Design</span><span class="chip">iOS/Android</span></dd></div>
+</dl>
+</section>
+
+<section id="recommendations" class="sec carousel" aria-labelledby="h-recs" aria-roledescription="carousel" data-paused="{{paused}}">
+<div class="sec-head">
+<h2 id="h-recs" class="h2">Recommendations</h2>
+<div style="display: flex; align-items: center; gap: 8px">
+<button type="button" class="ctl" onClick="{{togglePause}}" aria-label="{{pauseLabel}}">
+<sc-if value="{{paused}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 4 13 8-13 8z"/></svg></sc-if>
+<sc-if value="{{playing}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5v14"/><path d="M16 5v14"/></svg></sc-if>
+</button>
+<button type="button" class="ctl" onClick="{{prev}}" aria-label="Previous recommendation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+<button type="button" class="ctl" onClick="{{next}}" aria-label="Next recommendation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+</div>
+</div>
+<div class="viewport" onMouseEnter="{{hoverOn}}" onMouseLeave="{{hoverOff}}" aria-live="{{live}}">
+<div class="track" style="{{trackStyle}}">
+<sc-for list="{{recs}}" as="r" hint-placeholder-count="4">
+<figure class="card rec" id="{{r.id}}" role="group" aria-roledescription="slide" aria-label="{{r.slideLabel}}" style="margin: 0">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><p class="mono">{{r.relationship}}</p><p class="mono">{{r.date}}</p></div>
+<blockquote style="margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink-2); white-space: pre-line">{{r.pre}}<mark style="font-family: var(--display); font-weight: 600; font-size: 19px">{{r.mark}}</mark>{{r.post}}</blockquote>
+<figcaption style="margin-top: auto; display: flex; align-items: center; gap: 14px; padding-top: 18px; border-top: 1px solid var(--divider)">
+<span style="width: 48px; height: 48px; flex: none; border-radius: 50%; background: var(--ink); color: var(--ground); display: flex; align-items: center; justify-content: center; font-weight: 600">{{r.initials}}</span>
+<span style="flex: 1; min-width: 0"><strong style="display: block; font-size: 16px">{{r.name}}</strong><span style="font-size: 14px; color: var(--muted)">{{r.title}} · {{r.company}}</span></span>
+<a href="{{r.linkedin}}" class="more" style="font-size: 14px">LinkedIn</a>
+</figcaption>
+</figure>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; justify-content: center; gap: 2px" role="group" aria-label="Choose a recommendation">
+<sc-for list="{{recs}}" as="r" hint-placeholder-count="4">
+<button type="button" class="dotwrap" onClick="{{r.go}}" aria-label="{{r.dotLabel}}"><span class="dot" aria-current="{{r.current}}"><span class="fill"></span></span></button>
+</sc-for>
+</div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 40px">
+<section id="education" class="sec" aria-labelledby="h-edu">
+<h2 id="h-edu" class="h2">Education &amp; certifications</h2>
+<div class="card" style="padding: 22px; display: flex; gap: 16px; align-items: center"><span style="width: 48px; height: 48px; flex: none; border-radius: 12px; background: var(--ground); display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></span><div><strong style="font-size: 17px">B.A. Computer Science</strong><p style="margin: 2px 0 0; font-size: 14px; color: var(--muted)">University of California, Santa Cruz</p></div></div>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column" aria-label="Certifications, newest first">
+<li style="display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="padding-top: 3px">JUL 2026</span><span><strong style="font-size: 15px">Build Interactive Agents with Generative UI</strong><br><span style="font-size: 13px; color: var(--muted)">DeepLearning.AI</span></span></li>
+<li style="display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="padding-top: 3px">JUN 2026</span><span><strong style="font-size: 15px">Building Agentic RAG with LlamaIndex</strong><br><span style="font-size: 13px; color: var(--muted)">DeepLearning.AI</span></span></li>
+<li style="display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="padding-top: 3px">JUN 2026</span><span><strong style="font-size: 15px">Agent Memory: Building Memory-Aware Agents</strong><br><span style="font-size: 13px; color: var(--muted)">DeepLearning.AI</span></span></li>
+<li style="display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="padding-top: 3px">MAY 2026</span><span><strong style="font-size: 15px">Spec-Driven Development with Coding Agents</strong><br><span style="font-size: 13px; color: var(--muted)">DeepLearning.AI</span></span></li>
+<li style="display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="padding-top: 3px">MAR 2026</span><span><strong style="font-size: 15px">AI Agents Fundamentals, v2</strong><br><span style="font-size: 13px; color: var(--muted)">Frontend Masters</span></span></li>
+<li style="display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 12px; padding: 12px 0"><span class="mono" style="padding-top: 3px">DEC 2025</span><span><strong style="font-size: 15px">Practical Prompt Engineering</strong><br><span style="font-size: 13px; color: var(--muted)">Frontend Masters</span></span></li>
+</ol>
+</section>
+
+<section id="open-source" class="sec" aria-labelledby="h-oss">
+<div class="sec-head"><h2 id="h-oss" class="h2">Open source</h2><p class="mono">REFRESHED DAILY</p></div>
+<ul class="card" style="margin: 0; padding: 4px 20px; list-style: none">
+<li style="display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--divider)"><span class="status" style="background: var(--ok-bg); color: var(--ok-fg)">PR · merged</span><a href="#" style="font-size: 14px; line-height: 1.45"><strong>feat(adk-middleware): support Python 3.15</strong><br><span class="mono">ag-ui-protocol/ag-ui · Oct 16</span></a></li>
+<li style="display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--divider)"><span class="status" style="background: var(--accent-tint); color: var(--accent-strong)">PR · open</span><a href="#" style="font-size: 14px; line-height: 1.45"><strong>feat(shell-docs): show a progress bar during client navigations</strong><br><span class="mono">CopilotKit/CopilotKit · Oct 16</span></a></li>
+<li style="display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--divider)"><span class="status" style="background: var(--ok-bg); color: var(--ok-fg)">PR · merged</span><a href="#" style="font-size: 14px; line-height: 1.45"><strong>fix(a2ui-renderer): type RendererProps.children as (id, basePath?)</strong><br><span class="mono">CopilotKit/CopilotKit · Oct 15</span></a></li>
+<li style="display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--divider)"><span class="status" style="background: var(--accent-tint); color: var(--accent-strong)">PR · open</span><a href="#" style="font-size: 14px; line-height: 1.45"><strong>fix(ag-ui): send earlier tool calls and results to the LLM natively</strong><br><span class="mono">run-llama/llama_index · Oct 15</span></a></li>
+<li style="display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 0"><span class="status" style="background: var(--warn-bg); color: var(--warn-fg)">Issue · open</span><a href="#" style="font-size: 14px; line-height: 1.45"><strong>BuiltInAgent passes its system prompt inside messages</strong><br><span class="mono">CopilotKit/CopilotKit · Oct 16</span></a></li>
+</ul>
+<a href="https://github.com/Laptopmini" class="more">See all activity on GitHub <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+</section>
+</div>
+
+<footer style="margin-top: 96px; padding: 32px; border-radius: 22px; background: var(--ink); color: var(--ground); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+<div><p style="margin: 0; font-family: var(--display); font-weight: 800; font-size: 28px">Rather just ask?</p><p style="margin: 6px 0 0; color: var(--on-ink-2)">My agent knows everything on this page and can go deeper on any of it.</p></div>
+<a href="Main.dc.html" class="pillbtn" style="background: var(--accent); border-color: var(--accent); color: #FFFFFF">Ask my agent <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+</footer>
+
+</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"interval":{"editor":"int","default":7,"min":4,"max":15,"unit":"s"},"$preview":{"width":1440,"height":5600}}'>
+class Component extends DCLogic {
+componentDidMount() {
+this.timer = setInterval(() => {
+const s = this.state || {};
+const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (s.userPaused || s.hover || reduce) return;
+this.setState({ rec: ((s.rec || 0) + 1) % 4 });
+}, (this.props.interval ?? 7) * 1000);
+}
+componentWillUnmount() { clearInterval(this.timer); }
+renderVals() {
+const s = this.state || {};
+const i = s.rec || 0;
+const paused = !!(s.userPaused || s.hover);
+const data = [
+{ id: 'sandra-martocchia', name: 'Sandra Martocchia', initials: 'SM', title: 'Senior Product Manager', company: 'SmartThings', relationship: 'SAME TEAM', date: 'JUN 2026', linkedin: 'https://www.linkedin.com/in/sandramartocchia/',
+pre: 'Paul consistently stood out as a strong technical leader, thoughtful collaborator, and highly skilled engineer while we worked together on the SmartThings Developer Center. He brings deep experience to his work, but what makes him especially valuable is the way he applies that expertise. ',
+mark: 'Paul does not simply execute on requirements; he reviews them carefully, asks smart questions, and often identifies additional opportunities to make a feature more scalable, thoughtful, or impactful.',
+post: ' His feedback consistently helped improve the final product.\n\nHe is also eager to take on new challenges. Paul was one of the first people I worked with who jumped at the opportunity to start building AI-driven solutions, bringing both curiosity and practical execution.\n\nBeyond his technical strengths, Paul is highly motivated, detail-oriented, a creative problem solver, and a true team player. I highly recommend Paul for any team.' },
+{ id: 'derek-warner', name: 'Derek Warner', initials: 'DW', title: 'Lead Product Designer', company: 'SmartThings', relationship: 'DIFFERENT TEAMS', date: 'APR 2026', linkedin: 'https://www.linkedin.com/in/derekwarner537/',
+pre: 'Paul is a standout Engineer and natural leader. At SmartThings, we collaborated on complex features, and I was consistently impressed by his ability to engineer excellent products at speed that met every functional and aesthetic requirement while often going above and beyond the ask.\n\nHe possesses a rare combination of high-level technical intelligence and creative problem-solving. Paul never settled for the “easy” solution, he consistently proposed innovative ways to improve the product and the user experience. ',
+mark: 'He is a collaborative, feedback-driven leader who makes everyone on the team better.',
+post: ' I’d work with him again in a heartbeat and any team would be lucky to have him.' },
+{ id: 'luc-julia', name: 'Dr. Luc Julia', initials: 'LJ', title: 'CTO & SVP of Innovation', company: 'Samsung SSIC', relationship: 'MANAGED PAUL DIRECTLY', date: 'MAR 2018', linkedin: 'https://www.linkedin.com/in/lucjulia/',
+pre: 'Paul-Valentin Mini was brought on to ARTIK Cloud in July 2016 to take the lead of the development of our iOS application. Under my direct leadership he helped conceptualize, design, write and release our official mobile app, proving himself to be incredibly knowledgeable in mobile development and skilled at adapting to any task.\n\nHis Swift knowledge, extensive understanding of platform limitations and great expertise with native iOS frameworks proved to be invaluable to the development of our product. ',
+mark: 'Responding to our rapid innovation, he always managed to provide elegant solutions to hard engineering and user experience problems.',
+post: ' Going beyond expectations, he also took it upon himself to completely rewrite our mobile SDK to better fit the needs of our 3rd party developers…' },
+{ id: 'jeanine-jue', name: 'Jeanine Jue', initials: 'JJ', title: 'Head of Developer Relations', company: 'Samsung SSIC', relationship: 'DIFFERENT TEAMS', date: 'OCT 2017', linkedin: 'https://www.linkedin.com/in/jeaninejue/',
+pre: 'I have known Paul for over a year now. I am very impressed with his knowledge of mobile app development, more specifically Swift programming. ',
+mark: 'He provided some great feedback on some of our technical documentation as well as provided great ideas for improvement of Swift SDKs.',
+post: ' It is a pleasure to work with him.' }
+];
+const recs = data.map((r, k) => ({
+...r,
+slideLabel: (k + 1) + ' of 4: ' + r.name,
+dotLabel: 'Show recommendation from ' + r.name,
+current: k === i ? 'true' : 'false',
+go: () => this.setState({ rec: k })
+}));
+return {
+recs,
+paused: paused ? 'true' : false,
+playing: !paused,
+live: paused ? 'polite' : 'off',
+pauseLabel: s.userPaused ? 'Play recommendations' : 'Pause recommendations',
+trackStyle: 'transform: translateX(calc(' + (-i) + ' * (min(760px, 86%) + 20px)))',
+togglePause: () => this.setState({ userPaused: !s.userPaused }),
+hoverOn: () => this.setState({ hover: true }),
+hoverOff: () => this.setState({ hover: false }),
+prev: () => this.setState({ rec: (i + 3) % 4 }),
+next: () => this.setState({ rec: (i + 1) % 4 })
+};
+}
+}
+</script>
+</body>
+</html>

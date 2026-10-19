@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Unified Journey · case study — desktop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{--accent:#2448E5;--accent-strong:color-mix(in oklch,var(--accent) 75%,black);--accent-tint:color-mix(in oklch,var(--accent) 12%,white);--ground:#EDEFEA;--surface:#FFFFFF;--ink:#121614;--ink-2:#2E3532;--muted:#4C5450;--line:#D5D9D3;--line-2:#C6CCC7;--divider:#E3E6E1;--chip:#E1E4DF;--on-ink-muted:#A9B2AD;--on-ink-2:#C9D0CC;--ok-bg:#E7F4EC;--ok-fg:#0E6B45;--display:'Bricolage Grotesque',sans-serif;--body:'Instrument Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+body{margin:0;background:var(--ground)}
+*{box-sizing:border-box}
+a{color:var(--ink);text-decoration:none}a:hover{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+a,button{transition:transform .18s ease,background-color .18s ease,color .18s ease,border-color .18s ease}
+.wrap{width:100%;max-width:1340px;margin:0 auto;padding-left:48px;padding-right:48px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted);margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px}
+.cols{display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start}
+.rail{flex:0 0 200px;position:sticky;top:96px;padding-top:72px}
+.article{flex:999 1 640px;min-width:0}
+.toc a{display:flex;align-items:center;min-height:36px;padding-left:14px;border-left:2px solid var(--line);color:var(--muted);font-size:14px;font-weight:500}
+.toc a:hover{color:var(--ink);border-color:var(--ink-2)}
+.toc a[aria-current=true]{color:var(--ink);border-color:var(--accent);font-weight:600}
+.sec{display:grid;grid-template-columns:minmax(0,1fr) 260px;column-gap:48px;row-gap:20px;padding-top:72px;scroll-margin-top:96px}
+.sec>.full{grid-column:1 / -1}
+.sec>.prose{grid-column:1;display:flex;flex-direction:column;gap:18px;max-width:680px}
+.sec>.note{grid-column:2;align-self:start}
+.h2{margin:0;font-family:var(--display);font-weight:800;font-size:32px;letter-spacing:-.02em}
+.kicker{font-family:var(--mono);font-size:12px;color:var(--accent-strong);margin:0 0 6px}
+.p{margin:0;font-size:18px;line-height:1.7;color:var(--ink-2)}
+.p strong{color:var(--ink)}
+.p a{color:var(--accent);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.blist{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:12px;font-size:17px;line-height:1.65;color:var(--ink-2)}
+.side{padding:18px;border-radius:14px;border:1px dashed var(--line-2);display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.box{border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.35}
+.field{height:10px;border-radius:4px;background:var(--divider)}
+.pillbtn{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 20px;border-radius:999px;font-weight:600;font-size:15px;border:1.5px solid var(--ink)}
+.pillbtn:hover{background:var(--ink);color:var(--ground)}
+.pillbtn:active{transform:scale(.96)}
+@media (max-width:1100px){.rail{display:none}.sec{grid-template-columns:minmax(0,1fr)}.sec>.note{grid-column:1}}
+@media (max-width:700px){.wrap{padding-left:20px;padding-right:20px}.ttl{font-size:44px !important}}
+</style>
+</helmet>
+<div style="font-family: var(--body); color: var(--ink); background: var(--ground); padding-bottom: 120px">
+
+<div aria-hidden="true" style="position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 6"><div style="width: 34%; height: 100%; background: var(--accent)"></div></div>
+<header style="position: sticky; top: 0; z-index: 5; background: rgba(237,239,234,0.86); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line)">
+<div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 12px; padding-bottom: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 11px; background: var(--ink); color: var(--ground); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; font-size: 13px; letter-spacing: 0.02em">PVM</span><span style="font-family: var(--display); font-weight: 700; font-size: 17px">Paul‑Valentin Mini</span></a>
+<nav aria-label="Site" style="display: flex; align-items: center; gap: 6px">
+<a href="ResumeDesktop.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 12px; font-weight: 500; font-size: 15px">Résumé</a>
+<a href="#" aria-current="page" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 12px; font-weight: 600; font-size: 15px; background: var(--chip)">Case study</a>
+<a href="Main.dc.html" style="margin-left: 8px; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--ink); color: #FFFFFF; font-weight: 600; font-size: 14px">Ask my agent</a>
+</nav>
+</div>
+</header>
+
+<main class="wrap">
+<article>
+<header style="padding-top: 64px; padding-bottom: 56px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 28px">
+<nav aria-label="Breadcrumb"><ol style="margin: 0; padding: 0; list-style: none; display: flex; gap: 8px; font-family: var(--mono); font-size: 13px; color: var(--muted)"><li><a href="ResumeDesktop.dc.html" style="color: var(--muted)">Résumé</a></li><li aria-hidden="true">/</li><li><a href="ResumeDesktop.dc.html" style="color: var(--muted)">SmartThings</a></li><li aria-hidden="true">/</li><li aria-current="page" style="color: var(--ink)">Case study</li></ol></nav>
+<h1 class="ttl" style="margin: 0; max-width: 1120px; font-family: var(--display); font-weight: 800; font-size: 76px; line-height: 0.98; letter-spacing: -0.035em">The Unified Journey: <span style="color: var(--muted)">rebuilding how partners onboard products on SmartThings</span></h1>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px; align-items: start">
+<p style="margin: 0; font-size: 21px; line-height: 1.55; color: var(--ink-2)">I initiated and led a refactor of the SmartThings Developer Console’s product onboarding: one overgrown form became a guided, modular journey that other teams can extend. Every partner moved to it with zero breakage, and it shipped as the redesigned Developer Center.</p>
+<dl style="margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px">
+<div><dt class="mono">ROLE</dt><dd style="margin: 4px 0 0; font-weight: 600">Initiator and lead developer</dd></div>
+<div><dt class="mono">COMPANY</dt><dd style="margin: 4px 0 0; font-weight: 600">SmartThings, Inc.</dd></div>
+<div><dt class="mono">TIMELINE</dt><dd style="margin: 4px 0 0; font-weight: 600">Sep 2025 – Jan 2026</dd></div>
+<div><dt class="mono">DESIGN</dt><dd style="margin: 4px 0 0; font-weight: 600"><a href="ResumeDesktop.dc.html" style="color: var(--accent)">Derek Warner</a></dd></div>
+<div style="grid-column: 1 / -1"><dt class="mono">STACK</dt><dd style="margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 6px"><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">Next.js</span><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">React</span><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">TypeScript</span><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">private npm packages</span><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">feature flags</span><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">Jest</span><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">Playwright</span><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">Hotjar</span><span style="padding: 4px 10px; border-radius: 999px; background: var(--chip); font-family: var(--mono); font-size: 12px">Google Analytics</span></dd></div>
+</dl>
+</div>
+<dl aria-label="At a glance" style="margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px">
+<div class="card" style="padding: 20px"><dt class="mono">PARTNERS SERVED</dt><dd style="margin: 6px 0 0; font-family: var(--display); font-weight: 800; font-size: 44px; letter-spacing: -0.02em">120+</dd></div>
+<div class="card" style="padding: 20px"><dt class="mono">PROTOCOLS</dt><dd style="margin: 6px 0 0; font-family: var(--display); font-weight: 800; font-size: 44px; letter-spacing: -0.02em">12</dd></div>
+<div class="card" style="padding: 20px"><dt class="mono">PARTNERS MIGRATED</dt><dd style="margin: 6px 0 0; font-family: var(--display); font-weight: 800; font-size: 44px; letter-spacing: -0.02em">All</dd></div>
+<div style="padding: 20px; border-radius: 18px; background: var(--ink); color: var(--ground)"><dt class="mono" style="color: var(--on-ink-muted)">BREAKAGE AT CUTOVER</dt><dd style="margin: 6px 0 0; font-family: var(--display); font-weight: 800; font-size: 44px; letter-spacing: -0.02em">Zero</dd></div>
+</dl>
+</header>
+
+<div class="cols">
+<nav class="rail toc" aria-label="On this page">
+<p class="mono" style="margin-bottom: 12px">ON THIS PAGE</p>
+<a href="#context">Context</a>
+<a href="#the-problem">The problem</a>
+<a href="#the-idea" aria-current="true">The idea</a>
+<a href="#how-it-works">How it works</a>
+<a href="#the-result">The result</a>
+<a href="#rollout">Rollout</a>
+<a href="#impact">Impact</a>
+<a href="#what-id-do-differently">In hindsight</a>
+<a href="#whats-next">What’s next</a>
+<p class="mono" style="margin-top: 16px">~6 MIN READ</p>
+</nav>
+
+<div class="article">
+
+<section class="sec" aria-labelledby="context">
+<div class="prose"><p class="kicker">01</p><h2 id="context" class="h2">Context</h2>
+<p class="p">The SmartThings Developer Console is the portal partners use to build, certify and market their products in the SmartThings ecosystem, from solo hobbyists to enterprise brands. It serves more than 120 partners and thousands of hobbyists, across 12 protocols such as Matter and Zigbee. Every paying partner goes through it to get certified, so it sits on the critical path to launching a product. It’s a Next.js application that combines marketing content, documentation and developer tooling.</p></div>
+<aside class="note side"><p class="mono">WHY IT MATTERS</p>Certification runs through this console, so friction here delays every product launch in the ecosystem.</aside>
+</section>
+
+<section class="sec" aria-labelledby="the-problem">
+<div class="prose"><p class="kicker">02</p><h2 id="the-problem" class="h2">The problem</h2>
+<p class="p">Registering and certifying a product meant filling in one product form. Over the years it had grown into dozens of fields with different requirements, backed by several upstream services, each with its own validation and dependencies.</p>
+<p class="p">Because everything lived in one form with one validation pass, a change to a single requirement could block a partner from submitting anything else. New features were hard to add without affecting others, and user reports were hard to trace to the field that caused them. Most importantly, users were overwhelmed: there was little guidance, and people dropped off out of frustration, confusion, or because they had to leave the page to read the documentation. Hotjar, Google Analytics and our partner-success team all confirmed it.</p></div>
+<aside class="note side"><p class="mono">EVIDENCE</p>Drop-off confirmed three ways: Hotjar sessions, Google Analytics funnels, and partner-success reports.</aside>
+</section>
+
+<section class="sec" aria-labelledby="the-idea">
+<div class="prose"><p class="kicker">03</p><h2 id="the-idea" class="h2">The idea</h2>
+<p class="p">At the time there was a push to let other Samsung teams own the parts of the form that relied on their services. Microservices raised hard questions about who would respond to incidents and who controlled releases. I had already built the component library these teams were using, so I proposed consuming their work as versioned dependencies, under feature flags we controlled.</p>
+<p class="p">Separately, I had been exploring how to break the form into standard modules that could be chained into a step-by-step flow. When our designer, <a href="ResumeDesktop.dc.html">Derek Warner</a>, shared a Figma design for a new workflow with an accompanying summary, the two ideas came together: combine summaries and workflows with a modular form, on top of the component library, with a contract other teams could build against. We called it the Unified Journey.</p>
+<p class="p">It was September 2025 and the roadmap was full through Q4, so I kept going on my own initiative. Within a couple of days I had a working vertical slice for one product type, enough to prove it was feasible and surface the real requirements. I demoed it to my manager and the product team and got the green light.</p></div>
+<aside class="note" style="display: flex; flex-direction: column; gap: 12px">
+<div class="side" style="border-style: solid; background: var(--surface)"><p class="mono">SEP 2025</p><strong style="font-family: var(--display); font-size: 22px; line-height: 1.15; color: var(--ink)">A working vertical slice in a couple of days</strong>Built on my own initiative while the roadmap was full through Q4.</div>
+</aside>
+</section>
+
+<section class="sec" aria-labelledby="how-it-works">
+<div class="prose"><p class="kicker">04</p><h2 id="how-it-works" class="h2">How it works</h2></div>
+<figure class="full card" style="margin: 0; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px; align-items: stretch">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<p class="mono">1 · CONTRACT</p>
+<div class="box" style="flex: 1; background: var(--ink); color: var(--ground); display: flex; flex-direction: column; gap: 6px"><strong style="font-family: var(--display); font-size: 18px">Typed module contract</strong><span style="color: var(--on-ink-2)">Published as a private package. Other teams build against it.</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<p class="mono">2 · MODULES</p>
+<div style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<div class="box" style="background: var(--accent-tint); color: var(--accent-strong)"><strong>Brand</strong><br><span style="font-size: 12px">summary + workflow</span></div>
+<div class="box" style="background: var(--accent-tint); color: var(--accent-strong)"><strong>Device Profile</strong><br><span style="font-size: 12px">summary + workflow</span></div>
+<div class="box" style="background: var(--ground); color: var(--ink-2)"><strong>…</strong><br><span style="font-size: 12px">a few dozen more</span></div>
+<div class="box" style="border: 1.5px dashed var(--line-2); color: var(--ink-2)"><strong>Another team’s</strong><br><span style="font-size: 12px">first-class, their on-call</span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<p class="mono">3 · TWO GENERIC PAGES</p>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+<div class="box" style="flex: 1; border: 1px solid var(--line)"><strong>Overview</strong><br><span style="font-size: 12px; color: var(--muted)">asks which modules apply, renders summaries</span></div>
+<div class="box" style="flex: 1; border: 1px solid var(--line)"><strong>Workflow</strong><br><span style="font-size: 12px; color: var(--muted)">renders one module’s guided flow</span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<p class="mono">4 · CONTEXT (DI)</p>
+<ul class="box" style="flex: 1; margin: 0; list-style: none; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; font-family: var(--mono); font-size: 12px">
+<li>product</li><li>saving</li><li>navigation</li><li>analytics</li><li>error reporting</li>
+</ul>
+</div>
+</div>
+<figcaption style="font-size: 14px; color: var(--muted)">Modules know nothing about the app’s routing, API client or error handling. They receive those capabilities through context, so a few dozen modules never become a few dozen special cases.</figcaption>
+</figure>
+<div class="prose"><ul class="blist">
+<li>Every section of a product (Brand, Device Profile and so on) is a self-contained module that provides two things: a <strong>summary</strong> and a <strong>workflow</strong>.</li>
+<li>All modules follow one strict, typed contract, published as a private package. A team that owns a domain we don’t can build and own its module, and it drops into the platform as a first-class part, without us taking on their code or their on-call.</li>
+<li>The app has only two generic pages, an overview and a workflow page, with no product-specific code. They ask the module collection what applies to the current product and render it.</li>
+<li>Capabilities reach the modules through context (dependency injection): the current product, saving, navigation, analytics and error reporting.</li>
+<li>Typed and documented, with unit and end-to-end tests, every piece behind a feature flag, and accessible, keyboard-navigable and dark-mode-ready out of the box.</li>
+</ul></div>
+</section>
+
+<section class="sec" aria-labelledby="the-result">
+<div class="prose"><p class="kicker">05</p><h2 id="the-result" class="h2">The result</h2>
+<p class="p">Partners now establish what they’re building first: the product type and integration. From there, they only ever see the sections that apply. Instead of a wall of fields, they land on one overview of their product, with a completion status and their path to certification. Each section opens its own guided workflow, with room to explain what’s asked, recommend the standard option, link to the docs and validate that section on its own.</p></div>
+<aside class="note side"><p class="mono">DESIGN CREDIT</p><span><a href="ResumeDesktop.dc.html" style="color: var(--accent); font-weight: 600">Derek Warner</a> designed every screen, including dark-mode, mobile and tablet variants. <a href="ResumeDesktop.dc.html" style="color: var(--accent); font-weight: 600">Read his recommendation →</a></span></aside>
+<figure class="full" style="margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 16px">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<p class="mono">BEFORE · ONE FORM, ONE VALIDATION PASS</p>
+<div aria-hidden="true" style="display: flex; flex-direction: column; gap: 9px; padding: 16px; border-radius: 12px; background: var(--ground); height: 260px; overflow: hidden; position: relative">
+<div class="field" style="width: 40%"></div><div class="field" style="width: 92%; height: 22px; background: #fff; border: 1px solid var(--line)"></div>
+<div class="field" style="width: 30%"></div><div class="field" style="width: 92%; height: 22px; background: #fff; border: 1px solid var(--line)"></div>
+<div class="field" style="width: 50%"></div><div class="field" style="width: 92%; height: 22px; background: #fff; border: 1px solid var(--line)"></div>
+<div class="field" style="width: 35%"></div><div class="field" style="width: 92%; height: 22px; background: #fff; border: 1.5px solid var(--warn-fg, #9A3A0A)"></div>
+<div class="field" style="width: 44%"></div><div class="field" style="width: 92%; height: 22px; background: #fff; border: 1px solid var(--line)"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 80px; background: linear-gradient(transparent, var(--ground))"></div>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-2)">Dozens of fields. One failing requirement blocked the whole submission.</p>
+</div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; border-color: var(--accent)">
+<p class="mono" style="color: var(--accent-strong)">AFTER · AN OVERVIEW OF ONLY WHAT APPLIES</p>
+<div aria-hidden="true" style="display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 12px; background: var(--ground); height: 260px">
+<div style="display: flex; justify-content: space-between; align-items: center"><strong style="font-size: 14px">Your product</strong><span style="font-family: var(--mono); font-size: 11px">3 of 5 complete</span></div>
+<div style="height: 6px; border-radius: 6px; background: var(--line)"><div style="width: 60%; height: 100%; border-radius: 6px; background: var(--accent)"></div></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 12px; border-radius: 10px; background: #fff; font-size: 13px"><span>Brand</span><span style="color: var(--ok-fg)">Done</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 12px; border-radius: 10px; background: #fff; font-size: 13px"><span>Device Profile</span><span style="color: var(--ok-fg)">Done</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 12px; border-radius: 10px; background: #fff; font-size: 13px; outline: 2px solid var(--accent)"><span>Certification</span><span style="color: var(--accent-strong); font-weight: 600">Continue →</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 12px; border-radius: 10px; background: #fff; font-size: 13px; color: var(--muted)"><span>Marketing</span><span>Not started</span></div>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-2)">Each section opens its own guided workflow and validates on its own.</p>
+</div>
+<figcaption class="mono" style="grid-column: 1 / -1">Illustrative, not production screenshots.</figcaption>
+</figure>
+<div class="prose"><p class="p">The look and feel is Derek Warner’s work: he designed every screen, and had earlier helped me set up the design system behind the component library. We iterated constantly between his Figma files and my prototypes. Because the improvements shipped through the shared component library, teams not using these flows directly benefited too.</p></div>
+</section>
+
+<section class="sec" aria-labelledby="rollout">
+<div class="prose"><p class="kicker">06</p><h2 id="rollout" class="h2">Rollout</h2>
+<p class="p">Every new flow and redirect went behind a feature flag, and we released in stages. We delayed the public release twice to fix two edge cases, to protect a zero-break cutover.</p></div>
+<ol class="full" aria-label="Release stages" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 0; position: relative">
+<li style="padding: 0 16px 0 0; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; align-items: center"><span style="width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px">1</span><span style="flex: 1; height: 2px; background: var(--ink)"></span></div><strong>Product team &amp; partner success</strong><span style="font-size: 14px; color: var(--muted)">First eyes on every flow</span></li>
+<li style="padding: 0 16px 0 0; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; align-items: center"><span style="width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px">2</span><span style="flex: 1; height: 2px; background: var(--ink)"></span></div><strong>All internal employees</strong><span style="font-size: 14px; color: var(--muted)">Broader dogfooding</span></li>
+<li style="padding: 0 16px 0 0; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; align-items: center"><span style="width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px">3</span><span style="flex: 1; height: 2px; background: repeating-linear-gradient(90deg, var(--ink) 0 6px, transparent 6px 10px)"></span></div><strong>A few select partners</strong><span style="font-size: 14px; color: var(--muted)">Public release delayed twice for two edge cases</span></li>
+<li style="display: flex; flex-direction: column; gap: 10px"><div style="display: flex; align-items: center"><span style="width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></span></div><strong>Public · end of Jan 2026</strong><span style="font-size: 14px; color: var(--muted)">Zero-break cutover</span></li>
+</ol>
+</section>
+
+<section class="sec" aria-labelledby="impact">
+<div class="prose"><p class="kicker">07</p><h2 id="impact" class="h2">Impact</h2></div>
+<ul class="full" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px">
+<li class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px"><strong style="font-family: var(--display); font-size: 20px; line-height: 1.2">Every partner moved to it</strong><span style="font-size: 15px; line-height: 1.5; color: var(--ink-2)">with zero breakage: it’s now the only way to create or manage a product.</span></li>
+<li class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px"><strong style="font-family: var(--display); font-size: 20px; line-height: 1.2">Fewer drop-offs</strong><span style="font-size: 15px; line-height: 1.5; color: var(--ink-2)">with more partners finishing (Hotjar and Google Analytics).</span></li>
+<li class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px"><strong style="font-family: var(--display); font-size: 20px; line-height: 1.2">Other teams build their own parts</strong><span style="font-size: 15px; line-height: 1.5; color: var(--ink-2)">of the experience against the shared contract.</span></li>
+<li class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px"><strong style="font-family: var(--display); font-size: 20px; line-height: 1.2">Less friction on the path to launch</strong><span style="font-size: 15px; line-height: 1.5; color: var(--ink-2)">so more partner products reach the ecosystem.</span></li>
+</ul>
+<figure class="full" style="margin: 0; padding: 40px; border-radius: 22px; background: var(--ink); color: var(--ground); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 32px; align-items: end">
+<blockquote style="margin: 0; font-family: var(--display); font-weight: 600; font-size: 30px; line-height: 1.25; letter-spacing: -0.01em">“The SmartThings Developer Center has been redesigned from the ground up, bringing the full integration journey for our partners into a single, unified console.”</blockquote>
+<figcaption style="display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--on-ink-2)">“Huge shoutout to the incredible work from … Paul-Valentin Mini … in collaborating so well to bring this vision to life.”</p>
+<span style="font-size: 15px"><strong>Mark Benson</strong>, Head of SmartThings at Samsung · Mar 24, 2026</span>
+<a href="https://www.linkedin.com/feed/update/urn:li:activity:7442232066680741889/" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #FFFFFF; font-weight: 600">View the LinkedIn post <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+</figcaption>
+</figure>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px; padding-top: 72px">
+<section aria-labelledby="what-id-do-differently" class="card" style="padding: 28px; display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 96px">
+<p class="kicker" style="margin: 0">08</p><h2 id="what-id-do-differently" style="margin: 0; font-family: var(--display); font-weight: 800; font-size: 26px">What I’d do differently</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink-2)">Get it in front of real partner usage earlier, through a wider preview or testing against production-like data, so edge cases surface before they hold up a release rather than during it. QA did excellent work; some cases only show up once real partners are in the product.</p>
+</section>
+<section aria-labelledby="whats-next" class="card" style="padding: 28px; display: flex; flex-direction: column; gap: 12px; border-color: var(--accent); scroll-margin-top: 96px">
+<p class="kicker" style="margin: 0">09</p><h2 id="whats-next" style="margin: 0; font-family: var(--display); font-weight: 800; font-size: 26px">What’s next</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink-2)">A component library like this is a natural foundation for generative UI: an agent could assemble each summary and workflow only from vetted building blocks, so every generated flow stays on-brand, accessible and validated. That’s the idea behind the agent on this site.</p>
+<a href="Main.dc.html" style="margin-top: auto; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-weight: 600">Try the agent <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+</section>
+</div>
+
+<footer style="margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center">
+<a href="ResumeDesktop.dc.html" class="pillbtn">← Back to the résumé</a>
+<a href="Main.dc.html" class="pillbtn" style="background: var(--ink); color: var(--ground)">Ask my agent about it</a>
+</footer>
+
+</div>
+</div>
+</article>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6600}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
