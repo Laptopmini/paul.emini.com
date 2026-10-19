@@ -13,7 +13,9 @@ const experience: { id: string; company: string; highlights: { text: string }[] 
   json('experience.json');
 const mentions: { authorTitle: string }[] = json('mentions.json');
 const profile: { firstName: string } = json('profile.json');
-const projects: { id: string; summary: string }[] = json('projects.json');
+const projects: { id: string; summary: string; repo?: string }[] = json('projects.json');
+const github: { repos: { name: string; readme?: string; description: string | null }[] } =
+  json('github.json');
 const highlights: Record<string, string> = json('recommendation-highlights.json');
 /** Each recommendation's last paragraph (proves the full text is there, not just a quote). */
 const recommendations = read('recommendations.md')
@@ -43,6 +45,13 @@ test.describe('static résumé pages', () => {
       for (const h of e.highlights) await expect(page.locator(`#${e.id}`)).toContainText(h.text);
     }
     for (const p of projects) await expect(page.locator(`#${p.id}`)).toContainText(p.summary);
+    const curated = new Set(projects.map((p) => p.repo?.split('/')[1]?.toLowerCase()));
+    for (const r of github.repos.filter((r) => !curated.has(r.name.toLowerCase()))) {
+      const entry = page.locator(`#repo-${r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
+      await expect(entry.getByRole('heading', { level: 3 })).toContainText(r.name);
+      const text = r.readme ?? r.description;
+      if (text) await expect(entry).toContainText(text);
+    }
     for (const [id, sentence] of Object.entries(highlights)) {
       await expect(page.locator(`#${id} blockquote`)).toContainText(sentence);
     }

@@ -117,6 +117,17 @@ describe('content', () => {
     }
   });
 
+  it('github.json holds only allow-listed and project repos', () => {
+    // Privacy: job-application and generated repos never reach the site or the agent.
+    const { repos: allowed } = JSON.parse(readFileSync(join(dir, 'portfolio-repos.json'), 'utf8'));
+    const included = new Set(
+      [...allowed, ...projects.flatMap((p) => (p.repo ? [p.repo.split('/')[1]] : []))].map(
+        (n: string) => n.toLowerCase(),
+      ),
+    );
+    for (const r of github.repos) expect(included).toContain(r.name.toLowerCase());
+  });
+
   it('project repos belong to the profile GitHub user', () => {
     const user = new URL(profile.links.github).pathname.slice(1);
     expect(github.user).toBe(user);

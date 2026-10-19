@@ -15,6 +15,7 @@ import {
   skills,
 } from '@/content';
 import { pickExcerpt } from '@/lib/cards';
+import { moreRepos } from '@/lib/repos';
 import {
   type CaseStudyResult,
   type ContactResult,
@@ -166,11 +167,12 @@ export function createTools(
 
     defineTool({
       name: 'getProjects',
-      description: `Paul’s personal projects, most recent first. Ids: ${projects.map((p) => p.id).join(', ')}`,
+      description: `Paul’s personal projects, most recent first (cards for these ids: ${projects.map((p) => p.id).join(', ')}), plus his other public repos (moreOnGitHub, facts only).`,
       parameters: toolArgs.getProjects,
       execute: async ({ ids, recent }): Promise<(IdsResult & Facts) | ToolError> => {
         const selected = recent ? projects.slice(0, recent) : select(projects, ids);
         if (isError(selected)) return selected;
+        const github = await loadGithub();
         return {
           ids: selected.map((p) => p.id),
           projects: selected.map((p) => ({
@@ -183,6 +185,16 @@ export function createTools(
             stack: p.stack,
             repo: p.repo ? `https://github.com/${p.repo}` : null,
           })),
+          moreOnGitHub: moreRepos(github, projects).map((r) => ({
+            name: r.name,
+            description: r.description,
+            readme: r.readme,
+            language: r.language,
+            stars: r.stars,
+            lastPush: r.pushedAt.slice(0, 10),
+            url: r.url,
+          })),
+          resumePage: sitePage('/resume/#projects'),
         };
       },
     }),

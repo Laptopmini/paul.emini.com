@@ -150,6 +150,14 @@ describe.concurrent('case study, public mention and site pages', () => {
     expectClean(r);
   });
 
+  it('other GitHub repos come from the allow-list, never job applications', async () => {
+    const r = await ask('What else is on your GitHub besides those projects?', 'engineer');
+    expect(called(r, 'getProjects') || called(r, 'getContributions')).toBe(true);
+    expect(r.text).toMatch(/PorschePi|smartthings-agui|tomodachi/i);
+    expect(r.text).not.toMatch(/resume-|brightai|benefitcosmetics|rebuildmanufacturing/i);
+    expectClean(r);
+  });
+
   it('points to the résumé page when asked for the full details', async () => {
     const r = await ask('Where can I read your full résumé online?');
     expect(r.text).toMatch(/paul\.emini\.com\/resume/);

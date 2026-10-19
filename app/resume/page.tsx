@@ -26,6 +26,7 @@ import {
   skills,
 } from '@/lib/content';
 import { formatYearMonth, noBreakHyphens } from '@/lib/format';
+import { moreRepos } from '@/lib/repos';
 import { pageMetadata, personData } from '@/lib/seo';
 
 // The whole résumé as plain, server-rendered HTML, for people who'd rather read than
@@ -170,6 +171,37 @@ export default function ResumePage() {
             );
           })}
         </section>
+
+        {moreRepos(github, projects).length > 0 && (
+          <section aria-labelledby="more-on-github" className={styles.section}>
+            <h2 id="more-on-github" className={styles.subheading}>
+              More on GitHub
+            </h2>
+            {moreRepos(github, projects).map((r) => (
+              <article
+                key={r.name}
+                id={`repo-${r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                className={styles.entry}
+              >
+                <header className={styles.entryHead}>
+                  <h3 className={styles.entryTitle}>
+                    <ExternalLink href={r.url} className={s.inlineLink}>
+                      {r.name}
+                    </ExternalLink>
+                  </h3>
+                  <p className={styles.entryMeta}>
+                    {[r.language, `★ ${r.stars}`, `last push ${formatDate(r.pushedAt)}`]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </p>
+                </header>
+                {(r.readme ?? r.description) && (
+                  <p className={styles.text}>{r.readme ?? r.description}</p>
+                )}
+              </article>
+            ))}
+          </section>
+        )}
 
         <section aria-labelledby="skills" className={styles.section}>
           <h2 id="skills" className={styles.heading}>

@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import type { GitHubActivity } from '@/content';
 import {
   type ApiIssue,
+  includedRepos,
   orderContributions,
+  readmeExcerpt,
   sameData,
   toContribution,
   toRepo,
@@ -80,6 +82,33 @@ describe('fetch-github', () => {
       a.url,
       b.url,
       c.url,
+    ]);
+  });
+
+  it('takes the first prose paragraph of a README, as plain text', () => {
+    const readme = [
+      '# 🍲 Ragoût',
+      '[![CI](https://x/badge.svg)](https://x)',
+      '> Your manual, now with answers.',
+      '```sh\nnpm i\n```',
+      'An **expert** assistant built with [LlamaIndex](https://llamaindex.ai) and `ChromaDB`.',
+      'Second paragraph.',
+    ].join('\n\n');
+    expect(readmeExcerpt(readme)).toBe('An expert assistant built with LlamaIndex and ChromaDB.');
+    expect(readmeExcerpt('# Title only\n\n![logo](x.png)')).toBeUndefined();
+  });
+
+  it('cuts a long README opening at a sentence', () => {
+    const long = `${'This sentence is long enough to count. '.repeat(20)}`;
+    const excerpt = readmeExcerpt(long) ?? '';
+    expect(excerpt.length).toBeLessThanOrEqual(420);
+    expect(excerpt.endsWith('.')).toBe(true);
+  });
+
+  it('includes only allow-listed and project repos, by name', () => {
+    expect([...includedRepos(['PorschePi'], ['Laptopmini/ragout'])].sort()).toEqual([
+      'porschepi',
+      'ragout',
     ]);
   });
 

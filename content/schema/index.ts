@@ -219,6 +219,8 @@ const githubRepoSchema = z.strictObject({
   stars: z.number().int().nonnegative(),
   createdAt: z.iso.datetime(),
   pushedAt: z.iso.datetime(),
+  /** Opening of the README, as plain text (portfolio repos only). */
+  readme: text.optional(),
 });
 
 const githubContributionSchema = z.strictObject({
@@ -242,6 +244,13 @@ export const githubSchema = z.strictObject({
   repos: z.array(githubRepoSchema),
   contributions: z.array(githubContributionSchema),
 });
+
+/**
+ * Owned repos shown as projects beyond the curated ones (by name). Only these and the
+ * curated projects' repos are fetched into github.json: others (job applications,
+ * generated demos) never appear on the site or reach the agent.
+ */
+export const portfolioReposSchema = z.strictObject({ repos: z.array(text) });
 
 /** Optional hand-picked OSS highlights, shown above recency. */
 export const contributionsPinnedSchema = z.array(
