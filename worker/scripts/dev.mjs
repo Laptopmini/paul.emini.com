@@ -16,3 +16,10 @@ const child = spawn('wrangler', ['dev', '--env', 'dev', ...process.argv.slice(2)
   stdio: 'inherit',
 });
 child.on('exit', (code) => process.exit(code ?? 0));
+
+// Pass shutdown signals on, or a stopped parent (Playwright's webServer, Ctrl+C, a
+// closed terminal) leaves wrangler and workerd running in the background. Wrangler
+// ignores SIGHUP, so a hang-up is passed on as SIGTERM.
+process.on('SIGINT', () => child.kill('SIGINT'));
+process.on('SIGTERM', () => child.kill('SIGTERM'));
+process.on('SIGHUP', () => child.kill('SIGTERM'));
