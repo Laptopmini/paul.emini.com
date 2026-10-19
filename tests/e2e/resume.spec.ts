@@ -105,6 +105,18 @@ test.describe('static résumé pages', () => {
 });
 
 test.describe('static résumé pages, with JavaScript', () => {
+  test('at the end of the page, the last section is the current one', async ({ page }) => {
+    for (const path of ['/resume/', ...caseStudies.map((c) => `/work/${c.id}/`)]) {
+      await page.goto(path);
+      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      // Every copy of the section links is kept in sync, including ones hidden at this width.
+      await expect(page.locator('[data-spy] a').last()).toHaveAttribute('aria-current', 'true');
+      const last = await page.locator('[data-spy] a').last().textContent();
+      const picker = page.locator('[data-spy-label]');
+      if (await picker.count()) await expect(picker).toHaveText(last?.replace(/^\d+/, '') ?? '');
+    }
+  });
+
   for (const path of ['/resume/', ...caseStudies.map((c) => `/work/${c.id}/`)]) {
     test(`${path} has no axe violations (WCAG 2.2 AA)`, async ({ page }) => {
       await page.goto(path);

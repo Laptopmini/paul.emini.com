@@ -23,8 +23,11 @@ export function ScrollSpy() {
     const picker = document.querySelector<HTMLDetailsElement>('[data-spy-picker]');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     const inView = new Set<Element>();
+    let current = -1;
 
     function activate(index: number) {
+      if (index === current) return;
+      current = index;
       const id = ids[index];
       for (const a of links) {
         if (a.hash.slice(1) !== id) {
@@ -49,19 +52,27 @@ export function ScrollSpy() {
     }
 
     // A band from under the sticky bar to the middle of the screen: the first section
-    // touching it is the one being read.
+    // touching it is the one being read. Short closing sections can't scroll up into
+    // the band, so at the end of the page the last section is the one being read.
+    const atBottom = () =>
+      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    const update = () => {
+      const index = atBottom() ? sections.length - 1 : sections.findIndex((s) => inView.has(s));
+      if (index >= 0) activate(index);
+    };
     const observer = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) inView.add(e.target);
           else inView.delete(e.target);
         }
-        const index = sections.findIndex((s) => inView.has(s));
-        if (index >= 0) activate(index);
+        update();
       },
       { rootMargin: '-120px 0px -50% 0px' },
     );
     for (const s of sections) observer.observe(s);
+    // The band doesn't change when the page hits its end, so watch the scroll too.
+    window.addEventListener('scroll', update, { passive: true });
 
     // The picker closes once a section is chosen.
     const onPick = (e: MouseEvent) => {
@@ -70,6 +81,7 @@ export function ScrollSpy() {
     picker?.addEventListener('click', onPick);
     return () => {
       observer.disconnect();
+      window.removeEventListener('scroll', update);
       picker?.removeEventListener('click', onPick);
     };
   }, []);
