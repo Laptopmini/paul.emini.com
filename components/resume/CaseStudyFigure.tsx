@@ -78,7 +78,9 @@ function BeforeAfter({ figure }: { figure: Figure }) {
   const [before, after] = figure.panels;
   return (
     <figure className={styles.beforeAfter}>
-      <div className={styles.pair}>
+      {/* A swipe row on phones: focusable so keyboard users can scroll it. */}
+      {/* biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable region (WCAG 2.1.1) */}
+      <section className={styles.pair} tabIndex={0} aria-label="Before and after">
         {before && (
           <div className={`${layout.card} ${styles.state}`}>
             {before.kicker && <p className={layout.mono}>{before.kicker}</p>}
@@ -98,7 +100,7 @@ function BeforeAfter({ figure }: { figure: Figure }) {
           </div>
         )}
         {after && <Overview panel={after} />}
-      </div>
+      </section>
       {figure.caption && <figcaption className={layout.mono}>{figure.caption}</figcaption>}
     </figure>
   );

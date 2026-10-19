@@ -426,7 +426,6 @@
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .h2,
     .tiles li,
     .mentionPanel {
       animation: reveal linear both;

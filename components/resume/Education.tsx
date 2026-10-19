@@ -27,8 +27,7 @@ export function Education() {
           <li key={c.id}>
             <span className={layout.mono}>{formatYearMonth(c.issued)}</span>
             <span>
-              <strong>{c.name}</strong>
-              <span className={styles.issuer}>{c.issuer}</span>
+              <strong>{c.name}</strong> <span className={styles.issuer}>{c.issuer}</span>
             </span>
           </li>
         ))}

@@ -220,7 +220,7 @@ export default async function CaseStudyPage({ params }: Props) {
                           const [lead, rest] = splitLead(b);
                           return (
                             <li key={b.slice(0, 40)} className={layout.card}>
-                              {lead && <strong className={styles.tileLead}>{lead}</strong>}
+                              {lead && <strong className={styles.tileLead}>{lead}</strong>}{' '}
                               <span>{withRecommenderLinks(rest)}</span>
                             </li>
                           );

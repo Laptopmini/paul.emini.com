@@ -46,10 +46,10 @@ export function RoleTimeline() {
             <span className={styles.node} aria-hidden="true" />
             <details open={i < OPEN_ROLES} className={`${layout.card} ${styles.card}`}>
               <summary>
-                <h3 className={styles.company}>{e.company}</h3>
+                <h3 className={styles.company}>{e.company}</h3>{' '}
                 <span className={styles.meta}>
                   {e.title} · {e.location}
-                </span>
+                </span>{' '}
                 <span className={styles.gloss}>{e.oneLiner ?? e.highlights[0]?.short}</span>
                 <span className={styles.chevron}>
                   <Icon name="chevronDown" />

@@ -58,7 +58,12 @@ export function ResumeHero() {
               <dt className={layout.mono}>{item.label}</dt>
               <dd className={'className' in item ? item.className : undefined}>
                 {item.value}
-                {'detail' in item && <span className={styles.glanceDetail}>{item.detail}</span>}
+                {'detail' in item && (
+                  <>
+                    {' '}
+                    <span className={styles.glanceDetail}>{item.detail}</span>
+                  </>
+                )}
               </dd>
             </div>
           ))}

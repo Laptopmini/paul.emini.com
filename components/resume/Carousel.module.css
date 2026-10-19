@@ -41,9 +41,14 @@
   padding: 4px 0 8px;
 }
 
-.viewport > figure {
+.viewport > * {
   flex: 0 0 min(760px, 86%);
   scroll-snap-align: start;
+  display: flex;
+}
+
+.viewport figure {
+  flex: 1;
   padding: 32px;
   gap: 20px;
 }
@@ -57,7 +62,7 @@
   display: none;
 }
 
-.viewport > figure > figcaption {
+.viewport figcaption {
   margin-top: auto;
   padding-top: 18px;
   border-top: 1px solid var(--divider);
@@ -136,8 +141,11 @@
     scroll-padding: 0 16px;
   }
 
-  .viewport > figure {
+  .viewport > * {
     flex-basis: 86%;
+  }
+
+  .viewport figure {
     padding: 20px;
   }
 }
@@ -154,7 +162,7 @@
     overflow: visible;
   }
 
-  .viewport > figure {
+  .viewport > * {
     flex-basis: auto;
     break-inside: avoid;
   }

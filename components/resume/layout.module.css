@@ -397,12 +397,12 @@
   color: var(--ink);
 }
 
-/* Scroll reveals: headings and cards fade and rise in as they enter. Visible as-is
-   without scroll timelines, without JS and under reduced motion. */
+/* Scroll reveals: cards below the hero fade and rise in as they enter. Headings stay
+   put, so nothing at the fold starts faded. Visible as-is without scroll timelines,
+   without JS and under reduced motion. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .h2,
-    .card,
+    .content .card,
     .cta {
       animation: reveal linear both;
       animation-timeline: view();

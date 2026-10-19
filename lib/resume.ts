@@ -53,11 +53,8 @@ export function contributionPill(c: Contribution): { label: string; tone: Contri
   return { label: `PR · ${c.state}`, tone: c.state };
 }
 
-/**
- * "**Every partner moved to it** with zero breakage…" → ["Every partner moved to it",
- * "with zero breakage…"]. A comma closing the lead is dropped: it becomes a tile title.
- */
+/** "**Every partner moved to it** with zero breakage…" → ["Every partner moved to it", "with zero breakage…"]. */
 export function splitLead(bullet: string): [string | null, string] {
-  const match = bullet.match(/^\*\*(.+?),?\*\*\s*(.*)$/s);
+  const match = bullet.match(/^\*\*(.+?)\*\*\s*(.*)$/s);
   return match ? [match[1] ?? null, match[2] ?? ''] : [null, bullet];
 }

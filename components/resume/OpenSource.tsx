@@ -29,7 +29,7 @@ export function OpenSource() {
               <span>
                 <ExternalLink href={c.url} className={styles.ossTitle}>
                   {c.title}
-                </ExternalLink>
+                </ExternalLink>{' '}
                 <span className={layout.mono}>
                   {c.repo} · {formatDate(c.updatedAt)}
                 </span>

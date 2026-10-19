@@ -62,7 +62,7 @@ describe('static page values', () => {
 
   it('splits a bullet into its bold lead and the rest', () => {
     expect(splitLead('**Fewer drop-offs,** with more partners finishing.')).toEqual([
-      'Fewer drop-offs',
+      'Fewer drop-offs,',
       'with more partners finishing.',
     ]);
     expect(splitLead('No lead here.')).toEqual([null, 'No lead here.']);

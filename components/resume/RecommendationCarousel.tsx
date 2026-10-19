@@ -20,16 +20,17 @@ export function RecommendationCarousel() {
       interval={pages.carouselIntervalMs}
     >
       {recommendations.map((r, i) => (
-        <Recommendation
+        // The slide wraps the <figure>: role="group" isn't allowed on figure itself.
+        // biome-ignore lint/a11y/useSemanticElements: a carousel slide (WAI carousel pattern)
+        <div
           key={r.id}
           id={r.id}
-          recommendation={r}
-          excerpt={recommendationHighlights[r.id]}
-          highlight
           role="group"
           aria-roledescription="slide"
           aria-label={`${i + 1} of ${recommendations.length}: ${r.name}`}
-        />
+        >
+          <Recommendation recommendation={r} excerpt={recommendationHighlights[r.id]} highlight />
+        </div>
       ))}
     </Carousel>
   );
