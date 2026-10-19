@@ -1,97 +1,537 @@
-/* /resume and /work/*: a readable document on the site's tokens. */
+/* /resume sections. Shell and shared pieces live in layout.module.css. */
 
-.page {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-
-.main {
-  width: 100%;
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 16px 48px 96px;
+/* Hero: intro | "At a glance" */
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 56px;
+  align-items: end;
+  padding: 72px 0 64px;
+  border-bottom: 1px solid var(--line);
 }
 
 .intro {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding-bottom: 48px;
-  border-bottom: 1px solid var(--line);
+  gap: 20px;
 }
 
 .location {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 0;
-  font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--muted);
 }
 
 .name {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 64px;
-  line-height: 1;
-  letter-spacing: -0.03em;
+  font-size: 88px;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
-.role {
+.title {
   margin: 0;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
   color: var(--accent-strong);
 }
 
-.summary,
-.text {
+.summary {
   margin: 0;
+  max-width: 640px;
   font-size: 18px;
   line-height: 1.6;
   color: var(--ink-2);
 }
 
-.actions {
+.glance {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.glanceList {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+}
+
+.glanceList dd {
+  margin: 4px 0 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.glanceList .glanceLead {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.glanceList .glanceStrong {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.glanceDetail {
+  display: block;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.contacts {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--divider);
 }
 
-.primary,
-.secondary {
-  display: inline-flex;
+.contact {
+  display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   min-height: var(--target-min);
-  padding: 0 20px;
-  border-radius: var(--radius-pill);
-  font-weight: 600;
-  font-size: 15px;
+  padding: 0 14px;
+  border-radius: var(--radius-link);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.primary {
+@media (hover: hover) {
+  .contact:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+.contactShort {
+  display: none;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Highlights bento */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.teaser {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 28px;
+  padding: 32px;
+  border-radius: var(--radius-card);
   background: var(--ink);
   color: var(--ground);
 }
 
-.secondary {
-  border: 1.5px solid var(--ink);
+.teaserHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.primary:active,
-.secondary:active {
-  transform: scale(0.96);
+.teaserTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
 }
 
-@media (hover: hover) {
-  .secondary:hover {
-    background: var(--ink);
-    color: var(--ground);
+.teaserBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.teaserBody > p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--on-ink-2);
+}
+
+.onInkMuted {
+  color: var(--on-ink-muted);
+}
+
+.onInkLink,
+.onInkLink:hover {
+  color: var(--ground);
+}
+
+.mention {
+  gap: 14px;
+}
+
+.mention blockquote {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-weight: 500;
+  font-size: 19px;
+}
+
+/* Later quotes read as supporting text under the headline quote. */
+.mention blockquote p + p {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.mentionCaption {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.award {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.awardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.awardName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.awardText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+/* Skills */
+.skills {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 16px;
+}
+
+.skills > div {
+  padding: 22px;
+}
+
+.skills dt {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.skills dd {
+  margin: 12px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Recommendations (until the carousel lands) */
+.stackList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Education | Open source */
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  column-gap: 40px;
+  align-items: start;
+}
+
+.degree {
+  padding: 22px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.degree strong {
+  font-size: 17px;
+}
+
+.school {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.degreeIcon {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 12px;
+  background: var(--ground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.certs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.certs li {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.certs li:last-child {
+  border-bottom: 0;
+}
+
+.certs .mono,
+.certs li > span:first-child {
+  padding-top: 3px;
+}
+
+.certs strong {
+  display: block;
+  font-size: 15px;
+}
+
+.issuer {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.ossIntro {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.oss {
+  margin: 0;
+  padding: 4px 20px;
+  list-style: none;
+}
+
+.oss li {
+  display: grid;
+  grid-template-columns: 124px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--divider);
+}
+
+.oss li:last-child {
+  border-bottom: 0;
+}
+
+.oss li > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ossTitle {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/* Same width for every pill, label centred. */
+.status {
+  width: 100%;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  margin-top: 1px;
+  white-space: nowrap;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.merged {
+  background: var(--ok-bg);
+  color: var(--ok-fg);
+}
+
+.open {
+  background: var(--accent-tint);
+  color: var(--accent-strong);
+}
+
+.issue {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+}
+
+.closed {
+  background: var(--chip);
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .hero {
+    gap: 20px;
+    padding: 32px 0 0;
+    border-bottom: 0;
   }
+
+  .intro {
+    gap: 14px;
+  }
+
+  .name {
+    font-size: 52px;
+  }
+
+  .title {
+    font-size: 19px;
+  }
+
+  .summary {
+    font-size: 16px;
+  }
+
+  /* Phone: glance shows the first two items as tiles; contact becomes three icon tiles. */
+  .glance {
+    padding: 0;
+    gap: 8px;
+    background: none;
+    border: 0;
+  }
+
+  .glanceList {
+    gap: 8px;
+  }
+
+  .glanceList div {
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+
+  .glanceList div:nth-child(n + 3) {
+    display: none;
+  }
+
+  .glanceList .glanceLead {
+    font-size: 26px;
+  }
+
+  .contacts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 0;
+    border: 0;
+  }
+
+  .contact {
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    min-height: 64px;
+    padding: 0 8px;
+    background: var(--surface);
+    font-size: 13px;
+  }
+
+  .contactLong {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .contactShort {
+    display: inline;
+  }
+
+  /* The bottom bar carries both actions on phones. */
+  .heroActions {
+    display: none;
+  }
+
+  .teaser {
+    gap: 12px;
+    padding: 22px;
+  }
+
+  .teaserTitle {
+    font-size: 24px;
+  }
+
+  .oss {
+    padding: 4px 16px;
+  }
+
+  .oss li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .status {
+    width: auto;
+    justify-self: start;
+  }
+}
+
+/* Case study page (moves to its own module with the redesign) */
+.caseTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 .section {
@@ -109,90 +549,11 @@
   letter-spacing: -0.02em;
 }
 
-.subheading {
+.text {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 24px;
-  letter-spacing: -0.02em;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-  gap: 16px;
-  align-items: start;
-}
-
-.teaser {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 22px;
-  border-radius: var(--radius-card);
-  background: var(--ink);
-  color: var(--ground);
-}
-
-.teaser p {
-  color: var(--on-ink-2);
-}
-
-.mention {
-  gap: 14px;
-}
-
-.mention blockquote {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Full-text recommendations read better one per row. */
-.stackList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.mentionCaption {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--muted);
-}
-
-.entry {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 24px 0;
-  border-top: 1px solid var(--divider);
-  scroll-margin-top: 24px;
-}
-
-.entry:first-of-type {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.entryHead {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.entryTitle {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 24px;
-}
-
-.entryMeta {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-2);
 }
 
 .list {
@@ -213,87 +574,8 @@
   color: var(--muted);
 }
 
-.related {
-  margin: 0;
-  font-size: 15px;
-}
-
-.more {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: var(--target-min);
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--accent-strong);
-}
-
-.teaser .more {
-  color: var(--ground);
-}
-
-.more svg {
-  transition: transform var(--duration) var(--ease);
-}
-
-@media (hover: hover) {
-  .more:hover svg {
-    transform: translate(2px, -2px);
-  }
-}
-
-.skills {
-  margin: 0;
-  display: grid;
-  gap: 16px;
-}
-
-.skills dt {
-  font-weight: 600;
-}
-
-.skills dd {
-  margin: 4px 0 0;
-  color: var(--ink-2);
-  line-height: 1.6;
-}
-
-.plain {
-  margin: 0;
-  padding-left: 20px;
+.actions {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  line-height: 1.6;
-  color: var(--ink-2);
-}
-
-@media (max-width: 640px) {
-  .main {
-    padding: 8px 20px 72px;
-  }
-
-  .name {
-    font-size: 44px;
-  }
-
-  .heading {
-    font-size: 26px;
-  }
-}
-
-.caseTitle {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 48px;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-}
-
-@media (max-width: 640px) {
-  .caseTitle {
-    font-size: 34px;
-  }
+  flex-wrap: wrap;
+  gap: 12px;
 }

@@ -1,35 +1,31 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Award, Recommendation } from '@/components/cards';
-import s from '@/components/cards/cards.module.css';
-import { ExternalLink } from '@/components/ExternalLink';
+import { Recommendation } from '@/components/cards';
 import { Icon } from '@/components/Icon';
 import { JsonLd } from '@/components/JsonLd';
-import { ContactLinks } from '@/components/landing/ContactLinks';
+import { AskCta } from '@/components/resume/AskCta';
+import { BottomBar } from '@/components/resume/BottomBar';
+import { COPY } from '@/components/resume/copy';
+import { Education } from '@/components/resume/Education';
+import { Highlights } from '@/components/resume/Highlights';
 import layout from '@/components/resume/layout.module.css';
-import { Mention } from '@/components/resume/Mention';
 import { OnThisPage, type PageSection } from '@/components/resume/OnThisPage';
+import { OpenOnHash } from '@/components/resume/OpenOnHash';
+import { OpenSource } from '@/components/resume/OpenSource';
 import { PageTop } from '@/components/resume/PageTop';
+import { Projects } from '@/components/resume/Projects';
+import { ResumeHero } from '@/components/resume/ResumeHero';
+import { RoleTimeline } from '@/components/resume/RoleTimeline';
 import styles from '@/components/resume/resume.module.css';
 import { ScrollSpy } from '@/components/resume/ScrollSpy';
-import { formatDate, formatDuration, formatMonthRange } from '@/lib/cards';
+import { Skills } from '@/components/resume/Skills';
 import {
-  awards,
-  caseStudies,
-  certifications,
-  education,
-  experience,
   github,
-  mentions,
   profile,
-  projects,
   RESUME_PDF,
   recommendationHighlights,
   recommendations,
-  skills,
 } from '@/lib/content';
-import { formatYearMonth, noBreakHyphens } from '@/lib/format';
-import { moreRepos } from '@/lib/repos';
 import { pageMetadata, personData } from '@/lib/seo';
 
 // The whole résumé as plain, server-rendered HTML, for people who'd rather read than
@@ -43,8 +39,7 @@ export const metadata: Metadata = pageMetadata({
   type: 'profile',
 });
 
-const repos = new Map(github.repos.map((r) => [r.name.toLowerCase(), r]));
-const ongoing = (end: string | null) => end ?? new Date().toISOString().slice(0, 7);
+const hasOpenSource = github.contributions.length > 0;
 
 const sections: PageSection[] = [
   { id: 'highlights', label: 'Highlights' },
@@ -53,7 +48,7 @@ const sections: PageSection[] = [
   { id: 'skills', label: 'Skills' },
   { id: 'recommendations', label: 'Recommendations' },
   { id: 'education', label: 'Education' },
-  ...(github.contributions.length > 0 ? [{ id: 'open-source', label: 'Open source' }] : []),
+  ...(hasOpenSource ? [{ id: 'open-source', label: 'Open source' }] : []),
 ];
 
 export default function ResumePage() {
@@ -64,181 +59,16 @@ export default function ResumePage() {
         <OnThisPage sections={sections} variant="tabs" />
       </PageTop>
       <main className={layout.wrap}>
-        <header className={styles.intro}>
-          <p className={styles.location}>
-            <Icon name="pin" size={16} />
-            {profile.location.city}, {profile.location.region}
-          </p>
-          <h1 className={styles.name}>{noBreakHyphens(profile.name)}</h1>
-          <p className={styles.role}>{profile.title}</p>
-          <p className={styles.summary}>{profile.summary}</p>
-          <ContactLinks />
-          <div className={styles.actions}>
-            <a
-              href={RESUME_PDF}
-              download={`${profile.name.replaceAll(' ', '-')}-Resume.pdf`}
-              className={styles.primary}
-            >
-              <Icon name="download" /> Download PDF
-            </a>
-            <Link href="/" className={styles.secondary}>
-              Ask my agent instead
-            </Link>
-          </div>
-        </header>
-
+        <ResumeHero />
         <div className={layout.cols}>
           <OnThisPage sections={sections} variant="rail" />
           <div className={layout.content}>
-            <section aria-labelledby="highlights" className={styles.section}>
-              <h2 id="highlights" className={styles.heading}>
-                Highlights
-              </h2>
-              <div className={styles.grid}>
-                {caseStudies.map((c) => (
-                  <article key={c.id} className={styles.teaser}>
-                    <p className={s.mono}>Case study</p>
-                    <h3 className={`${s.title} ${s.titleMd}`}>{c.title}</h3>
-                    <p className={s.body}>{c.summary}</p>
-                    <Link href={`/work/${c.id}/`} className={styles.more}>
-                      Read the case study <Icon name="arrowUpRight" size={16} />
-                    </Link>
-                  </article>
-                ))}
-                {mentions.map((m) => (
-                  <Mention key={m.id} mention={m} />
-                ))}
-                {awards.map((a) => (
-                  <Award key={a.id} award={a} />
-                ))}
-              </div>
-            </section>
-
-            <section aria-labelledby="experience" className={styles.section}>
-              <h2 id="experience" className={styles.heading}>
-                Experience
-              </h2>
-              {experience.map((e) => (
-                <article key={e.id} id={e.id} className={styles.entry}>
-                  <header className={styles.entryHead}>
-                    <h3 className={styles.entryTitle}>{e.company}</h3>
-                    <p className={styles.entryMeta}>
-                      {e.title} · {e.location} · {formatMonthRange(e.start, e.end)} ·{' '}
-                      {formatDuration(e.start, ongoing(e.end))}
-                    </p>
-                  </header>
-                  <ul className={styles.list}>
-                    {e.highlights.map((h) => (
-                      <li key={h.label}>
-                        <strong>{h.label}:</strong> {h.text}
-                      </li>
-                    ))}
-                  </ul>
-                  {caseStudies
-                    .filter((c) => c.experienceId === e.id)
-                    .map((c) => (
-                      <p key={c.id} className={styles.related}>
-                        Case study:{' '}
-                        <Link href={`/work/${c.id}/`} className={s.inlineLink}>
-                          {c.title}
-                        </Link>
-                      </p>
-                    ))}
-                  <p className={styles.stack}>
-                    <span className="sr-only">Tech stack: </span>
-                    {e.stack.join(' · ')}
-                  </p>
-                </article>
-              ))}
-            </section>
-
-            <section aria-labelledby="projects" className={styles.section}>
-              <h2 id="projects" className={styles.heading}>
-                Projects
-              </h2>
-              {projects.map((p) => {
-                const repo = p.repo
-                  ? repos.get(p.repo.split('/')[1]?.toLowerCase() ?? '')
-                  : undefined;
-                const href = repo?.url ?? (p.repo ? `https://github.com/${p.repo}` : undefined);
-                return (
-                  <article key={p.id} id={p.id} className={styles.entry}>
-                    <header className={styles.entryHead}>
-                      <h3 className={styles.entryTitle}>{p.name}</h3>
-                      <p className={styles.entryMeta}>
-                        {p.tagline} · {p.kind} · {formatYearMonth(p.date)}
-                        {repo ? ` · ★ ${repo.stars} · last push ${formatDate(repo.pushedAt)}` : ''}
-                      </p>
-                    </header>
-                    <p className={styles.text}>{p.summary}</p>
-                    <ul className={styles.list}>
-                      {p.highlights.map((h) => (
-                        <li key={h.label}>
-                          <strong>{h.label}:</strong> {h.text}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className={styles.stack}>
-                      <span className="sr-only">Tech stack: </span>
-                      {p.stack.join(' · ')}
-                    </p>
-                    {href && (
-                      <ExternalLink href={href} className={styles.more}>
-                        View the repo on GitHub <Icon name="arrowUpRight" size={16} />
-                      </ExternalLink>
-                    )}
-                  </article>
-                );
-              })}
-            </section>
-
-            {moreRepos(github, projects).length > 0 && (
-              <section aria-labelledby="more-on-github" className={styles.section}>
-                <h2 id="more-on-github" className={styles.subheading}>
-                  More on GitHub
-                </h2>
-                {moreRepos(github, projects).map((r) => (
-                  <article
-                    key={r.name}
-                    id={`repo-${r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-                    className={styles.entry}
-                  >
-                    <header className={styles.entryHead}>
-                      <h3 className={styles.entryTitle}>
-                        <ExternalLink href={r.url} className={s.inlineLink}>
-                          {r.name}
-                        </ExternalLink>
-                      </h3>
-                      <p className={styles.entryMeta}>
-                        {[r.language, `★ ${r.stars}`, `last push ${formatDate(r.pushedAt)}`]
-                          .filter(Boolean)
-                          .join(' · ')}
-                      </p>
-                    </header>
-                    {(r.readme ?? r.description) && (
-                      <p className={styles.text}>{r.readme ?? r.description}</p>
-                    )}
-                  </article>
-                ))}
-              </section>
-            )}
-
-            <section aria-labelledby="skills" className={styles.section}>
-              <h2 id="skills" className={styles.heading}>
-                Skills
-              </h2>
-              <dl className={styles.skills}>
-                {skills.map((g) => (
-                  <div key={g.id}>
-                    <dt>{g.label}</dt>
-                    <dd>{g.items.join(', ')}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-
-            <section aria-labelledby="recommendations" className={styles.section}>
-              <h2 id="recommendations" className={styles.heading}>
+            <Highlights />
+            <RoleTimeline />
+            <Projects />
+            <Skills />
+            <section aria-labelledby="recommendations" className={layout.section}>
+              <h2 id="recommendations" className={layout.h2}>
                 Recommendations
               </h2>
               <div className={styles.stackList}>
@@ -253,54 +83,28 @@ export default function ResumePage() {
                 ))}
               </div>
             </section>
-
-            <section aria-labelledby="education" className={styles.section}>
-              <h2 id="education" className={styles.heading}>
-                Education &amp; certifications
-              </h2>
-              <ul className={styles.plain}>
-                {education.map((e) => (
-                  <li key={e.id}>
-                    <strong>{e.degree}</strong>, {e.school}
-                  </li>
-                ))}
-                {certifications.map((c) => (
-                  <li key={c.id}>
-                    <strong>{c.name}</strong>, {c.issuer} · {formatYearMonth(c.issued)}
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            {github.contributions.length > 0 && (
-              <section aria-labelledby="open-source" className={styles.section}>
-                <h2 id="open-source" className={styles.heading}>
-                  Open source
-                </h2>
-                <p className={styles.text}>
-                  Recent pull requests and issues on projects I don’t own, refreshed daily from{' '}
-                  <ExternalLink href={profile.links.github} className={s.inlineLink}>
-                    GitHub
-                  </ExternalLink>
-                  .
-                </p>
-                <ul className={styles.plain}>
-                  {github.contributions.slice(0, 10).map((c) => (
-                    <li key={c.url}>
-                      <ExternalLink href={c.url} className={s.inlineLink}>
-                        {c.title}
-                      </ExternalLink>{' '}
-                      · {c.repo} · {c.kind === 'pr' ? `PR, ${c.state}` : `issue, ${c.state}`} ·{' '}
-                      {formatDate(c.updatedAt)}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
+            <div className={styles.pair}>
+              <Education />
+              {hasOpenSource && <OpenSource />}
+            </div>
+            <AskCta />
           </div>
         </div>
       </main>
+      <BottomBar>
+        <a
+          href={RESUME_PDF}
+          download={`${profile.name.replaceAll(' ', '-')}-Resume.pdf`}
+          className={layout.ghost}
+        >
+          <Icon name="download" size={16} /> {COPY.downloadPdf}
+        </a>
+        <Link href="/" className={layout.primary}>
+          {COPY.askAgent}
+        </Link>
+      </BottomBar>
       <ScrollSpy />
+      <OpenOnHash />
     </div>
   );
 }

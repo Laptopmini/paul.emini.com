@@ -48,7 +48,7 @@ test.describe('static résumé pages', () => {
     const curated = new Set(projects.map((p) => p.repo?.split('/')[1]?.toLowerCase()));
     for (const r of github.repos.filter((r) => !curated.has(r.name.toLowerCase()))) {
       const entry = page.locator(`#repo-${r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
-      await expect(entry.getByRole('heading', { level: 3 })).toContainText(r.name);
+      await expect(entry.getByRole('heading', { level: 4 })).toContainText(r.name);
       const text = r.readme ?? r.description;
       if (text) await expect(entry).toContainText(text);
     }

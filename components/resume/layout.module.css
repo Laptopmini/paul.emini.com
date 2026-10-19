@@ -241,3 +241,197 @@
     padding: 0 16px 112px;
   }
 }
+
+/* Shared pieces */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 88px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  flex-wrap: wrap;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+}
+
+.card {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+}
+
+.lift {
+  transition:
+    transform var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease);
+}
+
+@media (hover: hover) {
+  .lift:hover {
+    transform: translateY(-3px);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+.primary,
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--target-min);
+  padding: 0 20px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--ink);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.primary {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.ghost:hover {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.primary:active,
+.ghost:active {
+  transform: scale(0.96);
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--target-min);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--accent-strong);
+}
+
+.more svg {
+  transition: transform var(--duration) var(--ease);
+}
+
+@media (hover: hover) {
+  .more:hover svg {
+    transform: translate(2px, -2px);
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: var(--ground);
+  font-size: 13px;
+}
+
+.chipInk {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+/* "Rather just ask?" */
+.cta {
+  margin-top: 96px;
+  padding: 32px;
+  border-radius: 22px;
+  background: var(--ink);
+  color: var(--ground);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.ctaTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+}
+
+.ctaText {
+  margin: 6px 0 0;
+  color: var(--on-ink-2);
+}
+
+.ctaButton {
+  composes: primary;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.ctaButton:hover {
+  background: var(--ground);
+  border-color: var(--ground);
+  color: var(--ink);
+}
+
+/* Phone: a bottom bar with the page's two actions. It sits last in the page, so it
+   never covers the end of the content. */
+.bottomBar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .section {
+    gap: 16px;
+    padding-top: 48px;
+  }
+
+  .h2 {
+    font-size: 28px;
+  }
+
+  .cta {
+    margin-top: 56px;
+    padding: 24px;
+  }
+
+  .bottomBar {
+    position: sticky;
+    bottom: 0;
+    z-index: 4;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: -88px;
+    padding: 12px 16px 20px;
+    background: linear-gradient(to top, var(--ground) 75%, transparent);
+  }
+
+  .bottomBar a {
+    border-radius: 14px;
+    min-height: 48px;
+  }
+}

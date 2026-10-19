@@ -1,0 +1,224 @@
+/* Grid: dates | node | card. The line runs through the node column. */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.timeline::before,
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: 131px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+/* The accent part of the line: the latest role's share, or growing with the scroll. */
+.timeline::after {
+  background: linear-gradient(var(--accent), var(--accent-strong));
+  transform-origin: top;
+  transform: scaleY(0.3);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .timeline::after {
+      animation: line-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 70%;
+    }
+  }
+}
+
+@keyframes line-grow {
+  from {
+    transform: scaleY(0.05);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.role {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 120px 24px minmax(0, 1fr);
+}
+
+.when {
+  padding: 22px 6px 0 0;
+  text-align: right;
+  line-height: 1.6;
+}
+
+.duration {
+  display: block;
+}
+
+.dot {
+  display: none;
+}
+
+.node {
+  position: relative;
+}
+
+.node::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 26px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ground);
+  border: 2px solid var(--line-2);
+}
+
+.latest .node::after {
+  border-color: var(--accent);
+}
+
+.card {
+  padding: 20px 24px;
+  min-width: 0;
+}
+
+/* <summary> allows headings only as direct children, so its parts are grid cells. */
+.card summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 16px;
+  row-gap: 4px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.card summary > :not(.chevron) {
+  grid-column: 1;
+}
+
+.card summary::-webkit-details-marker {
+  display: none;
+}
+
+.company {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.meta {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+/* The one-line summary only shows while the role is collapsed. */
+.gloss {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.card[open] .gloss {
+  display: none;
+}
+
+.chevron {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ground);
+  transition:
+    transform var(--duration) var(--ease),
+    background-color var(--duration) var(--ease);
+}
+
+.card[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.card summary:hover .chevron {
+  background: var(--chip);
+}
+
+.highlights {
+  margin: 16px 0 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.related {
+  margin: 14px 0 0;
+  font-size: 15px;
+}
+
+.relatedLink {
+  color: var(--accent-strong);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.stack {
+  margin: 14px 0 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* Below 900px: node | card, dates move into the card's column above it. */
+@media (max-width: 900px) {
+  .timeline::before,
+  .timeline::after {
+    left: 11px;
+  }
+
+  .role {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+
+  .when {
+    grid-column: 2;
+    padding: 0 0 6px;
+    text-align: left;
+  }
+
+  .duration,
+  .dot {
+    display: inline;
+  }
+
+  .node {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .card {
+    grid-column: 2;
+    padding: 16px;
+  }
+
+  .company {
+    font-size: 20px;
+  }
+}

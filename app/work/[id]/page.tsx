@@ -115,10 +115,10 @@ export default async function CaseStudyPage({ params }: Props) {
 
               <footer className={styles.section}>
                 <div className={styles.actions}>
-                  <Link href={`/resume/#${study.experienceId}`} className={styles.secondary}>
+                  <Link href={`/resume/#${study.experienceId}`} className={layout.ghost}>
                     Back to the résumé
                   </Link>
-                  <Link href="/" className={styles.primary}>
+                  <Link href="/" className={layout.primary}>
                     Ask my agent about it <Icon name="arrowUpRight" size={16} />
                   </Link>
                 </div>
