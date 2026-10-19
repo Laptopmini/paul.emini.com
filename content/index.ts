@@ -6,6 +6,7 @@ import experienceJson from './experience.json';
 import githubJson from './github.json';
 import mentionsJson from './mentions.json';
 import metaJson from './meta.json';
+import pagesJson from './pages.json';
 import personasJson from './personas.json';
 import profileJson from './profile.json';
 import projectsJson from './projects.json';
@@ -20,6 +21,7 @@ import {
   githubSchema,
   mentionsSchema,
   metaSchema,
+  pagesSchema,
   personasSchema,
   profileSchema,
   projectsSchema,
@@ -46,6 +48,7 @@ export const github = githubSchema.parse(githubJson);
 export const personas = personasSchema.parse(personasJson);
 export const site = siteSchema.parse(siteJson);
 export const meta = metaSchema.parse(metaJson);
+export const pages = pagesSchema.parse(pagesJson);
 export const caseStudies = caseStudiesSchema.parse(caseStudiesJson);
 export const mentions = mentionsSchema.parse(mentionsJson);
 export const DEFAULT_PERSONA = 'visitor' as const;

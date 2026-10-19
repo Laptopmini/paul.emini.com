@@ -120,6 +120,7 @@
     ],
     "stack": ["Swift", "Objective-C", "App Store Connect", "TestFlight"],
     "tags": ["Swift", "Objective-C", "iOS SDK"],
+    "oneLiner": "lead iOS developer for ARTIK Cloud, under Luc Julia",
     "curatedFrom": "2b47542d"
   },
   {
@@ -149,6 +150,7 @@
     ],
     "stack": ["Python", "Django", "PostgreSQL", "Redis", "SQLite", "tesseract-ocr", "OpenCV"],
     "tags": ["Python", "Django", "OpenCV", "PostgreSQL"],
+    "oneLiner": "computer vision before iOS Visual Search",
     "curatedFrom": "d99d05c5"
   },
   {
@@ -173,6 +175,7 @@
     ],
     "stack": ["Java", "Android Studio", "MySQL", "SQLite", "REST", "Python"],
     "tags": ["Java", "Android", "SQLite"],
+    "oneLiner": "HIPAA-compliant document sharing",
     "curatedFrom": "7c26dc87"
   }
 ]

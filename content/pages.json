@@ -1,0 +1,8 @@
+{
+  "carouselIntervalMs": 7000,
+  "ossDisplayNames": {
+    "CopilotKit": "CopilotKit",
+    "run-llama": "LlamaIndex",
+    "ag-ui-protocol": "AG-UI"
+  }
+}

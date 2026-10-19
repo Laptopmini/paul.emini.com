@@ -14,7 +14,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
 - Never change an existing `id`. A renamed company or project keeps its id. Only new entries get new ids (kebab-case).
 - Copy names verbatim. Certification names are official course titles (e.g. "Building Agentic RAG with Llamaindex"), so never "correct" their spelling or casing.
 - Case studies and mentions are owner-written copy: carry them over **word for word**, never rewrite, summarize or "improve" them. Mention quotes keep only Paul's name ("…" marks other names left out).
-- Do not touch `content/personas.json`, `content/site.json` (site config), `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
+- Do not touch `content/personas.json`, `content/site.json` and `content/pages.json` (site config), `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
 
 ## Workflow
 
@@ -40,7 +40,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
    | `## Education & Certifications` | `education.json`, `certifications.json` | Degree lines → education; `**Name** – Issuer \| *Issued Mon YYYY*` → certifications (`issued` as `YYYY-MM`). |
    | `## Awards` | `awards.json` | Heading line → `name`, `issuer`, `received`; paragraph → `description`. |
 
-   | `case-studies/<id>.md` | `case-studies.json` | Frontmatter → `id`, `title`, `role`, `stack` (comma list), `summary`; `experience` (company name) → `experienceId`; `period` "Month YYYY – Month YYYY" → `start`/`end` (`YYYY-MM`). Each `## Heading` → a section: `id` = kebab-case heading (apostrophes dropped), `heading`, `paragraphs` (blank-line separated, lines joined), `bullets` (`- ` lines). Keep **bold** as written. |
+   | `case-studies/<id>.md` | `case-studies.json` | Frontmatter → `id`, `title`, `role`, `stack` (comma list), `summary`; `experience` (company name) → `experienceId`; `period` "Month YYYY – Month YYYY" → `start`/`end` (`YYYY-MM`). Each `## Heading` → a section: `id` = kebab-case heading (apostrophes dropped), `heading`, `paragraphs` (blank-line separated, lines joined), `bullets` (`- ` lines). Keep **bold** as written. Optional frontmatter: `design` (name) → `designCredit.name`, plus `recommendationId` when a recommendation has that name; `nav` (heading → label) → that section's `navLabel`; `stats[]` → `stats[]` (`value`, `label`, `short` → `shortLabel`, `evidence`, `teaser`). In a section, a blockquote opening `> **Aside:** <kicker>` → `aside`: optional `> **Title:**` line → `title`, the remaining text → `text`, a trailing `[label](https://paul.emini.com/<path>)` → `linkLabel` + `href` (the site path, e.g. `/resume/#derek-warner`). A fenced ```` ```figure ```` YAML block → `figure` as written. Asides and figures are not paragraphs or bullets. |
    | `mentions.md` → `## Title` | `mentions.json` | `id` = kebab-case title. `Author` "Name, Title" → `author`, `authorTitle`; `Date` → `date`; `Where` URL → `url`; `About` → `experienceId` (company) and `caseStudyId` (the `case-studies/<id>.md` it names); each `> ` line → `quotes`, verbatim. |
 
    Keep arrays in the order of the source (experience and projects most recent first).
@@ -48,6 +48,8 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
    After converting, check every case-study paragraph, bullet and summary, and every mention quote, appears verbatim in the source (whitespace-normalized). Fix the conversion, not the text.
 
 4. **Curated card copy.** `short` (experience highlights), `blurb` (projects, awards) and `tags` are condensed versions written for the cards, not résumé text. When the underlying `text`/`summary`/`description` changes, or a new entry is added, draft a new `short`/`blurb`/`tags` that states only what the source says, and list each one in the summary for the owner to review. Never introduce facts, numbers or names that aren't in the source.
+
+   Some card copy has no source field and is hand-curated here, so a sync keeps it as is: `profile.focus`, `experience[].oneLiner` and `projects[].highlights[].short`. Flag any of them that a change makes inaccurate; don't rewrite them silently.
 
    Each experience, project and award has a `curatedFrom` fingerprint of the source fields its curated copy was written from. After a source change, `pnpm test:content` fails and prints the new fingerprint for every stale entry. Re-review (and redraft if needed) that entry's `short`/`blurb`/`tags`, then set `curatedFrom` to the printed value. Never update a fingerprint without reviewing the copy: the fingerprint is the record that the review happened.
 

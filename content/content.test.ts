@@ -98,6 +98,38 @@ describe('content', () => {
     }
   });
 
+  // A stat's evidence is quoted from the write-up. A number must appear in its
+  // evidence; a word stat ("All", "Zero") must be backed by an Impact bullet.
+  it('case study stats are backed by the text', () => {
+    for (const c of caseStudies) {
+      const plain = (parts: string[]) => parts.join('\n').replaceAll('**', '');
+      const text = plain(c.sections.flatMap((s) => [...s.paragraphs, ...s.bullets]));
+      const impact = plain(c.sections.find((s) => s.id === 'impact')?.bullets ?? []);
+      for (const stat of c.stats ?? []) {
+        expect(text).toContain(stat.evidence);
+        const number = stat.value.match(/\d+/)?.[0];
+        if (number) expect(stat.evidence).toContain(number);
+        else expect(impact.toLowerCase()).toContain(stat.evidence.toLowerCase());
+      }
+    }
+  });
+
+  it('case study credits and aside links point at existing entries', () => {
+    const anchors = [...recommendations, ...experience, ...projects].map((e) => e.id);
+    for (const c of caseStudies) {
+      const credit = c.designCredit;
+      if (credit?.recommendationId) {
+        expect(recommendations.find((r) => r.id === credit.recommendationId)?.name).toBe(
+          credit.name,
+        );
+      }
+      for (const s of c.sections) {
+        const anchor = s.aside?.href?.match(/^\/resume\/#(.+)$/)?.[1];
+        if (anchor) expect(anchors).toContain(anchor);
+      }
+    }
+  });
+
   it('recommendation highlights are verbatim sentences, one per recommendation', () => {
     const highlights = JSON.parse(
       readFileSync(join(dir, 'recommendation-highlights.json'), 'utf8'),

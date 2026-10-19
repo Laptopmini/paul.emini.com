@@ -18,6 +18,38 @@
       "Google Analytics"
     ],
     "summary": "I initiated and led a refactor of the SmartThings Developer Console's product onboarding: one overgrown form became a guided, modular journey that other teams can extend. Every partner moved to it with zero breakage, and it shipped as the redesigned Developer Center.",
+    "stats": [
+      {
+        "label": "Partners served",
+        "shortLabel": "Partners",
+        "value": "120+",
+        "evidence": "more than 120 partners",
+        "teaser": true
+      },
+      {
+        "label": "Protocols",
+        "value": "12",
+        "evidence": "12 protocols",
+        "teaser": true
+      },
+      {
+        "label": "Partners migrated",
+        "shortLabel": "Migrated",
+        "value": "All",
+        "evidence": "Every partner moved to it"
+      },
+      {
+        "label": "Breakage at cutover",
+        "shortLabel": "Breakage",
+        "value": "Zero",
+        "evidence": "zero breakage",
+        "teaser": true
+      }
+    ],
+    "designCredit": {
+      "name": "Derek Warner",
+      "recommendationId": "derek-warner"
+    },
     "sections": [
       {
         "id": "context",
@@ -25,7 +57,11 @@
         "paragraphs": [
           "The SmartThings Developer Console is the portal partners use to build, certify and market their products in the SmartThings ecosystem, from solo hobbyists to enterprise brands. It serves more than 120 partners and thousands of hobbyists, across 12 protocols such as Matter and Zigbee. Every paying partner goes through it to get certified, so it sits on the critical path to launching a product. It's a Next.js application that combines marketing content, documentation and developer tooling."
         ],
-        "bullets": []
+        "bullets": [],
+        "aside": {
+          "kicker": "Why it matters",
+          "text": "Certification runs through this console, so friction here delays every product launch in the ecosystem."
+        }
       },
       {
         "id": "the-problem",
@@ -34,7 +70,11 @@
           "Registering and certifying a product meant filling in one product form. Over the years it had grown into dozens of fields with different requirements, backed by several upstream services, each with its own validation and dependencies.",
           "Because everything lived in one form with one validation pass, a change to a single requirement could block a partner from submitting anything else. New features were hard to add without affecting others, and user reports were hard to trace to the field that caused them. Most importantly, users were overwhelmed: there was little guidance, and people dropped off out of frustration, confusion, or because they had to leave the page to read the documentation. Hotjar, Google Analytics and our partner-success team all confirmed it."
         ],
-        "bullets": []
+        "bullets": [],
+        "aside": {
+          "kicker": "Evidence",
+          "text": "Drop-off confirmed three ways: Hotjar sessions, Google Analytics funnels, and partner-success reports."
+        }
       },
       {
         "id": "the-idea",
@@ -44,7 +84,12 @@
           "Separately, I had been exploring how to break the form into standard modules that could be chained into a step-by-step flow. When our designer, Derek Warner, shared a Figma design for a new workflow with an accompanying summary, the two ideas came together: combine summaries and workflows with a modular form, on top of the component library, with a contract other teams could build against. We called it the Unified Journey.",
           "It was September 2025 and the roadmap was full through Q4, so I kept going on my own initiative. Within a couple of days I had a working vertical slice for one product type, enough to prove it was feasible and surface the real requirements. I demoed it to my manager and the product team and got the green light."
         ],
-        "bullets": []
+        "bullets": [],
+        "aside": {
+          "kicker": "Sep 2025",
+          "title": "A working vertical slice in a couple of days",
+          "text": "Built on my own initiative while the roadmap was full through Q4."
+        }
       },
       {
         "id": "how-it-works",
@@ -56,7 +101,72 @@
           "The app has only two generic pages, an overview and a workflow page, with no product-specific code. They ask the module collection what applies to the current product and render it.",
           "Capabilities reach the modules through context (dependency injection): the current product, saving, navigation, analytics and error reporting. Modules know nothing about the app's routing, API client or error handling, which keeps a few dozen modules from becoming a few dozen special cases.",
           "Typed and documented, with unit and end-to-end tests, every piece behind a feature flag, and accessible, keyboard-navigable and dark-mode-ready out of the box."
-        ]
+        ],
+        "figure": {
+          "kind": "architecture",
+          "caption": "Modules know nothing about the app's routing, API client or error handling. They receive those capabilities through context, so a few dozen modules never become a few dozen special cases.",
+          "panels": [
+            {
+              "kicker": "Contract",
+              "title": "Typed module contract",
+              "note": "Published as a private package. Other teams build against it."
+            },
+            {
+              "kicker": "Modules",
+              "items": [
+                {
+                  "label": "Brand",
+                  "note": "summary + workflow"
+                },
+                {
+                  "label": "Device Profile",
+                  "note": "summary + workflow"
+                },
+                {
+                  "label": "…",
+                  "note": "a few dozen more"
+                },
+                {
+                  "label": "Another team's",
+                  "note": "first-class, their on-call"
+                }
+              ]
+            },
+            {
+              "kicker": "Two generic pages",
+              "items": [
+                {
+                  "label": "Overview",
+                  "note": "asks which modules apply, renders summaries"
+                },
+                {
+                  "label": "Workflow",
+                  "note": "renders one module's guided flow"
+                }
+              ]
+            },
+            {
+              "kicker": "Context (DI)",
+              "items": [
+                {
+                  "label": "product"
+                },
+                {
+                  "label": "saving"
+                },
+                {
+                  "label": "navigation"
+                },
+                {
+                  "label": "analytics"
+                },
+                {
+                  "label": "error reporting"
+                }
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "the-result",
@@ -65,7 +175,47 @@
           "Partners now establish what they're building first: the product type and integration. From there, they only ever see the sections that apply. Instead of a wall of fields, they land on one overview of their product, with a completion status and their path to certification. Each section opens its own guided workflow, with room to explain what's asked, recommend the standard option, link to the docs and validate that section on its own.",
           "The look and feel is Derek Warner's work: he designed every screen, including the dark-mode, mobile and tablet variants, and had earlier helped me set up the design system behind the component library. We iterated constantly between his Figma files and my prototypes. Because the improvements shipped through the shared component library, teams not using these flows directly benefited too."
         ],
-        "bullets": []
+        "bullets": [],
+        "aside": {
+          "kicker": "Design credit",
+          "title": "Derek Warner",
+          "text": "designed every screen, including dark-mode, mobile and tablet variants.",
+          "href": "/resume/#derek-warner",
+          "linkLabel": "Read his recommendation"
+        },
+        "figure": {
+          "kind": "before-after",
+          "caption": "Illustrative, not production screenshots.",
+          "panels": [
+            {
+              "kicker": "Before · one form, one validation pass",
+              "note": "Dozens of fields. One failing requirement blocked the whole submission."
+            },
+            {
+              "kicker": "After · an overview of only what applies",
+              "title": "Your product",
+              "note": "Each section opens its own guided workflow and validates on its own.",
+              "items": [
+                {
+                  "label": "Brand",
+                  "note": "Done"
+                },
+                {
+                  "label": "Device Profile",
+                  "note": "Done"
+                },
+                {
+                  "label": "Certification",
+                  "note": "Continue"
+                },
+                {
+                  "label": "Marketing",
+                  "note": "Not started"
+                }
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "rollout",
@@ -73,7 +223,28 @@
         "paragraphs": [
           "Every new flow and redirect went behind a feature flag, and we released in stages: first to the product team and partner-success managers, then to all internal employees, then to a few select partners, and finally publicly at the end of January 2026. We delayed the public release twice to fix two edge cases, to protect a zero-break cutover."
         ],
-        "bullets": []
+        "bullets": [],
+        "figure": {
+          "kind": "rollout",
+          "panels": [
+            {
+              "title": "Product team & partner success",
+              "note": "First eyes on every flow"
+            },
+            {
+              "title": "All internal employees",
+              "note": "Broader dogfooding"
+            },
+            {
+              "title": "A few select partners",
+              "note": "Public release delayed twice for two edge cases"
+            },
+            {
+              "title": "Public · end of Jan 2026",
+              "note": "Zero-break cutover"
+            }
+          ]
+        }
       },
       {
         "id": "impact",
@@ -90,6 +261,7 @@
       {
         "id": "what-id-do-differently",
         "heading": "What I'd do differently",
+        "navLabel": "In hindsight",
         "paragraphs": [
           "Get it in front of real partner usage earlier, through a wider preview or testing against production-like data, so edge cases surface before they hold up a release rather than during it. QA did excellent work; some cases only show up once real partners are in the product."
         ],

@@ -22,6 +22,8 @@ export const profileSchema = z.strictObject({
   tagline: text.refine((t) => /^[a-z]/.test(t), 'starts lowercase; the title precedes it'),
   /** Profile paragraph from the résumé. */
   summary: text,
+  /** Hand-curated "Focus" line in the /resume "At a glance" card. */
+  focus: z.array(text).min(1).max(5),
 });
 
 export const skillGroupSchema = z
@@ -60,6 +62,8 @@ export const experienceSchema = z
     stack: z.array(text).min(1),
     /** Chips shown on the card. */
     tags: z.array(text).min(1).max(6),
+    /** Gloss after the title on a collapsed /resume role; falls back to the first highlight's `short`. */
+    oneLiner: text.optional(),
     /** Fingerprint of the source fields the curated copy was reviewed against (see curated.ts). */
     curatedFrom: z.string().regex(/^[0-9a-f]{8}$/),
   })
@@ -79,7 +83,16 @@ export const projectSchema = z.strictObject({
   /** One-line card description. */
   blurb: text,
   summary: text,
-  highlights: z.array(z.strictObject({ label: text, text })).min(1),
+  highlights: z
+    .array(
+      z.strictObject({
+        label: text,
+        text,
+        /** Gloss after the label in the /resume project list. */
+        short: text.optional(),
+      }),
+    )
+    .min(1),
   stack: z.array(text).min(1),
   tags: z.array(text).min(1).max(6),
   /** Fingerprint of the source fields the curated copy was reviewed against (see curated.ts). */
@@ -138,10 +151,27 @@ export const recommendationsSchema = z.array(recommendationSchema).min(1);
 /** Site copy: one sentence per recommendation, copied word for word, shown above the full text on /resume. */
 export const recommendationHighlightsSchema = z.record(id, text);
 
+const figureSchema = z.strictObject({
+  /** Picks the figure's layout on /work/<id>. */
+  kind: z.enum(['architecture', 'before-after', 'rollout']),
+  caption: text.optional(),
+  /** Columns (architecture), cards (before-after) or stages (rollout), in order. */
+  panels: z
+    .array(
+      z.strictObject({
+        kicker: text.optional(),
+        title: text.optional(),
+        note: text.optional(),
+        items: z.array(z.strictObject({ label: text, note: text.optional() })).optional(),
+      }),
+    )
+    .min(1),
+});
+
 /**
  * Long-form write-ups of one piece of work, synced from my-resume `case-studies/*.md`
  * (owner-written portfolio copy, carried over word for word). Paragraphs and bullets
- * may use **bold**.
+ * may use **bold**. Stats, asides and figures are synced too; prose stays the record.
  */
 export const caseStudySchema = z.strictObject({
   id,
@@ -152,13 +182,42 @@ export const caseStudySchema = z.strictObject({
   end: yearMonth,
   stack: z.array(text).min(1),
   summary: text,
+  /** Stat tiles, in order; the last one is drawn inverted. */
+  stats: z
+    .array(
+      z.strictObject({
+        label: text,
+        /** Label on phones and on the /resume teaser. */
+        shortLabel: text.optional(),
+        value: text,
+        /** Words from the sections that back the stat, verbatim (a content test checks it). */
+        evidence: text,
+        /** Also shown on the /resume teaser. */
+        teaser: z.boolean().optional(),
+      }),
+    )
+    .optional(),
+  designCredit: z.strictObject({ name: text, recommendationId: id.optional() }).optional(),
   sections: z
     .array(
       z.strictObject({
         id,
         heading: text,
+        /** Shorter label in the "On this page" rail. */
+        navLabel: text.optional(),
         paragraphs: z.array(text),
         bullets: z.array(text),
+        aside: z
+          .strictObject({
+            kicker: text,
+            title: text.optional(),
+            text,
+            href: z.string().startsWith('/').optional(),
+            linkLabel: text.optional(),
+          })
+          .refine((a) => !a.href === !a.linkLabel, 'href and linkLabel go together')
+          .optional(),
+        figure: figureSchema.optional(),
       }),
     )
     .min(1),
@@ -206,6 +265,14 @@ export const siteSchema = z.strictObject({
   summary: text,
   repo: z.string().regex(/^[\w.-]+\/[\w.-]+$/),
   sections: z.array(z.strictObject({ id, label: text, points: z.array(text).min(1) })).min(1),
+});
+
+/** Settings for the static pages (/resume, /work/<id>). Not résumé content. */
+export const pagesSchema = z.strictObject({
+  /** Recommendation carousel autoplay interval. */
+  carouselIntervalMs: z.number().int().min(4000).max(15000),
+  /** GitHub owner → name shown in the "At a glance" open-source line. */
+  ossDisplayNames: z.record(z.string(), text),
 });
 
 /** Bookkeeping written by /sync-resume. */
@@ -268,6 +335,7 @@ export type Recommendation = z.infer<typeof recommendationSchema>;
 export type Persona = z.infer<typeof personasSchema>[number];
 export type PersonaId = z.infer<typeof personaIdSchema>;
 export type Site = z.infer<typeof siteSchema>;
+export type Pages = z.infer<typeof pagesSchema>;
 export type Meta = z.infer<typeof metaSchema>;
 export type CaseStudy = z.infer<typeof caseStudySchema>;
 export type Mention = z.infer<typeof mentionSchema>;
