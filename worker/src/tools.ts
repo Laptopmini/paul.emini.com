@@ -42,10 +42,10 @@ const isError = (value: unknown): value is ToolError =>
 /**
  * Follow-ups are the visitor's questions about Paul. The model sometimes slips into
  * offering ("Want to know…?") or asking about the visitor ("What role are you hiring
- * for?"); those are dropped.
+ * for?"); those are dropped. ("Your team" stays: it's Paul's team when a visitor asks.)
  */
 const NOT_A_VISITOR_QUESTION =
-  /^(want|would you like|do you want|shall i|should i)\b|\b(are you|you're) hiring\b|\byour (team|company|organization|org)\b/i;
+  /^(want|would you like|do you want|shall i|should i)\b|\b(are you|you're) hiring\b/i;
 
 export function createTools(
   recommendations: Recommendation[],

@@ -50,7 +50,7 @@ export const toolArgs = {
   }),
   suggestFollowUps: z.object({
     questions: z
-      .array(z.string().max(80))
+      .array(z.string().max(120))
       .min(2)
       .max(3)
       .describe(

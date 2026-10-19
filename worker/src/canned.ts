@@ -93,13 +93,9 @@ export function dailyLimitItems(quota: QuotaValue, now: Date): Item[] {
 
 export const offTopicItems = (): Item[] => [{ kind: 'tool', name: 'offTopicRedirect', result: {} }];
 
-/** When the model forgets its follow-ups: the persona's prompts not asked yet. */
-export function fallbackFollowUpItems(prompts: string[], asked: string[]): Item[] {
-  const questions = prompts.filter((p) => !asked.includes(p)).slice(0, 3);
-  return questions.length > 0
-    ? [{ kind: 'tool', name: 'suggestFollowUps', result: { questions } }]
-    : [];
-}
+/** Follow-ups when the model's own are missing or unusable: the persona's prompts not asked yet. */
+export const unaskedPrompts = (prompts: string[], asked: string[]) =>
+  prompts.filter((p) => !asked.includes(p)).slice(0, 3);
 
 export const restingItems = (reason: RestingResult['reason']): Item[] => [
   { kind: 'tool', name: 'agentResting', result: { reason } satisfies RestingResult },

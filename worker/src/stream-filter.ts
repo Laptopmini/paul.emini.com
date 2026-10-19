@@ -1,3 +1,5 @@
+import { itemEvents } from './canned';
+
 // Filters the AG-UI event stream before it reaches the browser:
 // - reasoning events never leave the Worker (the model's private chain of thought);
 // - RUN_STARTED's echo of the server-side input is removed;
@@ -11,12 +13,23 @@
 const HIDDEN = /^(REASONING|THINKING)_/;
 const CLOSING_TOOL = 'suggestFollowUps';
 
+/** A suggestFollowUps result with at least one question (not an error, not emptied). */
+function hasQuestions(content: unknown): boolean {
+  try {
+    const value = typeof content === 'string' ? JSON.parse(content) : content;
+    return Array.isArray(value?.questions) && value.questions.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 type AgUiEvent = {
   type?: string;
   input?: unknown;
   toolCallId?: string;
   toolCallName?: string;
   delta?: string;
+  content?: unknown;
   threadId?: string;
   runId?: string;
 };
@@ -76,14 +89,17 @@ export function filterSseStream(
     onOutcome?: (ok: boolean) => void;
     /** Events to show instead of a RUN_ERROR (the resting card), or null for the error. */
     onError?: () => object[] | null;
-    /** Follow-ups to add when the model finished without calling suggestFollowUps. */
-    fallbackFollowUps?: () => object[];
+    /**
+     * Follow-up questions to show when the model's own are missing or unusable: it
+     * finished without calling suggestFollowUps, or the call failed or kept nothing.
+     */
+    fallbackQuestions?: () => string[];
   } = {},
 ): { stream: ReadableStream<Uint8Array>; done: Promise<void> } {
   const { onFinish, clientThreadId, afterStart = [], onOutcome } = options;
   let hold = options.hold;
   let reported = false;
-  let sawFollowUps = false;
+  let followUpsCallId: string | undefined;
   const report = (ok: boolean) => {
     if (reported) return;
     reported = true;
@@ -151,12 +167,22 @@ export function filterSseStream(
       return close();
     }
     if (event.type === 'TOOL_CALL_START' && event.toolCallName === CLOSING_TOOL) {
-      sawFollowUps = true;
+      followUpsCallId = event.toolCallId;
+    }
+    if (
+      event.type === 'TOOL_CALL_RESULT' &&
+      event.toolCallId === followUpsCallId &&
+      !hasQuestions(event.content)
+    ) {
+      const questions = options.fallbackQuestions?.() ?? [];
+      if (questions.length > 0) event = { ...event, content: JSON.stringify({ questions }) };
     }
     if (event.type === 'RUN_FINISHED') {
       report(true);
-      if (!sawFollowUps && options.fallbackFollowUps) {
-        for (const e of options.fallbackFollowUps()) await send(`data: ${JSON.stringify(e)}`);
+      const questions = followUpsCallId ? [] : (options.fallbackQuestions?.() ?? []);
+      if (questions.length > 0) {
+        const items = [{ kind: 'tool', name: CLOSING_TOOL, result: { questions } } as const];
+        for (const e of itemEvents(items)) await send(`data: ${JSON.stringify(e)}`);
       }
     }
 
@@ -164,7 +190,10 @@ export function filterSseStream(
     if (decision === 'drop') return;
     // RUN_STARTED echoes the whole (server-side) input: every message plus the session
     // context. The browser already has the conversation, so it's dropped.
-    const rewrite = (clientThreadId && event.threadId) || event.input !== undefined;
+    const rewrite =
+      (clientThreadId && event.threadId) ||
+      event.input !== undefined ||
+      event.content !== undefined;
     const { input: _input, ...rest } = event;
     const forClient = rewrite
       ? `data: ${JSON.stringify({ ...rest, ...(clientThreadId && event.threadId ? { threadId: clientThreadId } : {}) })}`

@@ -6,11 +6,11 @@ import {
   cannedEvents,
   cannedResponse,
   dailyLimitItems,
-  fallbackFollowUpItems,
   itemEvents,
   offTopicItems,
   quotaEvent,
   restingItems,
+  unaskedPrompts,
 } from './canned';
 import { githubActivity } from './github-data';
 import type { GuardState } from './guard-state';
@@ -247,9 +247,9 @@ async function guardedRun(request: Request, env: Env, ctx: ExecutionContext): Pr
     hold,
     onOutcome: (ok) => ctx.waitUntil(afterRun(ok)),
     onError: () => (persistentFailure() ? itemEvents(restingItems('unavailable')) : null),
-    fallbackFollowUps: () => {
+    fallbackQuestions: () => {
       const prompts = (personas.find((p) => p.id === sanitized.persona) ?? personas[0])?.prompts;
-      return itemEvents(fallbackFollowUpItems(prompts ?? [], sanitized.questions));
+      return unaskedPrompts(prompts ?? [], sanitized.questions);
     },
     onFinish: (run_) =>
       run_.threadId ? stopRun(run, request.url, run_.threadId, run_.runId) : undefined,

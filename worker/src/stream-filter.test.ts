@@ -164,18 +164,53 @@ describe('event filter', () => {
         7,
       ),
       createEventFilter(),
-      { fallbackFollowUps: () => [{ type: 'TOOL_CALL_START', toolCallName: 'suggestFollowUps' }] },
+      { fallbackQuestions: () => ['What are your top skills?'] },
     );
-    const types = (await new Response(stream).text())
+    const events = (await new Response(stream).text())
       .split('\n\n')
       .filter(Boolean)
-      .map((f) => (JSON.parse(f.slice(6)) as { type: string }).type);
-    expect(types).toEqual([
+      .map(
+        (f) => JSON.parse(f.slice(6)) as { type: string; toolCallName?: string; content?: string },
+      );
+    expect(events.map((e) => e.type)).toEqual([
       'RUN_STARTED',
       'TEXT_MESSAGE_CONTENT',
       'TOOL_CALL_START',
+      'TOOL_CALL_ARGS',
+      'TOOL_CALL_END',
+      'TOOL_CALL_RESULT',
       'RUN_FINISHED',
     ]);
+    expect(events[2]?.toolCallName).toBe('suggestFollowUps');
+    expect(JSON.parse(events[5]?.content ?? '{}')).toEqual({
+      questions: ['What are your top skills?'],
+    });
+  });
+
+  it('replaces a follow-ups result that failed or kept nothing', async () => {
+    for (const content of ['{"error":"questions[0]: too long"}', '{"questions":[]}']) {
+      const { stream } = filterSseStream(
+        streamOf(
+          encode([
+            { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+            { type: 'TEXT_MESSAGE_CONTENT', delta: 'Done.' },
+            { type: 'TOOL_CALL_START', toolCallId: 'f', toolCallName: 'suggestFollowUps' },
+            { type: 'TOOL_CALL_RESULT', toolCallId: 'f', content },
+          ]),
+          7,
+        ),
+        createEventFilter(),
+        { fallbackQuestions: () => ['How was this site built?'] },
+      );
+      const result = (await new Response(stream).text())
+        .split('\n\n')
+        .filter(Boolean)
+        .map((f) => JSON.parse(f.slice(6)) as { type: string; content?: string })
+        .find((e) => e.type === 'TOOL_CALL_RESULT');
+      expect(JSON.parse(result?.content ?? '{}')).toEqual({
+        questions: ['How was this site built?'],
+      });
+    }
   });
 
   it('replaces provider error details with a generic error', async () => {
