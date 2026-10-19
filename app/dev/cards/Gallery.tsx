@@ -6,6 +6,7 @@ import {
   Award,
   CardEnter,
   CardSkeleton,
+  CaseStudyCard,
   Certifications,
   ContactHandoff,
   Contributions,
@@ -19,10 +20,12 @@ import {
 } from '@/components/cards';
 import type {
   Award as AwardEntry,
+  CaseStudy,
   Certification,
   Education as EducationEntry,
   Experience,
   GitHubActivity,
+  Mention,
   Project,
   Recommendation as RecommendationEntry,
   SkillGroup,
@@ -43,6 +46,8 @@ type Data = {
   capstone?: Experience;
   contributions: Contribution[];
   repo: GitHubActivity['repos'][number];
+  caseStudy?: CaseStudy;
+  mention?: Mention;
 };
 
 function Slot({
@@ -172,6 +177,16 @@ export function Gallery({ data }: { data: Data }) {
             draft="Hi Paul — I was reading about Ragoût and your generative UI work, and I’d love to chat about a frontend + AI role on our team…"
           />
         </Slot>
+
+        {data.caseStudy && (
+          <Slot label="<CaseStudyCard study company mention />">
+            <CaseStudyCard
+              study={data.caseStudy}
+              company={data.experience.find((e) => e.id === data.caseStudy?.experienceId)?.company}
+              mention={data.mention}
+            />
+          </Slot>
+        )}
 
         <Slot label="agent resting (quota reached)">
           <AgentResting

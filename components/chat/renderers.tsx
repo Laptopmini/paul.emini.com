@@ -8,6 +8,7 @@ import {
   Award,
   CardEnter,
   CardSkeleton,
+  CaseStudyCard,
   Certifications,
   ContactHandoff,
   Contributions,
@@ -21,18 +22,22 @@ import {
 } from '@/components/cards';
 import {
   awards,
+  caseStudies,
   certifications,
   education,
   experience,
   github,
+  mentions,
   profile,
   projects,
   recommendations,
   skills,
 } from '@/content';
 import { RESUME_PDF } from '@/lib/content';
+import { asset } from '@/lib/paths';
 import {
   type CannedTool,
+  type CaseStudyResult,
   type ContactResult,
   type FollowUpsResult,
   type IdsResult,
@@ -112,7 +117,9 @@ function ExperienceResult({ ids }: IdsResult) {
   const { ask } = useChatActions();
   const roles = byIds(experience, ids);
   const [only] = roles;
-  if (roles.length === 1 && only) return <ExperienceCard experience={only} />;
+  if (roles.length === 1 && only) {
+    return <ExperienceCard experience={only} detailsHref={asset(`/resume/#${only.id}`)} />;
+  }
   return roles.length > 0 ? (
     <ExperienceTimeline
       items={roles}
@@ -183,6 +190,17 @@ export const renderers = [
   card<ContactResult>('draftContactEmail', ({ email, draft, subject }) => (
     <ContactHandoff email={email} draft={draft} subject={subject} />
   )),
+  card<CaseStudyResult>('getCaseStudy', ({ id }) => {
+    const study = caseStudies.find((c) => c.id === id);
+    if (!study) return null;
+    return (
+      <CaseStudyCard
+        study={study}
+        company={experience.find((e) => e.id === study.experienceId)?.company}
+        mention={mentions.find((m) => m.caseStudyId === study.id)}
+      />
+    );
+  }),
   card<FollowUpsResult>('suggestFollowUps', (data) => <FollowUpsCard {...data} />, false),
   cannedCard('offTopicRedirect', () => <OffTopicCard />),
   cannedCard<RestingResult>('agentResting', ({ reason }) => (

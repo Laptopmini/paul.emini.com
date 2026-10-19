@@ -1,6 +1,6 @@
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText } from 'ai';
-import { experience, projects } from '@/content';
+import { caseStudies, experience, projects } from '@/content';
 import { type ProviderEnv, resolveProvider, withJsonBody } from './provider';
 
 // Topic gate (brief §7, misuse prevention 2): a cheap model screens each question while
@@ -15,7 +15,12 @@ const TIMEOUT_MS = 3_000;
 
 /** Names from /content, so "Tell me about <project>" isn't mistaken for off-topic. */
 const NAMES = [
-  ...new Set([...experience.map((e) => e.shortName ?? e.company), ...projects.map((p) => p.name)]),
+  ...new Set([
+    ...experience.map((e) => e.shortName ?? e.company),
+    ...projects.map((p) => p.name),
+    // Case studies by their short name ("The Unified Journey" from "The Unified Journey: …").
+    ...caseStudies.map((c) => c.title.split(':')[0] ?? c.title),
+  ]),
 ].join(', ');
 
 export const GATE_PROMPT = `You screen messages sent to the chat on Paul-Valentin Mini's personal website. The chat answers as Paul about his career: experience, projects, skills and the technologies he knows, education, certifications, awards, recommendations, open-source work, how the website and its agent were built, and how to contact or hire him. His employers and projects include: ${NAMES}.

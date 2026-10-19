@@ -16,6 +16,11 @@ const PLANS: [RegExp, Call[], string][] = [
     'Here’s where I’m strongest.',
   ],
   [
+    /unified journey|case study|something you led/i,
+    [{ name: 'getCaseStudy', args: { id: 'unified-journey' } }],
+    'Here’s the project I’m proudest of.',
+  ],
+  [
     /recent experience|latest role/i,
     [{ name: 'getExperience', args: { latest: true } }],
     'Most recently I was at SmartThings.',

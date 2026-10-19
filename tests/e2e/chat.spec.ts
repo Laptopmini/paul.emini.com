@@ -183,6 +183,21 @@ test.describe('chat', () => {
     await expect(page.getByText(/checked public GitHub · refreshed/)).toBeVisible();
   });
 
+  test('the agent links to the case study and the résumé, in new tabs', async ({ page }) => {
+    await askFromLanding(page, 'What’s your most recent experience?');
+    const details = page.getByRole('link', { name: /Full details on the résumé/ });
+    await expect(details).toHaveAttribute('href', /\/resume\/#smartthings$/);
+    await expect(details).toHaveAttribute('target', '_blank');
+    await expect(followUps(page)).toHaveCount(1);
+    const input = page.getByRole('textbox', { name: 'Ask a follow-up' });
+    await input.fill('Tell me about the Unified Journey');
+    await input.press('Enter');
+    const study = page.getByRole('link', { name: /Read the case study/ });
+    await expect(study).toHaveAttribute('href', /\/work\/unified-journey\/$/);
+    await expect(study).toHaveAttribute('target', '_blank');
+    await expect(page.getByText(/Named in a launch post by the Head of SmartThings/)).toBeVisible();
+  });
+
   test('off-topic questions get a redirect instead of an answer', async ({ page }) => {
     await askFromLanding(page, 'What are your top skills?');
     await expect(followUps(page)).toHaveCount(1);

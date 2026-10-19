@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import {
   awards,
+  caseStudies,
   certifications,
   education,
   experience,
+  mentions,
   profile,
   projects,
   recommendations,
@@ -33,6 +35,8 @@ export default function CardsPage() {
         capstone: experience.find((e) => e.id === edu?.capstoneExperienceId),
         contributions: fixtureContributions,
         repo: fixtureRepo,
+        caseStudy: caseStudies[0],
+        mention: mentions[0],
       }}
     />
   );

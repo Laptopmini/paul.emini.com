@@ -210,6 +210,15 @@ mark.skill {
   color: var(--on-ink-2);
 }
 
+/* Links on --ink cards: the accent doesn't reach 4.5:1 there. */
+.onInkLink {
+  color: var(--ground);
+}
+
+.onInkLink:hover {
+  color: var(--on-ink-2);
+}
+
 /* Lists inside cards (timeline, certifications, contributions) */
 
 .listCard {

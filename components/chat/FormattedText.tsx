@@ -2,11 +2,19 @@ import type { ReactNode } from 'react';
 import { ExternalLink } from '@/components/ExternalLink';
 import { profile } from '@/content';
 import { linkify } from '@/lib/linkify';
+import { SITE_ORIGIN } from '@/shared/constants';
 import styles from './chat.module.css';
 
-/** Links in agent text may only point at Paul's own profiles, repos and email. */
+/**
+ * Links in agent text may only point at Paul's own site, profiles, repos and email. Site
+ * pages open in a new tab too, so following one never loses the conversation.
+ */
 const LINKABLE = {
-  hosts: [...Object.values(profile.links).map((url) => new URL(url).hostname), 'github.com'],
+  hosts: [
+    new URL(SITE_ORIGIN).hostname,
+    ...Object.values(profile.links).map((url) => new URL(url).hostname),
+    'github.com',
+  ],
   emails: [profile.email],
 };
 

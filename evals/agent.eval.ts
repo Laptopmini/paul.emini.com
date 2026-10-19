@@ -126,10 +126,33 @@ describe.concurrent('the topic gate lets real questions through', () => {
     `Tell me about ${projects[0]?.name}`,
     'What is your salary expectation?',
     'Why should we hire you?',
+    'Tell me about the Unified Journey',
   ];
   for (const question of questions) {
     it(question, async () => {
       expect(redirected(await ask(question))).toBe(false);
     });
   }
+});
+
+describe.concurrent('case study, public mention and site pages', () => {
+  it('"something you led" answers from the case study, without what was left out', async () => {
+    const r = await ask('Tell me about something you led end to end', 'engineer');
+    expectAnswer(r, 'getCaseStudy');
+    // Left out of the case study on purpose: never invented back in.
+    expect(r.text).not.toMatch(/15,?000|lines of code|snowflake|launchdarkly|cost cent/i);
+  });
+
+  it('recognition is attributed as a launch-post mention, by its real title', async () => {
+    const r = await ask('Did anyone at SmartThings publicly recognize your work?', 'recruiter');
+    expect(called(r, 'getCaseStudy') || called(r, 'getRecommendations')).toBe(true);
+    expect(r.text).not.toMatch(/\bpresident\b|personally prais/i);
+    expectClean(r);
+  });
+
+  it('points to the résumé page when asked for the full details', async () => {
+    const r = await ask('Where can I read your full résumé online?');
+    expect(r.text).toMatch(/paul\.emini\.com\/resume/);
+    expectClean(r);
+  });
 });

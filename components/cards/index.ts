@@ -3,6 +3,7 @@ export { Award } from './Award';
 export { Card } from './Card';
 export { CardEnter } from './CardEnter';
 export { CardSkeleton } from './CardSkeleton';
+export { CaseStudyCard } from './CaseStudyCard';
 export { Certifications } from './Certifications';
 export { ContactHandoff } from './ContactHandoff';
 export { Contributions } from './Contributions';

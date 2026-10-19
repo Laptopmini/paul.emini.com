@@ -1,10 +1,23 @@
+import { ExternalLink } from '@/components/ExternalLink';
+import { Icon } from '@/components/Icon';
 import type { Experience } from '@/content';
 import { currentYearMonth, formatDuration, formatMonthRange } from '@/lib/cards';
 import { Card } from './Card';
 import s from './cards.module.css';
 
-/** A single role, expanded: curated `short` bullets and card tags. */
-export function ExperienceCard({ experience, now }: { experience: Experience; now?: Date }) {
+/**
+ * A single role, expanded: curated `short` bullets and card tags. `detailsHref` links
+ * the full write-up on /resume (new tab, so a chat keeps its place).
+ */
+export function ExperienceCard({
+  experience,
+  now,
+  detailsHref,
+}: {
+  experience: Experience;
+  now?: Date;
+  detailsHref?: string;
+}) {
   const end = experience.end ?? currentYearMonth(now ?? new Date());
   return (
     <Card>
@@ -32,6 +45,13 @@ export function ExperienceCard({ experience, now }: { experience: Experience; no
           </li>
         ))}
       </ul>
+      {detailsHref && (
+        <ExternalLink href={detailsHref} className={s.textLink}>
+          Full details on the résumé
+          <span className="sr-only">: {experience.company}</span>
+          <Icon name="arrowUpRight" size={16} />
+        </ExternalLink>
+      )}
     </Card>
   );
 }

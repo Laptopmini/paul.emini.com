@@ -96,6 +96,7 @@ export function arrangeItems(items: readonly TurnItem[], working: boolean): Turn
 
 const GITHUB = new Set(['getContributions']);
 const RESUME = new Set([
+  'getCaseStudy',
   'getProfile',
   'getSkills',
   'getExperience',
@@ -132,6 +133,7 @@ const STATUS: Record<string, string> = {
   getProfile: 'Pulling up my profile…',
   getSkills: 'Gathering my skills…',
   getExperience: 'Pulling my roles…',
+  getCaseStudy: 'Opening the case study…',
   getProjects: 'Looking up my projects…',
   getContributions: 'Checking public GitHub…',
   getEducation: 'Looking up my education…',

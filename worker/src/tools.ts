@@ -1,10 +1,13 @@
 import { defineTool } from '@copilotkit/runtime/v2';
 import {
   awards,
+  caseStudies,
   certifications,
   education,
   experience,
   type GitHubActivity,
+  type Mention,
+  mentions,
   profile,
   projects,
   type Recommendation,
@@ -13,6 +16,7 @@ import {
 } from '@/content';
 import { pickExcerpt } from '@/lib/cards';
 import {
+  type CaseStudyResult,
   type ContactResult,
   type FollowUpsResult,
   type IdsResult,
@@ -21,6 +25,7 @@ import {
   type ToolError,
   toolArgs,
 } from '@/shared/agent';
+import { SITE_ORIGIN } from '@/shared/constants';
 
 /** Ids for the card plus whatever facts the model needs. */
 type Facts = Record<string, unknown>;
@@ -35,6 +40,19 @@ function select<T extends { id: string }>(all: T[], ids: string[] | undefined): 
     ? found
     : { error: `Unknown id. Valid ids: ${all.map((i) => i.id).join(', ')}` };
 }
+
+/** A page on the site, written the way the prompt asks for URLs (bare, no scheme). */
+const sitePage = (path: string) => `${SITE_ORIGIN.replace('https://', '')}${path}`;
+
+/**
+ * A public mention as facts, with the attribution the agent must use: someone named
+ * Paul in their post, which is not a recommendation.
+ */
+const mentionFacts = (m: Mention) => ({
+  attribution: `Named in a launch post by ${m.author}, ${m.authorTitle} (${m.date}). Not a recommendation.`,
+  quotes: m.quotes,
+  url: m.url,
+});
 
 const isError = (value: unknown): value is ToolError =>
   typeof value === 'object' && value !== null && 'error' in value;
@@ -107,7 +125,41 @@ export function createTools(
             end: e.end ?? 'present',
             highlights: e.highlights.map((h) => `${h.label}: ${h.text}`),
             stack: e.stack,
+            page: sitePage(`/resume/#${e.id}`),
+            caseStudies: caseStudies
+              .filter((c) => c.experienceId === e.id)
+              .map((c) => ({ id: c.id, title: c.title })),
           })),
+        };
+      },
+    }),
+
+    defineTool({
+      name: 'getCaseStudy',
+      description:
+        'A long-form case study of work Paul led (renders a card linking to the full page). Use for "something you led", the onboarding refactor, the Unified Journey or the SmartThings Developer Center. Ids: ' +
+        caseStudies.map((c) => c.id).join(', '),
+      parameters: toolArgs.getCaseStudy,
+      execute: async ({ id }): Promise<(CaseStudyResult & Facts) | ToolError> => {
+        const study = id ? caseStudies.find((c) => c.id === id) : caseStudies[0];
+        if (!study) {
+          return { error: `Unknown id. Valid ids: ${caseStudies.map((c) => c.id).join(', ')}` };
+        }
+        return {
+          id: study.id,
+          title: study.title,
+          company: experience.find((e) => e.id === study.experienceId)?.company,
+          role: study.role,
+          start: study.start,
+          end: study.end,
+          stack: study.stack,
+          summary: study.summary,
+          sections: study.sections.map((s) => ({
+            heading: s.heading,
+            text: [...s.paragraphs, ...s.bullets].join('\n').replaceAll('**', ''),
+          })),
+          publicMentions: mentions.filter((m) => m.caseStudyId === study.id).map(mentionFacts),
+          page: sitePage(`/work/${study.id}/`),
         };
       },
     }),
@@ -208,7 +260,7 @@ export function createTools(
     defineTool({
       name: 'getRecommendations',
       description:
-        'Read the full text of recommendations about Paul (no card). Follow with showRecommendation to display one.',
+        'Read the full text of recommendations about Paul (no card), plus public mentions of his work. Follow with showRecommendation to display a recommendation.',
       parameters: toolArgs.getRecommendations,
       execute: async ({ ids }) => {
         const selected = select(recommendations, ids);
@@ -225,6 +277,7 @@ export function createTools(
               body,
             }),
           ),
+          publicMentions: mentions.map(mentionFacts),
         };
       },
     }),

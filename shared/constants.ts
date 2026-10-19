@@ -3,3 +3,6 @@
 
 export const AGENT_ID = 'default';
 export const MAX_PROMPT_LENGTH = 400;
+
+/** The site's public origin, for links the agent hands out. */
+export const SITE_ORIGIN = 'https://paul.emini.com';

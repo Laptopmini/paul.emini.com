@@ -28,6 +28,9 @@ export const toolArgs = {
   getContributions: z.object({
     limit: z.number().int().min(1).max(10).optional(),
   }),
+  getCaseStudy: z.object({
+    id: z.string().optional().describe('Case study id; omit for the only/most recent one.'),
+  }),
   getEducation: z.object({}),
   getCertifications: z.object({ ids }),
   getAwards: z.object({}),
@@ -67,6 +70,7 @@ export type IdsResult = { ids: string[] };
 export type SkillsResult = IdsResult & { highlight: string[] };
 export type RecommendationResult = { id: string; excerpt: string };
 export type ContactResult = { email: string; subject: string; draft: string };
+export type CaseStudyResult = { id: string };
 export type FollowUpsResult = { questions: string[] };
 export type ToolError = { error: string };
 
@@ -77,6 +81,7 @@ export const RESUME_TOOLS: ToolName[] = [
   'getSkills',
   'getExperience',
   'getProjects',
+  'getCaseStudy',
   'getEducation',
   'getCertifications',
   'getAwards',
