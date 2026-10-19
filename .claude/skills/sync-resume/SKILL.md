@@ -5,7 +5,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
 
 # sync-resume
 
-`resume.md` and `resume.pdf` on `main` of `Laptopmini/my-resume` (cloned at `../my-resume`) are the source of truth for the résumé facts in `/content`. This skill applies only what changed since the last sync and keeps ids stable, so cards, agent tools and evals keep pointing at the same entries.
+`resume.md`, `resume.pdf`, `case-studies/*.md` and `mentions.md` on `main` of `Laptopmini/my-resume` (cloned at `../my-resume`) are the source of truth for the career content in `/content`. This skill applies only what changed since the last sync and keeps ids stable, so cards, agent tools and evals keep pointing at the same entries.
 
 ## Hard rules
 
@@ -13,6 +13,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
 - **Never write the phone number** (or any part of the contact line besides email/LinkedIn/GitHub) into `/content` or anywhere else in this repo. It lives only inside `resume.pdf`.
 - Never change an existing `id`. A renamed company or project keeps its id. Only new entries get new ids (kebab-case).
 - Copy names verbatim. Certification names are official course titles (e.g. "Building Agentic RAG with Llamaindex"), so never "correct" their spelling or casing.
+- Case studies and mentions are owner-written copy: carry them over **word for word**, never rewrite, summarize or "improve" them. Mention quotes keep only Paul's name ("…" marks other names left out).
 - Do not touch `content/personas.json`, `content/site.json` (site config), `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
 
 ## Workflow
@@ -22,24 +23,29 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
 2. **Fetch and diff.**
    ```sh
    git -C ../my-resume fetch origin
-   git -C ../my-resume diff <sha>..origin/main --stat -- resume.md resume.pdf
-   git -C ../my-resume diff <sha>..origin/main -- resume.md
+   git -C ../my-resume diff <sha>..origin/main --stat -- resume.md resume.pdf case-studies mentions.md
+   git -C ../my-resume diff <sha>..origin/main -- resume.md case-studies mentions.md
    ```
-   If neither file changed, tell the owner "Résumé already in sync @ <short-sha>" and stop. Read the new version with `git -C ../my-resume show origin/main:resume.md` (not the working tree, which may hold uncommitted drafts).
+   If none of these changed, tell the owner "Résumé already in sync @ <short-sha>" and stop. Read the new version with `git -C ../my-resume show origin/main:resume.md` (not the working tree, which may hold uncommitted drafts).
 
 3. **Map each changed section to its file** and update only the affected entries:
 
    | `resume.md` section | File | Notes |
    |---|---|---|
-   | Header line (city, email, links) | `profile.json` | `location`, `email`, `links`. Skip the phone. |
+   | Header line (city, email, links) | `profile.json` | `location`, `email`, `links`. Skip the phone, and skip the `Website` link (it's this site). |
    | `## Profile` | `profile.json` → `summary`, `title` | `title` is the role the summary opens with ("Senior Software Developer"); a test enforces it. The hero renders `<title> <tagline>`, so `tagline` never repeats the title. It's site copy: flag it if the change makes it inaccurate, don't rewrite it silently. |
    | `## Top Skills` | `skills.json` | One group per bullet; `items` in source order. Keep `featured` a subset of `items`. |
    | `## Experience` → `### Company \| Location` | `experience.json` | `**Title** \| Month YYYY – Month YYYY` → `title`, `start`/`end` as `YYYY-MM` (`end: null` for "Present"). Each `* **Label:** text` → `highlights[]` `label` + `text`. `> **Tech Stack:**` → `stack`. For a new company, add a `shortName` (e.g. "Samsung") for the landing timeline. |
-   | `## Projects` → `### Name \| Kind` | `projects.json` | `**Tagline** \| Month YYYY` → `tagline`, `date`. Intro paragraph → `summary`. Bullets → `highlights`. Tech Stack → `stack`. Strip Markdown emphasis. |
+   | `## Projects` → `### Name \| Kind` | `projects.json` | `**Tagline** \| Month YYYY` → `tagline`, `date`. Intro paragraph → `summary`. Bullets → `highlights`. Tech Stack → `stack`. Strip Markdown emphasis. Skip the line between `## Projects` and the first project (it points to this site). |
    | `## Education & Certifications` | `education.json`, `certifications.json` | Degree lines → education; `**Name** – Issuer \| *Issued Mon YYYY*` → certifications (`issued` as `YYYY-MM`). |
    | `## Awards` | `awards.json` | Heading line → `name`, `issuer`, `received`; paragraph → `description`. |
 
+   | `case-studies/<id>.md` | `case-studies.json` | Frontmatter → `id`, `title`, `role`, `stack` (comma list), `summary`; `experience` (company name) → `experienceId`; `period` "Month YYYY – Month YYYY" → `start`/`end` (`YYYY-MM`). Each `## Heading` → a section: `id` = kebab-case heading (apostrophes dropped), `heading`, `paragraphs` (blank-line separated, lines joined), `bullets` (`- ` lines). Keep **bold** as written. |
+   | `mentions.md` → `## Title` | `mentions.json` | `id` = kebab-case title. `Author` "Name, Title" → `author`, `authorTitle`; `Date` → `date`; `Where` URL → `url`; `About` → `experienceId` (company) and `caseStudyId` (the `case-studies/<id>.md` it names); each `> ` line → `quotes`, verbatim. |
+
    Keep arrays in the order of the source (experience and projects most recent first).
+
+   After converting, check every case-study paragraph, bullet and summary, and every mention quote, appears verbatim in the source (whitespace-normalized). Fix the conversion, not the text.
 
 4. **Curated card copy.** `short` (experience highlights), `blurb` (projects, awards) and `tags` are condensed versions written for the cards, not résumé text. When the underlying `text`/`summary`/`description` changes, or a new entry is added, draft a new `short`/`blurb`/`tags` that states only what the source says, and list each one in the summary for the owner to review. Never introduce facts, numbers or names that aren't in the source.
 

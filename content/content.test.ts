@@ -3,10 +3,12 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   awards,
+  caseStudies,
   certifications,
   education,
   experience,
   github,
+  mentions,
   parseRecommendations,
   profile,
   projects,
@@ -33,6 +35,8 @@ describe('content', () => {
       certifications,
       awards,
       recommendations,
+      caseStudies,
+      mentions,
     ]) {
       uniqueIds(collection);
     }
@@ -74,6 +78,32 @@ describe('content', () => {
     const ids = new Set(experience.map((e) => e.id));
     for (const e of education) {
       if (e.capstoneExperienceId) expect(ids).toContain(e.capstoneExperienceId);
+    }
+  });
+
+  it('case studies and mentions reference existing entries', () => {
+    const experiences = new Set(experience.map((e) => e.id));
+    const studies = new Set(caseStudies.map((c) => c.id));
+    for (const c of caseStudies) expect(experiences).toContain(c.experienceId);
+    for (const m of mentions) {
+      expect(experiences).toContain(m.experienceId);
+      if (m.caseStudyId) expect(studies).toContain(m.caseStudyId);
+    }
+  });
+
+  it('case study periods are in order and sections are unique', () => {
+    for (const c of caseStudies) {
+      expect(c.start <= c.end).toBe(true);
+      uniqueIds(c.sections);
+    }
+  });
+
+  it('every mention names Paul and only Paul', () => {
+    // Quotes keep only Paul's name: other people credited in the same post are left out.
+    const others = recommendations.map((r) => r.name);
+    for (const m of mentions) {
+      expect(m.quotes.join(' ')).toContain(profile.name);
+      for (const name of others) expect(m.quotes.join(' ')).not.toContain(name);
     }
   });
 

@@ -136,6 +136,50 @@ export const recommendationSchema = z.strictObject({
 });
 export const recommendationsSchema = z.array(recommendationSchema).min(1);
 
+/**
+ * Long-form write-ups of one piece of work, synced from my-resume `case-studies/*.md`
+ * (owner-written portfolio copy, carried over word for word). Paragraphs and bullets
+ * may use **bold**.
+ */
+export const caseStudySchema = z.strictObject({
+  id,
+  title: text,
+  experienceId: id,
+  role: text,
+  start: yearMonth,
+  end: yearMonth,
+  stack: z.array(text).min(1),
+  summary: text,
+  sections: z
+    .array(
+      z.strictObject({
+        id,
+        heading: text,
+        paragraphs: z.array(text),
+        bullets: z.array(text),
+      }),
+    )
+    .min(1),
+});
+export const caseStudiesSchema = z.array(caseStudySchema);
+
+/**
+ * Public credits in someone else's post, synced from my-resume `mentions.md`. Not
+ * recommendations: the agent says "named in", never "recommended by". Quotes are
+ * verbatim; "…" marks text left out (other people's names).
+ */
+export const mentionSchema = z.strictObject({
+  id,
+  author: text,
+  authorTitle: text,
+  date: isoDate,
+  url: httpsUrl,
+  quotes: z.array(text).min(1),
+  experienceId: id,
+  caseStudyId: id.optional(),
+});
+export const mentionsSchema = z.array(mentionSchema);
+
 export const personaIds = ['visitor', 'recruiter', 'engineer'] as const;
 export const personaIdSchema = z.enum(personaIds);
 export const personasSchema = z
@@ -214,4 +258,6 @@ export type Persona = z.infer<typeof personasSchema>[number];
 export type PersonaId = z.infer<typeof personaIdSchema>;
 export type Site = z.infer<typeof siteSchema>;
 export type Meta = z.infer<typeof metaSchema>;
+export type CaseStudy = z.infer<typeof caseStudySchema>;
+export type Mention = z.infer<typeof mentionSchema>;
 export type GitHubActivity = z.infer<typeof githubSchema>;

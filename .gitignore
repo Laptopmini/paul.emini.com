@@ -14,3 +14,6 @@ worker/.dev.vars
 
 # Owner's local notes of production values (never read by any tool, never committed)
 .secrets.local
+
+# Local working plans (never committed; deleted when the work is done)
+docs/plans/

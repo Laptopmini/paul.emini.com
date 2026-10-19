@@ -1,0 +1,108 @@
+[
+  {
+    "id": "unified-journey",
+    "title": "The Unified Journey: rebuilding how partners onboard products on SmartThings",
+    "experienceId": "smartthings",
+    "role": "Initiator and lead developer",
+    "start": "2025-09",
+    "end": "2026-01",
+    "stack": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "private npm packages",
+      "feature flags",
+      "Jest",
+      "Playwright",
+      "Hotjar",
+      "Google Analytics"
+    ],
+    "summary": "I initiated and led a refactor of the SmartThings Developer Console's product onboarding: one overgrown form became a guided, modular journey that other teams can extend. Every partner moved to it with zero breakage, and it shipped as the redesigned Developer Center.",
+    "sections": [
+      {
+        "id": "context",
+        "heading": "Context",
+        "paragraphs": [
+          "The SmartThings Developer Console is the portal partners use to build, certify and market their products in the SmartThings ecosystem, from solo hobbyists to enterprise brands. It serves more than 120 partners and thousands of hobbyists, across 12 protocols such as Matter and Zigbee. Every paying partner goes through it to get certified, so it sits on the critical path to launching a product. It's a Next.js application that combines marketing content, documentation and developer tooling."
+        ],
+        "bullets": []
+      },
+      {
+        "id": "the-problem",
+        "heading": "The problem",
+        "paragraphs": [
+          "Registering and certifying a product meant filling in one product form. Over the years it had grown into dozens of fields with different requirements, backed by several upstream services, each with its own validation and dependencies.",
+          "Because everything lived in one form with one validation pass, a change to a single requirement could block a partner from submitting anything else. New features were hard to add without affecting others, and user reports were hard to trace to the field that caused them. Most importantly, users were overwhelmed: there was little guidance, and people dropped off out of frustration, confusion, or because they had to leave the page to read the documentation. Hotjar, Google Analytics and our partner-success team all confirmed it."
+        ],
+        "bullets": []
+      },
+      {
+        "id": "the-idea",
+        "heading": "The idea",
+        "paragraphs": [
+          "At the time there was a push to let other Samsung teams own the parts of the form that relied on their services. Microservices raised hard questions about who would respond to incidents and who controlled releases. I had already built the component library these teams were using, so I proposed consuming their work as versioned dependencies, under feature flags we controlled.",
+          "Separately, I had been exploring how to break the form into standard modules that could be chained into a step-by-step flow. When our designer, Derek Warner, shared a Figma design for a new workflow with an accompanying summary, the two ideas came together: combine summaries and workflows with a modular form, on top of the component library, with a contract other teams could build against. We called it the Unified Journey.",
+          "It was September 2025 and the roadmap was full through Q4, so I kept going on my own initiative. Within a couple of days I had a working vertical slice for one product type, enough to prove it was feasible and surface the real requirements. I demoed it to my manager and the product team and got the green light."
+        ],
+        "bullets": []
+      },
+      {
+        "id": "how-it-works",
+        "heading": "How it works",
+        "paragraphs": [],
+        "bullets": [
+          "Every section of a product (Brand, Device Profile and so on) is a self-contained module that provides two things: a **summary** and a **workflow**.",
+          "All modules follow one strict, typed contract, published as a private package. A team that owns a domain we don't can build and own its module, and it drops into the platform as a first-class part, without us taking on their code or their on-call.",
+          "The app has only two generic pages, an overview and a workflow page, with no product-specific code. They ask the module collection what applies to the current product and render it.",
+          "Capabilities reach the modules through context (dependency injection): the current product, saving, navigation, analytics and error reporting. Modules know nothing about the app's routing, API client or error handling, which keeps a few dozen modules from becoming a few dozen special cases.",
+          "Typed and documented, with unit and end-to-end tests, every piece behind a feature flag, and accessible, keyboard-navigable and dark-mode-ready out of the box."
+        ]
+      },
+      {
+        "id": "the-result",
+        "heading": "The result",
+        "paragraphs": [
+          "Partners now establish what they're building first: the product type and integration. From there, they only ever see the sections that apply. Instead of a wall of fields, they land on one overview of their product, with a completion status and their path to certification. Each section opens its own guided workflow, with room to explain what's asked, recommend the standard option, link to the docs and validate that section on its own.",
+          "The look and feel is Derek Warner's work: he designed every screen, including the dark-mode, mobile and tablet variants, and had earlier helped me set up the design system behind the component library. We iterated constantly between his Figma files and my prototypes. Because the improvements shipped through the shared component library, teams not using these flows directly benefited too."
+        ],
+        "bullets": []
+      },
+      {
+        "id": "rollout",
+        "heading": "Rollout",
+        "paragraphs": [
+          "Every new flow and redirect went behind a feature flag, and we released in stages: first to the product team and partner-success managers, then to all internal employees, then to a few select partners, and finally publicly at the end of January 2026. We delayed the public release twice to fix two edge cases, to protect a zero-break cutover."
+        ],
+        "bullets": []
+      },
+      {
+        "id": "impact",
+        "heading": "Impact",
+        "paragraphs": [],
+        "bullets": [
+          "**Every partner moved to it** with zero breakage: it's now the only way to create or manage a product.",
+          "**Fewer drop-offs,** with more partners finishing (Hotjar and Google Analytics).",
+          "**Other teams build their own parts** of the experience against the shared contract.",
+          "**Less friction on the path partners take to launch,** so more of their products reach the ecosystem.",
+          "**Announced as the redesigned Developer Center** by the Head of SmartThings at Samsung, who named the team, me included."
+        ]
+      },
+      {
+        "id": "what-id-do-differently",
+        "heading": "What I'd do differently",
+        "paragraphs": [
+          "Get it in front of real partner usage earlier, through a wider preview or testing against production-like data, so edge cases surface before they hold up a release rather than during it. QA did excellent work; some cases only show up once real partners are in the product."
+        ],
+        "bullets": []
+      },
+      {
+        "id": "whats-next",
+        "heading": "What's next",
+        "paragraphs": [
+          "A component library like this is a natural foundation for generative UI: an agent could assemble each summary and workflow only from vetted building blocks, so every generated flow stays on-brand, accessible and validated. That's the idea behind the agent on this site."
+        ],
+        "bullets": []
+      }
+    ]
+  }
+]
