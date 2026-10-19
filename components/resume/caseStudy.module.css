@@ -423,3 +423,65 @@
     display: none;
   }
 }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .h2,
+    .tiles li,
+    .mentionPanel {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}
+
+@media print {
+  .hero {
+    padding-top: 0;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .section {
+    display: block;
+    padding-top: 28px;
+  }
+
+  .section > * + * {
+    margin-top: 16px;
+  }
+
+  .h2,
+  .tiles li,
+  .mentionPanel {
+    animation: none;
+  }
+
+  .mentionPanel {
+    background: none;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  .mentionCaption p {
+    color: var(--ink-2);
+  }
+
+  .mentionLink {
+    color: var(--ink);
+  }
+
+  .footer {
+    display: none;
+  }
+}

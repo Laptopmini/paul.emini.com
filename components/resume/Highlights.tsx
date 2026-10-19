@@ -1,10 +1,10 @@
-import Link from 'next/link';
 import { Icon } from '@/components/Icon';
 import { awards, caseStudies, experience, mentions } from '@/lib/content';
 import { formatYearMonth } from '@/lib/format';
 import { COPY } from './copy';
 import layout from './layout.module.css';
 import { Mention } from './Mention';
+import { PageLink } from './PageLink';
 import styles from './resume.module.css';
 import { StatTiles } from './StatTiles';
 
@@ -29,9 +29,9 @@ export function Highlights() {
                 <h3 className={styles.teaserTitle} style={{ viewTransitionName: `case-${c.id}` }}>
                   {c.title}
                 </h3>
-                <Link href={`/work/${c.id}/`} className={`${layout.more} ${styles.onInkLink}`}>
+                <PageLink href={`/work/${c.id}/`} className={`${layout.more} ${styles.onInkLink}`}>
                   {COPY.readCaseStudy} <Icon name="arrowUpRight" size={16} />
-                </Link>
+                </PageLink>
               </div>
               <div className={styles.teaserBody}>
                 <p>{c.summary}</p>

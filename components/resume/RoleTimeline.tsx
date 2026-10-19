@@ -1,9 +1,9 @@
-import Link from 'next/link';
 import { Icon } from '@/components/Icon';
 import { currentYearMonth, formatDuration } from '@/lib/cards';
 import { caseStudies, experience } from '@/lib/content';
 import { formatYearRange } from '@/lib/format';
 import layout from './layout.module.css';
+import { PageLink } from './PageLink';
 import styles from './RoleTimeline.module.css';
 
 /** Roles shown expanded; the rest collapse to a one-line summary (still in the HTML). */
@@ -67,9 +67,9 @@ export function RoleTimeline() {
                 .map((c) => (
                   <p key={c.id} className={styles.related}>
                     Case study:{' '}
-                    <Link href={`/work/${c.id}/`} className={styles.relatedLink}>
+                    <PageLink href={`/work/${c.id}/`} className={styles.relatedLink}>
                       {c.title}
-                    </Link>
+                    </PageLink>
                   </p>
                 ))}
               <p className={styles.stack}>

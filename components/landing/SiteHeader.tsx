@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
+import { PageLink } from '@/components/resume/PageLink';
 import { caseStudies, profile, RESUME_PDF } from '@/lib/content';
 import { noBreakHyphens } from '@/lib/format';
 import styles from './SiteHeader.module.css';
@@ -20,21 +21,21 @@ export function SiteHeader({ current }: { current?: SitePage }) {
       </Link>
       {current ? (
         <nav aria-label="Site" className={styles.nav}>
-          <Link
+          <PageLink
             href="/resume/"
             className={styles.navLink}
             aria-current={current === 'resume' ? 'page' : undefined}
           >
             Résumé
-          </Link>
+          </PageLink>
           {study && (
-            <Link
+            <PageLink
               href={`/work/${study.id}/`}
               className={styles.navLink}
               aria-current={current === 'case-study' ? 'page' : undefined}
             >
               Case study
-            </Link>
+            </PageLink>
           )}
           <Link href="/" className={styles.ask}>
             <Icon name="chat" size={16} />

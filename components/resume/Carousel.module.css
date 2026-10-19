@@ -141,3 +141,21 @@
     padding: 20px;
   }
 }
+
+/* Print: every recommendation, one after another, no controls. */
+@media print {
+  .controls,
+  .dots {
+    display: none;
+  }
+
+  .viewport {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .viewport > figure {
+    flex-basis: auto;
+    break-inside: avoid;
+  }
+}

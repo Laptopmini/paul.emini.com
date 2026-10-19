@@ -70,3 +70,22 @@ textarea {
     scroll-behavior: auto !important;
   }
 }
+
+/* Static pages link to each other with full navigations (PageLink): morph between them.
+   Shared names: `brand` (header) and `case-<id>` (the case-study title). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+@page {
+  margin: 14mm 12mm;
+}
+
+@media print {
+  body {
+    background: var(--surface);
+    color: var(--ink);
+  }
+}

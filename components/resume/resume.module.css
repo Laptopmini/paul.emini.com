@@ -515,3 +515,31 @@
     justify-self: start;
   }
 }
+
+@media print {
+  .hero {
+    padding-top: 0;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .name {
+    font-size: 48px;
+  }
+
+  .heroActions {
+    display: none;
+  }
+
+  .teaser {
+    background: none;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  .teaserBody > p,
+  .onInkMuted,
+  .onInkLink {
+    color: var(--ink-2);
+  }
+}

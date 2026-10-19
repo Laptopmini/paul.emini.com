@@ -93,3 +93,20 @@
     display: inline;
   }
 }
+
+@media print {
+  .tiles > .inverted {
+    background: var(--surface);
+    border-color: var(--line);
+    color: var(--ink);
+  }
+
+  .inverted dt,
+  .teaser dt {
+    color: var(--muted);
+  }
+
+  .teaser {
+    border-top-color: var(--line);
+  }
+}

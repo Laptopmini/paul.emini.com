@@ -182,3 +182,14 @@
     font-size: 22px;
   }
 }
+
+@media print {
+  /* The printed URL takes the stretched link's ::after: back into the flow. */
+  .tileLink::after {
+    position: static;
+  }
+
+  .highlights summary svg {
+    display: none;
+  }
+}

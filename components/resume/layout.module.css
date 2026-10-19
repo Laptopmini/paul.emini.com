@@ -397,6 +397,27 @@
   color: var(--ink);
 }
 
+/* Scroll reveals: headings and cards fade and rise in as they enter. Visible as-is
+   without scroll timelines, without JS and under reduced motion. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .h2,
+    .card,
+    .cta {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}
+
 /* Phone: a bottom bar with the page's two actions. It sits last in the page, so it
    never covers the end of the content. */
 .bottomBar {
@@ -433,5 +454,60 @@
   .bottomBar a {
     border-radius: 14px;
     min-height: 48px;
+  }
+}
+
+/* Print: one column of ink on white; navigation, controls and calls to action go. */
+@media print {
+  .page {
+    --top-offset: 0;
+  }
+
+  .top,
+  .rail,
+  .tabs,
+  .picker,
+  .bottomBar,
+  .cta,
+  .progress {
+    display: none;
+  }
+
+  .wrap {
+    max-width: none;
+    padding: 0;
+  }
+
+  .cols {
+    display: block;
+  }
+
+  .section {
+    padding-top: 32px;
+    break-inside: auto;
+  }
+
+  .card {
+    box-shadow: none;
+  }
+
+  .h2,
+  .card {
+    animation: none;
+  }
+
+  .wrap a[href^="http"]::after,
+  .wrap a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-weight: 400;
+    font-size: 0.85em;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+
+  /* Every collapsed role and highlight prints open (PrintExpand opens them too). */
+  .wrap details::details-content {
+    content-visibility: visible;
+    display: contents;
   }
 }

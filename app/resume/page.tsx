@@ -12,6 +12,7 @@ import { OnThisPage, type PageSection } from '@/components/resume/OnThisPage';
 import { OpenOnHash } from '@/components/resume/OpenOnHash';
 import { OpenSource } from '@/components/resume/OpenSource';
 import { PageTop } from '@/components/resume/PageTop';
+import { PrintExpand } from '@/components/resume/PrintExpand';
 import { Projects } from '@/components/resume/Projects';
 import { RecommendationCarousel } from '@/components/resume/RecommendationCarousel';
 import { ResumeHero } from '@/components/resume/ResumeHero';
@@ -84,6 +85,7 @@ export default function ResumePage() {
       </BottomBar>
       <ScrollSpy />
       <OpenOnHash />
+      <PrintExpand />
     </div>
   );
 }

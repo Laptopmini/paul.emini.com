@@ -11,7 +11,9 @@ import { COPY } from '@/components/resume/copy';
 import layout from '@/components/resume/layout.module.css';
 import { MentionPanel } from '@/components/resume/MentionPanel';
 import { OnThisPage } from '@/components/resume/OnThisPage';
+import { PageLink } from '@/components/resume/PageLink';
 import { PageTop } from '@/components/resume/PageTop';
+import { PrintExpand } from '@/components/resume/PrintExpand';
 import { ScrollSpy } from '@/components/resume/ScrollSpy';
 import { StatTiles } from '@/components/resume/StatTiles';
 import type { CaseStudy } from '@/content';
@@ -61,9 +63,9 @@ function withRecommenderLinks(text: string) {
     const rec = recommendations.find((r) => r.name === part);
     return rec ? (
       // biome-ignore lint/suspicious/noArrayIndexKey: static text, never reordered
-      <Link key={i} href={`/resume/#${rec.id}`} className={styles.inlineLink}>
+      <PageLink key={i} href={`/resume/#${rec.id}`} className={styles.inlineLink}>
         {part}
-      </Link>
+      </PageLink>
     ) : (
       // biome-ignore lint/suspicious/noArrayIndexKey: static text, never reordered
       <RichText key={i} text={part} />
@@ -80,9 +82,9 @@ function Aside({ aside }: { aside: NonNullable<Section['aside']> }) {
       {aside.title && <strong className={styles.asideTitle}>{aside.title}</strong>}
       <span>{aside.text}</span>
       {aside.href && (
-        <Link href={aside.href} className={styles.asideLink}>
+        <PageLink href={aside.href} className={styles.asideLink}>
           {aside.linkLabel} →
-        </Link>
+        </PageLink>
       )}
     </aside>
   );
@@ -117,11 +119,13 @@ export default async function CaseStudyPage({ params }: Props) {
             <nav aria-label="Breadcrumb">
               <ol className={styles.breadcrumb}>
                 <li>
-                  <Link href="/resume/">Résumé</Link>
+                  <PageLink href="/resume/">Résumé</PageLink>
                 </li>
                 {role && (
                   <li>
-                    <Link href={`/resume/#${role.id}`}>{role.shortName ?? role.company}</Link>
+                    <PageLink href={`/resume/#${role.id}`}>
+                      {role.shortName ?? role.company}
+                    </PageLink>
                   </li>
                 )}
                 <li aria-current="page">Case study</li>
@@ -160,12 +164,12 @@ export default async function CaseStudyPage({ params }: Props) {
                     <dt className={layout.mono}>Design</dt>
                     <dd>
                       {study.designCredit.recommendationId ? (
-                        <Link
+                        <PageLink
                           href={`/resume/#${study.designCredit.recommendationId}`}
                           className={styles.factLink}
                         >
                           {study.designCredit.name}
-                        </Link>
+                        </PageLink>
                       ) : (
                         study.designCredit.name
                       )}
@@ -271,9 +275,9 @@ export default async function CaseStudyPage({ params }: Props) {
               )}
 
               <footer className={styles.footer}>
-                <Link href={`/resume/#${study.experienceId}`} className={layout.ghost}>
+                <PageLink href={`/resume/#${study.experienceId}`} className={layout.ghost}>
                   ← {COPY.backToResume}
-                </Link>
+                </PageLink>
                 <Link href="/" className={layout.primary}>
                   {COPY.askAbout} <Icon name="arrowUpRight" size={16} />
                 </Link>
@@ -283,14 +287,15 @@ export default async function CaseStudyPage({ params }: Props) {
         </article>
       </main>
       <BottomBar>
-        <Link href={`/resume/#${study.experienceId}`} className={layout.ghost}>
+        <PageLink href={`/resume/#${study.experienceId}`} className={layout.ghost}>
           Résumé
-        </Link>
+        </PageLink>
         <Link href="/" className={layout.primary}>
           {COPY.askShort}
         </Link>
       </BottomBar>
       <ScrollSpy />
+      <PrintExpand />
     </div>
   );
 }
