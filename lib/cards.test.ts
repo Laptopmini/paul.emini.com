@@ -11,6 +11,7 @@ import {
   formatRelative,
   initials,
   mailtoHref,
+  markExcerpt,
   pickExcerpt,
   splitCertifications,
 } from './cards';
@@ -64,6 +65,19 @@ describe('recommendations', () => {
     const verbatim =
       'His Swift knowledge, extensive understanding of platform limitations and great expertise with native iOS frameworks proved to be invaluable to the development of our product. Responding to our rapid innovation, he always managed to provide elegant solutions to hard engineering and user experience problems.';
     expect(pickExcerpt(luc, `${verbatim} He is, frankly, a genius.`)).toBe(verbatim);
+  });
+
+  it('marks a verbatim excerpt in place and leaves the rest unmarked', () => {
+    const quote =
+      'Responding to our rapid innovation, he always managed to provide elegant solutions to hard engineering and user experience problems.';
+    const marked = markExcerpt(luc, quote);
+    const hit = marked.find((p) => typeof p !== 'string');
+    expect(hit).toMatchObject({ mark: quote });
+    expect(marked.length).toBe(luc.body.split(/\n\s*\n/).length);
+    expect(markExcerpt(luc, 'Paul is the best engineer I have ever worked with.')).toEqual(
+      markExcerpt(luc),
+    );
+    expect(markExcerpt(luc).every((p) => typeof p === 'string')).toBe(true);
   });
 });
 

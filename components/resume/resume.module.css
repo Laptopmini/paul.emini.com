@@ -262,13 +262,6 @@
   gap: 6px;
 }
 
-/* Recommendations (until the carousel lands) */
-.stackList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 /* Education | Open source */
 .pair {
   display: grid;

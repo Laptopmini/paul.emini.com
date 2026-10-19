@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Recommendation } from '@/components/cards';
 import { Icon } from '@/components/Icon';
 import { JsonLd } from '@/components/JsonLd';
 import { AskCta } from '@/components/resume/AskCta';
@@ -14,18 +13,13 @@ import { OpenOnHash } from '@/components/resume/OpenOnHash';
 import { OpenSource } from '@/components/resume/OpenSource';
 import { PageTop } from '@/components/resume/PageTop';
 import { Projects } from '@/components/resume/Projects';
+import { RecommendationCarousel } from '@/components/resume/RecommendationCarousel';
 import { ResumeHero } from '@/components/resume/ResumeHero';
 import { RoleTimeline } from '@/components/resume/RoleTimeline';
 import styles from '@/components/resume/resume.module.css';
 import { ScrollSpy } from '@/components/resume/ScrollSpy';
 import { Skills } from '@/components/resume/Skills';
-import {
-  github,
-  profile,
-  RESUME_PDF,
-  recommendationHighlights,
-  recommendations,
-} from '@/lib/content';
+import { github, profile, RESUME_PDF } from '@/lib/content';
 import { pageMetadata, personData } from '@/lib/seo';
 
 // The whole résumé as plain, server-rendered HTML, for people who'd rather read than
@@ -67,22 +61,7 @@ export default function ResumePage() {
             <RoleTimeline />
             <Projects />
             <Skills />
-            <section aria-labelledby="recommendations" className={layout.section}>
-              <h2 id="recommendations" className={layout.h2}>
-                Recommendations
-              </h2>
-              <div className={styles.stackList}>
-                {recommendations.map((r) => (
-                  <Recommendation
-                    key={r.id}
-                    id={r.id}
-                    recommendation={r}
-                    excerpt={recommendationHighlights[r.id]}
-                    full
-                  />
-                ))}
-              </div>
-            </section>
+            <RecommendationCarousel />
             <div className={styles.pair}>
               <Education />
               {hasOpenSource && <OpenSource />}

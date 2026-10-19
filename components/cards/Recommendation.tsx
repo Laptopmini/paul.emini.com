@@ -1,59 +1,75 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { type HTMLAttributes, useId, useState } from 'react';
 import { ExternalLink } from '@/components/ExternalLink';
 import type { Recommendation as RecommendationEntry } from '@/content';
-import { initials, pickExcerpt } from '@/lib/cards';
+import { initials, markExcerpt, pickExcerpt } from '@/lib/cards';
 import { formatYearMonth } from '@/lib/format';
 import { Card } from './Card';
 import s from './cards.module.css';
 
 /**
  * A recommendation with the excerpt the agent picked for the question. The excerpt is
- * only shown if it's verbatim from the source; the full text expands inline. `full`
- * (the /resume page) shows the full text from the start, with no toggle.
+ * only shown if it's verbatim from the source; the full text expands inline.
+ * `highlight` (the /resume carousel) shows the full text from the start, with the
+ * excerpt marked in place.
  */
 export function Recommendation({
   recommendation: r,
   excerpt,
-  full = false,
-  id,
+  highlight = false,
+  ...rest
 }: {
   recommendation: RecommendationEntry;
   excerpt?: string;
-  full?: boolean;
-  id?: string;
-}) {
-  const [toggled, setExpanded] = useState(false);
-  const expanded = full || toggled;
+  highlight?: boolean;
+} & Omit<HTMLAttributes<HTMLElement>, 'children'>) {
+  const [expanded, setExpanded] = useState(false);
   const fullId = useId();
-  const quote = pickExcerpt(r, excerpt);
   const paragraphs = r.body.split(/\n\s*\n/);
 
   return (
-    <Card as="figure" id={id}>
-      <blockquote className={s.quote} cite={r.linkedin}>
-        <p>“{quote}”</p>
-      </blockquote>
-      {expanded && (
-        <div id={fullId} className={s.fullText}>
-          {paragraphs.map((p) => (
-            <p key={p.slice(0, 40)} className={s.body}>
-              {p}
-            </p>
-          ))}
-        </div>
-      )}
-      {!full && (
-        <button
-          type="button"
-          className={s.linkButton}
-          aria-expanded={expanded}
-          aria-controls={fullId}
-          onClick={() => setExpanded((v) => !v)}
-        >
-          {expanded ? 'Show less' : 'Read the full recommendation'}
-        </button>
+    <Card as="figure" {...rest}>
+      {highlight ? (
+        <blockquote className={s.fullQuote} cite={r.linkedin}>
+          {markExcerpt(r, excerpt).map((p, i) =>
+            typeof p === 'string' ? (
+              // biome-ignore lint/suspicious/noArrayIndexKey: static text, never reordered
+              <p key={i}>{p}</p>
+            ) : (
+              // biome-ignore lint/suspicious/noArrayIndexKey: static text, never reordered
+              <p key={i}>
+                {p.before}
+                <mark className={s.mark}>{p.mark}</mark>
+                {p.after}
+              </p>
+            ),
+          )}
+        </blockquote>
+      ) : (
+        <>
+          <blockquote className={s.quote} cite={r.linkedin}>
+            <p>“{pickExcerpt(r, excerpt)}”</p>
+          </blockquote>
+          {expanded && (
+            <div id={fullId} className={s.fullText}>
+              {paragraphs.map((p) => (
+                <p key={p.slice(0, 40)} className={s.body}>
+                  {p}
+                </p>
+              ))}
+            </div>
+          )}
+          <button
+            type="button"
+            className={s.linkButton}
+            aria-expanded={expanded}
+            aria-controls={fullId}
+            onClick={() => setExpanded((v) => !v)}
+          >
+            {expanded ? 'Show less' : 'Read the full recommendation'}
+          </button>
+        </>
       )}
       <figcaption className={s.caption}>
         <span className={s.avatar} aria-hidden="true">

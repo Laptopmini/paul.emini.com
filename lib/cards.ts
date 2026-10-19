@@ -81,6 +81,25 @@ export function pickExcerpt(recommendation: Recommendation, requested?: string):
   return best.length > 0 ? best.join(' ') : (sentences(body)[0] ?? body);
 }
 
+export type MarkedParagraph = { before: string; mark: string; after: string } | string;
+
+/**
+ * The recommendation's paragraphs with the excerpt marked in place. Only a verbatim
+ * excerpt inside one paragraph is marked; otherwise the text comes back unmarked.
+ */
+export function markExcerpt(recommendation: Recommendation, excerpt?: string): MarkedParagraph[] {
+  const paragraphs = recommendation.body.split(/\n\s*\n/).map(squash);
+  const wanted = excerpt ? squash(excerpt) : '';
+  if (!wanted || pickExcerpt(recommendation, wanted) !== wanted) return paragraphs;
+  let marked = false;
+  return paragraphs.map((p) => {
+    const at = marked ? -1 : p.indexOf(wanted);
+    if (at < 0) return p;
+    marked = true;
+    return { before: p.slice(0, at), mark: wanted, after: p.slice(at + wanted.length) };
+  });
+}
+
 export function mailtoHref(email: string, subject: string, body: string): string {
   const params = new URLSearchParams({ subject, body }).toString().replaceAll('+', '%20');
   return `mailto:${email}?${params}`;

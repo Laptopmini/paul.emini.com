@@ -1,0 +1,143 @@
+.carousel {
+  position: relative;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control {
+  width: var(--target-min);
+  height: var(--target-min);
+  border-radius: var(--radius-link);
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.control:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--ground);
+}
+
+.control:active {
+  transform: scale(0.96);
+}
+
+/* The no-JS and touch baseline: a scroll-snap row where the next slide peeks in. */
+.viewport {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  padding: 4px 0 8px;
+}
+
+.viewport > figure {
+  flex: 0 0 min(760px, 86%);
+  scroll-snap-align: start;
+  padding: 32px;
+  gap: 20px;
+}
+
+/* Controls take over from the scrollbar once JS is running. */
+.carousel[data-ready] .viewport {
+  scrollbar-width: none;
+}
+
+.carousel[data-ready] .viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.viewport > figure > figcaption {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--divider);
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.dotButton {
+  width: var(--target-min);
+  height: var(--target-min);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--line-2);
+  overflow: hidden;
+  transition: width var(--duration) var(--ease);
+}
+
+.dotButton:hover .dot {
+  background: var(--line-strong);
+}
+
+.dotButton[aria-current="true"] .dot {
+  width: 36px;
+  background: var(--line);
+}
+
+/* The active pill fills over the interval; reaching the end advances the slide. */
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fill {
+    animation: fill var(--interval) linear forwards;
+  }
+
+  .carousel[data-paused] .fill {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .viewport {
+    gap: 12px;
+    margin: 0 -16px;
+    padding: 4px 16px 8px;
+    scroll-padding: 0 16px;
+  }
+
+  .viewport > figure {
+    flex-basis: 86%;
+    padding: 20px;
+  }
+}

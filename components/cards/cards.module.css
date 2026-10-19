@@ -328,6 +328,43 @@ mark.skill {
   gap: 10px;
 }
 
+/* Full text with the excerpt marked in place (/resume). */
+.fullQuote {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+.fullQuote p {
+  margin: 0;
+}
+
+.mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--accent-tint);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+@media (max-width: 640px) {
+  .fullQuote {
+    font-size: 15px;
+  }
+
+  .mark {
+    font-size: 17px;
+  }
+}
+
 .caption {
   display: flex;
   align-items: center;
