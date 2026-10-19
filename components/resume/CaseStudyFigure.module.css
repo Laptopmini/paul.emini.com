@@ -1,0 +1,336 @@
+/* Architecture */
+.architecture {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.box {
+  margin: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.35;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.boxNote {
+  font-size: 12px;
+}
+
+.inkBox {
+  flex: 1;
+  gap: 6px;
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.inkBox .boxNote {
+  font-size: 14px;
+  color: var(--on-ink-2);
+}
+
+.boxTitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.tintBox {
+  background: var(--accent-tint);
+  color: var(--accent-strong);
+}
+
+.boxGrid,
+.boxStack {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.boxGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.boxStack .box {
+  height: 100%;
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.boxStack .boxNote {
+  color: var(--muted);
+}
+
+.plainList {
+  flex: 1;
+  list-style: none;
+  gap: 6px;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.caption {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Before / after */
+.beforeAfter {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 16px;
+}
+
+.state {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.after {
+  border-color: var(--accent);
+}
+
+.afterKicker {
+  color: var(--accent-strong);
+}
+
+.mock {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--ground);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  height: 10px;
+  border-radius: 4px;
+  background: var(--divider);
+}
+
+.fieldInput {
+  height: 22px;
+  width: 92%;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.fieldInput.flagged {
+  border: 1.5px solid var(--warn-fg);
+}
+
+/* The form keeps going: fade it out at the bottom. */
+.mock:not(:has(.row))::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 80px;
+  background: linear-gradient(transparent, var(--ground));
+}
+
+.mockTitle {
+  font-size: 14px;
+}
+
+.progress {
+  height: 6px;
+  border-radius: 6px;
+  background: var(--line);
+}
+
+.progressBar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 13px;
+}
+
+.done .rowState {
+  color: var(--ok-fg);
+}
+
+.next {
+  outline: 2px solid var(--accent);
+}
+
+.next .rowState {
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.todo {
+  color: var(--muted);
+}
+
+.note {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* Rollout stepper */
+.rollout {
+  margin: 0;
+}
+
+.stages {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+}
+
+.stages li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 16px;
+}
+
+/* Connector to the next stage. */
+.stages li:not(.lastStage)::after {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 28px;
+  right: 0;
+  height: 2px;
+  background: var(--ink);
+}
+
+.marker {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--ground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.lastStage .marker {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.stageNote {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .architecture {
+    padding: 18px;
+  }
+
+  /* Phone: before and after side by side as a swipe row. */
+  .pair {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 -16px;
+    padding: 0 16px 4px;
+    scroll-padding: 0 16px;
+    scrollbar-width: none;
+  }
+
+  .pair > * {
+    flex: 0 0 86%;
+    scroll-snap-align: start;
+    padding: 18px;
+  }
+
+  .mock {
+    height: 220px;
+  }
+
+  /* Vertical stepper; the connector runs down the markers. */
+  .stages {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stages li {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 2px;
+    padding: 0 0 20px;
+  }
+
+  .stages li > :not(.marker) {
+    grid-column: 2;
+  }
+
+  .marker {
+    grid-row: 1 / span 2;
+  }
+
+  .stages li:not(.lastStage)::after {
+    top: 28px;
+    bottom: 0;
+    left: 13px;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+}

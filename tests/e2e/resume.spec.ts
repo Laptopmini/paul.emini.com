@@ -130,10 +130,12 @@ test.describe('machine-readable layer', () => {
     }
     for (const c of caseStudies) {
       await page.goto(`/work/${c.id}/`);
-      const data = JSON.parse(
-        (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}',
-      );
-      expect(data).toMatchObject({ '@type': 'Article', headline: c.title });
+      const blocks = (
+        await page.locator('script[type="application/ld+json"]').allTextContents()
+      ).map((text) => JSON.parse(text));
+      expect(blocks.find((b) => b['@type'] === 'Article')).toMatchObject({ headline: c.title });
+      const trail = blocks.find((b) => b['@type'] === 'BreadcrumbList');
+      expect(trail.itemListElement.at(-1)).toMatchObject({ name: c.title });
     }
   });
 });

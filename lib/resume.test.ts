@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { Contribution } from './cards';
-import { contributionPill, experienceLabel, readingMinutes, splitTitle, topOwners } from './resume';
+import {
+  contributionPill,
+  experienceLabel,
+  readingMinutes,
+  splitLead,
+  splitTitle,
+  topOwners,
+} from './resume';
 
 const contribution = (repo: string, kind: 'pr' | 'issue' = 'pr', state = 'merged') =>
   ({ repo, kind, state }) as Contribution;
@@ -51,5 +58,13 @@ describe('static page values', () => {
       label: 'Issue · closed',
       tone: 'issue',
     });
+  });
+
+  it('splits a bullet into its bold lead and the rest', () => {
+    expect(splitLead('**Fewer drop-offs,** with more partners finishing.')).toEqual([
+      'Fewer drop-offs',
+      'with more partners finishing.',
+    ]);
+    expect(splitLead('No lead here.')).toEqual([null, 'No lead here.']);
   });
 });

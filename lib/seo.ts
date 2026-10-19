@@ -94,3 +94,23 @@ export function caseStudyData(study: CaseStudy) {
     ...(mention ? { citation: mention.url } : {}),
   };
 }
+
+/** schema.org BreadcrumbList for a case study: Résumé › company › the study. */
+export function breadcrumbData(study: CaseStudy) {
+  const company = experience.find((e) => e.id === study.experienceId)?.company;
+  const trail = [
+    { name: 'Résumé', path: '/resume/' },
+    ...(company ? [{ name: company, path: `/resume/#${study.experienceId}` }] : []),
+    { name: study.title, path: `/work/${study.id}/` },
+  ];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: t.name,
+      item: url(t.path),
+    })),
+  };
+}
