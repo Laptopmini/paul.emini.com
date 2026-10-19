@@ -1,0 +1,243 @@
+/*
+ * Shell shared by /resume and /work/*: sticky top bar, a 1340px container with a
+ * section rail beside the content from 1100px, one column below it.
+ */
+
+.page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  /* Room for the sticky top bar when jumping to an anchor. */
+  --top-offset: 96px;
+}
+
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 48px 120px;
+}
+
+.wrap :where([id]) {
+  scroll-margin-top: var(--top-offset);
+}
+
+.cols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 56px;
+  align-items: flex-start;
+}
+
+.content {
+  flex: 999 1 640px;
+  min-width: 0;
+}
+
+.mono {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Reading progress: tracks the page scroll where scroll timelines exist, hidden elsewhere. */
+.progress {
+  display: none;
+  height: 3px;
+  margin-bottom: -1px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .progress {
+      display: block;
+      animation: progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* "On this page" */
+
+.tocList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rail {
+  display: none;
+  flex: 0 0 210px;
+  position: sticky;
+  top: var(--top-offset);
+  padding-top: 88px;
+}
+
+.rail .tocList {
+  margin: 12px 0 16px;
+}
+
+.rail a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  padding-left: 14px;
+  border-left: 2px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.rail a:hover {
+  color: var(--ink);
+  border-color: var(--ink-2);
+}
+
+.rail a[aria-current="true"] {
+  color: var(--ink);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.tocNumber {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs .tocList {
+  display: flex;
+  gap: 6px;
+  width: max-content;
+  padding: 0 16px 8px;
+}
+
+.tabs li {
+  scroll-snap-align: start;
+}
+
+.tabs a {
+  display: flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-2);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.tabs a[aria-current="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--ground);
+  font-weight: 600;
+}
+
+.picker {
+  border-top: 1px solid var(--line);
+}
+
+.picker summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--target-min);
+  padding: 0 16px;
+  font-size: 14px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.picker summary::-webkit-details-marker {
+  display: none;
+}
+
+.chevron {
+  display: flex;
+  transition: transform var(--duration) var(--ease);
+}
+
+.picker[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.picker .tocList {
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px 8px;
+}
+
+.picker a {
+  display: flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: 0 8px;
+  border-radius: var(--radius-link);
+  font-size: 15px;
+}
+
+.picker a[aria-current="true"] {
+  background: var(--chip);
+  font-weight: 600;
+}
+
+@media (min-width: 1100px) {
+  .rail {
+    display: block;
+  }
+
+  .tabs,
+  .picker {
+    display: none;
+  }
+}
+
+@media (max-width: 1099px) {
+  .page {
+    --top-offset: 128px;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    padding: 0 16px 112px;
+  }
+}

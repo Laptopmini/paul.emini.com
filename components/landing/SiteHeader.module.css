@@ -100,3 +100,65 @@
     padding: 0 12px;
   }
 }
+
+/* /resume and /work/*: a compact bar with site navigation (inside a sticky top bar). */
+.pageHeader {
+  padding-block: 12px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: 0 14px;
+  border-radius: var(--radius-link);
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.navLink[aria-current="page"] {
+  background: var(--chip);
+  font-weight: 600;
+}
+
+.ask {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--target-min);
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--ground);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ask:hover {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.ask:active,
+.navLink:active {
+  transform: scale(0.96);
+}
+
+/* Phone: the bottom bar carries "Ask my agent", so the header only links to the other page. */
+@media (max-width: 640px) {
+  .pageHeader {
+    padding: 8px 12px 8px 16px;
+  }
+
+  .navLink[aria-current="page"],
+  .pageHeader .ask {
+    display: none;
+  }
+}
