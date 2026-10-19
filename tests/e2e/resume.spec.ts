@@ -7,8 +7,13 @@ import { expect, test } from '@playwright/test';
 const read = (file: string) => readFileSync(join(process.cwd(), 'content', file), 'utf8');
 const json = (file: string) => JSON.parse(read(file));
 const awards: { name: string }[] = json('awards.json');
-const caseStudies: { id: string; title: string; sections: { heading: string }[] }[] =
-  json('case-studies.json');
+const caseStudies: {
+  id: string;
+  title: string;
+  summary: string;
+  sections: { heading: string; paragraphs: string[]; bullets: string[] }[];
+}[] = json('case-studies.json');
+const certifications: { name: string; issuer: string }[] = json('certifications.json');
 const experience: { id: string; company: string; highlights: { text: string }[] }[] =
   json('experience.json');
 const mentions: { authorTitle: string }[] = json('mentions.json');
@@ -17,17 +22,19 @@ const projects: { id: string; summary: string; repo?: string }[] = json('project
 const github: { repos: { name: string; readme?: string; description: string | null }[] } =
   json('github.json');
 const highlights: Record<string, string> = json('recommendation-highlights.json');
-/** Each recommendation's last paragraph (proves the full text is there, not just a quote). */
+const squash = (s: string) => s.replace(/\s+/g, ' ').trim();
+/** Every paragraph of each recommendation (the full text, not just the marked excerpt). */
 const recommendations = read('recommendations.md')
   .split(/^## /m)
   .slice(1)
-  .map((chunk) => {
-    const paragraphs = chunk.split(/\n\s*\n/).filter((p) => p.trim() && !p.trim().startsWith('-'));
-    return {
-      name: chunk.split('\n')[0] ?? '',
-      last: (paragraphs.at(-1) ?? '').replace(/\s+/g, ' ').trim(),
-    };
-  });
+  .map((chunk) => ({
+    name: chunk.split('\n')[0] ?? '',
+    paragraphs: chunk
+      .split(/\n\s*\n/)
+      .slice(1)
+      .map(squash)
+      .filter((p) => p && !p.startsWith('-')),
+  }));
 
 // The static pages exist for people who won't chat and for crawlers that can't: every
 // fact must be in the server-rendered HTML, with JavaScript off.
@@ -55,7 +62,14 @@ test.describe('static résumé pages', () => {
     for (const [id, sentence] of Object.entries(highlights)) {
       await expect(page.locator(`#${id} blockquote`)).toContainText(sentence);
     }
-    for (const r of recommendations) await expect(page.getByText(r.last)).toBeVisible();
+    const main = page.getByRole('main');
+    for (const r of recommendations) {
+      expect(r.paragraphs.length).toBeGreaterThan(0);
+      for (const p of r.paragraphs) await expect(main).toContainText(p);
+    }
+    for (const c of certifications) {
+      await expect(page.getByRole('list', { name: /Certifications/ })).toContainText(c.name);
+    }
     for (const a of awards) await expect(page.getByText(a.name)).toBeVisible();
     for (const m of mentions) await expect(page.getByText(m.authorTitle)).toBeVisible();
     await expect(page.getByRole('link', { name: /Download PDF/ })).toHaveAttribute(
@@ -64,12 +78,17 @@ test.describe('static résumé pages', () => {
     );
   });
 
-  test('each case study has its own page', async ({ page }) => {
+  test('each case study page has every heading, paragraph and bullet', async ({ page }) => {
     for (const c of caseStudies) {
       await page.goto(`/work/${c.id}/`);
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(c.title);
+      const main = page.getByRole('main');
+      await expect(main).toContainText(c.summary);
       for (const s of c.sections) {
         await expect(page.getByRole('heading', { level: 2, name: s.heading })).toBeVisible();
+        for (const text of [...s.paragraphs, ...s.bullets]) {
+          await expect(main).toContainText(squash(text.replaceAll('**', '')));
+        }
       }
     }
   });
