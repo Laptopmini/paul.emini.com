@@ -65,7 +65,8 @@ test.describe('static résumé pages', () => {
     }
   });
 
-  test('the landing links into the résumé', async ({ page }) => {
+  test('the landing links into the résumé', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'phones hide the timeline and its link');
     await page.goto('/');
     await page.getByRole('link', { name: 'Full résumé' }).click();
     await expect(page).toHaveURL(/\/resume\/$/);

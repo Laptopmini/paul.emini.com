@@ -141,8 +141,8 @@
     display: none;
   }
 
-  /* Phones skip the timeline; the link to the résumé stays, under the contact links. */
+  /* Phones skip the timeline, and its link with it. */
   .full {
-    align-self: flex-start;
+    display: none;
   }
 }
