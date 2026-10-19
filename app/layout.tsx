@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import { profile } from '@/content';
 import { SITE_URL } from '@/lib/brand';
 import { asset } from '@/lib/paths';
+import { pageMetadata } from '@/lib/seo';
 import { bricolage, instrument, jetbrains } from './fonts';
 import './globals.css';
 
@@ -14,16 +14,7 @@ export const metadata: Metadata = {
   title: 'Paul‑Valentin Mini',
   description,
   icons: { icon: asset('/icon.png'), apple: asset('/apple-icon.png') },
-  openGraph: {
-    type: 'website',
-    siteName: 'Paul‑Valentin Mini',
-    description,
-    url: '/',
-    images: [
-      { url: '/og.png', width: 1200, height: 630, alt: `${profile.name}, ${profile.title}` },
-    ],
-  },
-  twitter: { card: 'summary_large_image', images: ['/og.png'] },
+  ...pageMetadata({ title: 'Paul‑Valentin Mini', description, path: '/', type: 'profile' }),
 };
 
 export const viewport: Viewport = {

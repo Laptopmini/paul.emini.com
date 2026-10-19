@@ -88,6 +88,47 @@ test.describe('static résumé pages, with JavaScript', () => {
   }
 });
 
+test.describe('machine-readable layer', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('robots.txt allows everyone and points to the sitemap', async ({ request }) => {
+    const robots = await (await request.get('/robots.txt')).text();
+    expect(robots).toMatch(/User-Agent: \*\s+Allow: \//);
+    expect(robots).toContain('/sitemap.xml');
+  });
+
+  test('the sitemap lists every page', async ({ request }) => {
+    const sitemap = await (await request.get('/sitemap.xml')).text();
+    for (const path of ['/', '/resume/', ...caseStudies.map((c) => `/work/${c.id}/`)]) {
+      expect(sitemap).toContain(`${path}</loc>`);
+    }
+  });
+
+  test('llms.txt links the résumé and case studies', async ({ request }) => {
+    const llms = await (await request.get('/llms.txt')).text();
+    expect(llms).toContain('/resume/');
+    for (const c of caseStudies) expect(llms).toContain(`/work/${c.id}/`);
+  });
+
+  test('pages carry valid schema.org data from /content', async ({ page }) => {
+    for (const path of ['/', '/resume/']) {
+      await page.goto(path);
+      const data = JSON.parse(
+        (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}',
+      );
+      expect(data).toMatchObject({ '@type': 'Person', name: 'Paul-Valentin Mini' });
+      expect(data.award.join(' ')).toContain(awards[0]?.name);
+    }
+    for (const c of caseStudies) {
+      await page.goto(`/work/${c.id}/`);
+      const data = JSON.parse(
+        (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}',
+      );
+      expect(data).toMatchObject({ '@type': 'Article', headline: c.title });
+    }
+  });
+});
+
 test('timeline rows open their part of the résumé', async ({ page, isMobile }) => {
   test.skip(isMobile, 'the timeline is hidden on phones');
   await page.goto('/');

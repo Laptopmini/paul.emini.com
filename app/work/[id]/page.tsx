@@ -3,12 +3,14 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import s from '@/components/cards/cards.module.css';
 import { Icon } from '@/components/Icon';
+import { JsonLd } from '@/components/JsonLd';
 import { SiteHeader } from '@/components/landing/SiteHeader';
 import { RichText } from '@/components/RichText';
 import { Mention } from '@/components/resume/Mention';
 import styles from '@/components/resume/resume.module.css';
 import { caseStudies, experience, mentions, profile, recommendations } from '@/lib/content';
 import { formatYearMonth } from '@/lib/format';
+import { caseStudyData, pageMetadata } from '@/lib/seo';
 
 // One page per case study (/work/<id>/): the owner's write-up, word for word, with the
 // public mention it led to. People named in the text who also wrote a recommendation
@@ -26,11 +28,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const study = caseStudies.find((c) => c.id === id);
   if (!study) return {};
-  return {
+  return pageMetadata({
     title: `${study.title} · ${profile.name}`,
     description: study.summary,
-    alternates: { canonical: `/work/${study.id}/` },
-  };
+    path: `/work/${study.id}/`,
+    type: 'article',
+  });
 }
 
 /** Recommenders named in a paragraph become links to their recommendation. */
@@ -63,6 +66,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
   return (
     <div className={styles.page}>
+      <JsonLd data={caseStudyData(study)} />
       <SiteHeader />
       <main className={styles.main}>
         <article>

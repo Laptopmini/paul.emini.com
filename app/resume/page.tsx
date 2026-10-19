@@ -4,6 +4,7 @@ import { Award, Recommendation } from '@/components/cards';
 import s from '@/components/cards/cards.module.css';
 import { ExternalLink } from '@/components/ExternalLink';
 import { Icon } from '@/components/Icon';
+import { JsonLd } from '@/components/JsonLd';
 import { ContactLinks } from '@/components/landing/ContactLinks';
 import { SiteHeader } from '@/components/landing/SiteHeader';
 import { Mention } from '@/components/resume/Mention';
@@ -25,16 +26,18 @@ import {
   skills,
 } from '@/lib/content';
 import { formatYearMonth, noBreakHyphens } from '@/lib/format';
+import { pageMetadata, personData } from '@/lib/seo';
 
 // The whole résumé as plain, server-rendered HTML, for people who'd rather read than
 // ask and for every crawler and AI agent (none of which can use the chat). Same facts
 // as the PDF and the agent: all of it comes from /content.
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: `Résumé · ${profile.name}`,
   description: `${profile.title} in ${profile.location.city}: experience, projects, skills, recommendations and open-source work.`,
-  alternates: { canonical: '/resume/' },
-};
+  path: '/resume/',
+  type: 'profile',
+});
 
 const repos = new Map(github.repos.map((r) => [r.name.toLowerCase(), r]));
 const ongoing = (end: string | null) => end ?? new Date().toISOString().slice(0, 7);
@@ -42,6 +45,7 @@ const ongoing = (end: string | null) => end ?? new Date().toISOString().slice(0,
 export default function ResumePage() {
   return (
     <div className={styles.page}>
+      <JsonLd data={personData()} />
       <SiteHeader />
       <main className={styles.main}>
         <header className={styles.intro}>
