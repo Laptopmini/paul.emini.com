@@ -1,15 +1,16 @@
 {
-  "fetchedAt": "2026-10-19T05:31:43.897Z",
+  "fetchedAt": "2026-10-19T18:59:25.763Z",
   "user": "Laptopmini",
   "repos": [
     {
       "name": "paul.emini.com",
-      "description": "My personal website",
+      "description": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text.",
       "url": "https://github.com/Laptopmini/paul.emini.com",
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-10-19T05:23:24.000Z"
+      "pushedAt": "2026-10-19T18:27:54.000Z",
+      "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
       "name": "smartthings-agui",
@@ -66,6 +67,54 @@
     {
       "kind": "pr",
       "state": "open",
+      "title": "fix(runtime): pass BuiltInAgent's system prompt via streamText `system`, not `messages`",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7881,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7881",
+      "createdAt": "2026-10-19T16:40:49.000Z",
+      "updatedAt": "2026-10-19T17:43:48.000Z",
+      "comments": 1,
+      "additions": 187,
+      "deletions": 32
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: BuiltInAgent passes its system prompt inside `messages`, so AI SDK v6 prints a prompt-injection warning on every run",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7846,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7846",
+      "createdAt": "2026-10-16T06:36:48.000Z",
+      "updatedAt": "2026-10-19T17:20:40.000Z",
+      "comments": 3
+    },
+    {
+      "kind": "issue",
+      "state": "closed",
+      "title": "🐛 Bug: runtime-client-gql: published types import graphql and @graphql-typed-document-node/core, which are devDependencies (validate-dts-imports only runs for runtime)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7817,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7817",
+      "createdAt": "2026-10-14T16:58:51.000Z",
+      "updatedAt": "2026-10-19T11:13:29.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(runtime-client-gql): declare the packages its published types import",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7818,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7818",
+      "createdAt": "2026-10-14T17:05:34.000Z",
+      "updatedAt": "2026-10-19T11:13:27.000Z",
+      "comments": 2,
+      "additions": 9,
+      "deletions": 8
+    },
+    {
+      "kind": "pr",
+      "state": "open",
       "title": "feat(shell-docs): show a progress bar during client navigations",
       "repo": "CopilotKit/CopilotKit",
       "number": 7824,
@@ -88,17 +137,6 @@
       "comments": 2,
       "additions": 1818,
       "deletions": 969
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "🐛 Bug: BuiltInAgent passes its system prompt inside `messages`, so AI SDK v6 prints a prompt-injection warning on every run",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7846,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7846",
-      "createdAt": "2026-10-16T06:36:48.000Z",
-      "updatedAt": "2026-10-16T06:37:02.000Z",
-      "comments": 1
     },
     {
       "kind": "pr",
@@ -206,30 +244,6 @@
       "createdAt": "2026-10-14T16:56:45.000Z",
       "updatedAt": "2026-10-14T17:33:53.000Z",
       "comments": 2
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(runtime-client-gql): declare the packages its published types import",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7818,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/7818",
-      "createdAt": "2026-10-14T17:05:34.000Z",
-      "updatedAt": "2026-10-14T17:09:49.000Z",
-      "comments": 1,
-      "additions": 9,
-      "deletions": 8
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "🐛 Bug: runtime-client-gql: published types import graphql and @graphql-typed-document-node/core, which are devDependencies (validate-dts-imports only runs for runtime)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7817,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7817",
-      "createdAt": "2026-10-14T16:58:51.000Z",
-      "updatedAt": "2026-10-14T16:59:04.000Z",
-      "comments": 1
     },
     {
       "kind": "pr",
