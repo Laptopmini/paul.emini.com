@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-19T18:59:25.763Z",
+  "fetchedAt": "2026-10-20T17:46:14.857Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-10-19T18:27:54.000Z",
+      "pushedAt": "2026-10-19T23:38:19.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -64,6 +64,67 @@
     }
   ],
   "contributions": [
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(adk-middleware): keep the client's history on a new thread's first run",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3126,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3126",
+      "createdAt": "2026-10-19T22:52:47.000Z",
+      "updatedAt": "2026-10-20T16:07:04.000Z",
+      "comments": 5,
+      "additions": 701,
+      "deletions": 4
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(adk-middleware): pass the suite under google-adk 2.12",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3124,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3124",
+      "createdAt": "2026-10-19T22:32:46.000Z",
+      "updatedAt": "2026-10-20T05:09:53.000Z",
+      "comments": 2,
+      "additions": 93,
+      "deletions": 12
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: `@copilotkit/react-core/v2/headless` has no web provider, so a headless web app still bundles the whole chat rendering stack",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7882,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7882",
+      "createdAt": "2026-10-19T21:39:05.000Z",
+      "updatedAt": "2026-10-19T21:39:22.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "issue",
+      "state": "closed",
+      "title": "🐛 Bug: docs.copilotkit.ai ships the entire demo-content.json (40 MB of JS) to the browser on most pages, and re-downloads it on navigation",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7821,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7821",
+      "createdAt": "2026-10-14T21:07:38.000Z",
+      "updatedAt": "2026-10-19T19:44:54.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(shell-docs): render DemoSource on the server so demo-content.json stays out of client bundles",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7822,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7822",
+      "createdAt": "2026-10-14T21:17:33.000Z",
+      "updatedAt": "2026-10-19T19:44:53.000Z",
+      "comments": 1,
+      "additions": 124,
+      "deletions": 17
+    },
     {
       "kind": "pr",
       "state": "open",
@@ -208,30 +269,6 @@
       "url": "https://github.com/CopilotKit/CopilotKit/issues/7823",
       "createdAt": "2026-10-14T21:22:42.000Z",
       "updatedAt": "2026-10-14T21:22:52.000Z",
-      "comments": 1
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(shell-docs): render DemoSource on the server so demo-content.json stays out of client bundles",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7822,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/7822",
-      "createdAt": "2026-10-14T21:17:33.000Z",
-      "updatedAt": "2026-10-14T21:21:03.000Z",
-      "comments": 1,
-      "additions": 124,
-      "deletions": 17
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "🐛 Bug: docs.copilotkit.ai ships the entire demo-content.json (40 MB of JS) to the browser on most pages, and re-downloads it on navigation",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7821,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7821",
-      "createdAt": "2026-10-14T21:07:38.000Z",
-      "updatedAt": "2026-10-14T21:07:51.000Z",
       "comments": 1
     },
     {
@@ -388,39 +425,6 @@
       "comments": 0,
       "additions": 86,
       "deletions": 15
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "[Feature Request]: AG-UI router: support ACTIVITY_SNAPSHOT / ACTIVITY_DELTA events",
-      "repo": "run-llama/llama_index",
-      "number": 23487,
-      "url": "https://github.com/run-llama/llama_index/issues/23487",
-      "createdAt": "2026-10-13T17:17:31.000Z",
-      "updatedAt": "2026-10-13T17:17:31.000Z",
-      "comments": 0
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "🐛 Bug: includeSchema: false still sends every custom component's JSON schema (and the default sends it twice)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7802,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7802",
-      "createdAt": "2026-10-13T17:09:15.000Z",
-      "updatedAt": "2026-10-13T17:09:29.000Z",
-      "comments": 1
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "[Bug]: FunctionTool doesn't detect ctx: Context when the module uses \"from __future__ import annotations\"",
-      "repo": "run-llama/llama_index",
-      "number": 23482,
-      "url": "https://github.com/run-llama/llama_index/issues/23482",
-      "createdAt": "2026-10-13T16:46:17.000Z",
-      "updatedAt": "2026-10-13T16:46:17.000Z",
-      "comments": 0
     }
   ]
 }
