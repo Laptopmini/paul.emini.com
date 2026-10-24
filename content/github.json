@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-23T17:41:34.707Z",
+  "fetchedAt": "2026-10-24T16:26:23.096Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-10-22T17:51:05.000Z",
+      "pushedAt": "2026-10-23T17:41:39.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -65,6 +65,54 @@
   ],
   "contributions": [
     {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(mcp-apps)!: give MCP App widgets an opaque origin by default",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7896,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7896",
+      "createdAt": "2026-10-21T07:07:33.000Z",
+      "updatedAt": "2026-10-24T14:48:38.000Z",
+      "comments": 2,
+      "additions": 514,
+      "deletions": 32
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: includeSchema: false still sends every custom component's JSON schema (and the default sends it twice)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7802,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7802",
+      "createdAt": "2026-10-13T17:09:15.000Z",
+      "updatedAt": "2026-10-23T20:37:19.000Z",
+      "comments": 5
+    },
+    {
+      "kind": "issue",
+      "state": "closed",
+      "title": "🐛 Bug: a2ui-renderer: createCatalog renderer props are typed as the raw schema (Action props aren't callable, bound values unresolved, set<Prop> setters missing)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7814,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7814",
+      "createdAt": "2026-10-14T16:26:15.000Z",
+      "updatedAt": "2026-10-23T19:09:24.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(a2ui-renderer)!: type createCatalog renderer props as the binder resolves them",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7815,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7815",
+      "createdAt": "2026-10-14T16:35:56.000Z",
+      "updatedAt": "2026-10-23T19:09:23.000Z",
+      "comments": 3,
+      "additions": 139,
+      "deletions": 6
+    },
+    {
       "kind": "issue",
       "state": "open",
       "title": "🐛 Bug: react-core / mcp-apps-renderer .d.mts written for Zod 3 break type-checking when the app's zod is v4 (1,683 errors with skipLibCheck: false)",
@@ -74,19 +122,6 @@
       "createdAt": "2026-10-14T16:56:45.000Z",
       "updatedAt": "2026-10-23T16:29:25.000Z",
       "comments": 4
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(a2ui-renderer)!: type createCatalog renderer props as the binder resolves them",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7815,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/7815",
-      "createdAt": "2026-10-14T16:35:56.000Z",
-      "updatedAt": "2026-10-23T16:27:29.000Z",
-      "comments": 3,
-      "additions": 139,
-      "deletions": 6
     },
     {
       "kind": "issue",
@@ -102,17 +137,6 @@
     {
       "kind": "issue",
       "state": "open",
-      "title": "🐛 Bug: includeSchema: false still sends every custom component's JSON schema (and the default sends it twice)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7802,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7802",
-      "createdAt": "2026-10-13T17:09:15.000Z",
-      "updatedAt": "2026-10-23T16:18:10.000Z",
-      "comments": 3
-    },
-    {
-      "kind": "issue",
-      "state": "open",
       "title": "🐛 Bug: BuiltInAgent passes its system prompt inside `messages`, so AI SDK v6 prints a prompt-injection warning on every run",
       "repo": "CopilotKit/CopilotKit",
       "number": 7846,
@@ -120,19 +144,6 @@
       "createdAt": "2026-10-16T06:36:48.000Z",
       "updatedAt": "2026-10-23T14:18:25.000Z",
       "comments": 4
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(mcp-apps)!: give MCP App widgets an opaque origin by default",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7896,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/7896",
-      "createdAt": "2026-10-21T07:07:33.000Z",
-      "updatedAt": "2026-10-21T07:41:33.000Z",
-      "comments": 1,
-      "additions": 514,
-      "deletions": 32
     },
     {
       "kind": "issue",
@@ -317,17 +328,6 @@
       "url": "https://github.com/CopilotKit/CopilotKit/issues/7823",
       "createdAt": "2026-10-14T21:22:42.000Z",
       "updatedAt": "2026-10-14T21:22:52.000Z",
-      "comments": 1
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "🐛 Bug: a2ui-renderer: createCatalog renderer props are typed as the raw schema (Action props aren't callable, bound values unresolved, set<Prop> setters missing)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7814,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7814",
-      "createdAt": "2026-10-14T16:26:15.000Z",
-      "updatedAt": "2026-10-14T16:26:31.000Z",
       "comments": 1
     },
     {
