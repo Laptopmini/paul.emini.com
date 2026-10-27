@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-26T19:01:08.839Z",
+  "fetchedAt": "2026-10-27T18:32:46.202Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-10-25T22:50:10.000Z",
+      "pushedAt": "2026-10-26T19:01:13.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -57,13 +57,24 @@
       "description": "RaspberryPi based custom head unit for classic Porsche, supporting wireless CarPlay and featuring an integrated Bang & Olufsen amplifier. ",
       "url": "https://github.com/Laptopmini/PorschePi",
       "language": "Shell",
-      "stars": 32,
+      "stars": 33,
       "createdAt": "2022-05-19T18:53:15.000Z",
       "pushedAt": "2023-01-16T21:15:16.000Z",
       "readme": "RaspberryPi based custom head unit for classic Porsche. Inspired by the Porsche Classic Communication Management (PCCM) (91164559100), featuring a much larger touchscreen and the ability to use CarPlay wirelessly."
     }
   ],
   "contributions": [
+    {
+      "kind": "issue",
+      "state": "closed",
+      "title": "🐛 Bug: includeSchema: false still sends every custom component's JSON schema (and the default sends it twice)",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7802,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/7802",
+      "createdAt": "2026-10-13T17:09:15.000Z",
+      "updatedAt": "2026-10-27T17:50:26.000Z",
+      "comments": 5
+    },
     {
       "kind": "pr",
       "state": "merged",
@@ -202,17 +213,6 @@
       "comments": 2,
       "additions": 187,
       "deletions": 32
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "🐛 Bug: includeSchema: false still sends every custom component's JSON schema (and the default sends it twice)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7802,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7802",
-      "createdAt": "2026-10-13T17:09:15.000Z",
-      "updatedAt": "2026-10-23T20:37:19.000Z",
-      "comments": 5
     },
     {
       "kind": "issue",
