@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-28T18:39:27.368Z",
+  "fetchedAt": "2026-10-29T18:47:21.346Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-10-27T18:32:50.000Z",
+      "pushedAt": "2026-10-28T18:39:32.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -64,6 +64,45 @@
     }
   ],
   "contributions": [
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "docs(repo): point \"file an issue first\" at the CopilotKit tracker",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8068,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/8068",
+      "createdAt": "2026-10-28T22:55:40.000Z",
+      "updatedAt": "2026-10-28T22:59:21.000Z",
+      "comments": 1,
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(repo): point the issue chooser's docs link at docs.copilotkit.ai",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8067,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/8067",
+      "createdAt": "2026-10-28T22:46:09.000Z",
+      "updatedAt": "2026-10-28T22:56:05.000Z",
+      "comments": 1,
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "chore(github): ask reporters for a version, install method and steps with issue forms",
+      "repo": "CopilotKit/OpenBot",
+      "number": 877,
+      "url": "https://github.com/CopilotKit/OpenBot/pull/877",
+      "createdAt": "2026-10-28T21:10:08.000Z",
+      "updatedAt": "2026-10-28T21:16:17.000Z",
+      "comments": 0,
+      "additions": 159,
+      "deletions": 0
+    },
     {
       "kind": "pr",
       "state": "open",
@@ -392,43 +431,6 @@
       "comments": 0,
       "additions": 159,
       "deletions": 3
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(ag-ui): keep the client's JSON Schema for dynamic frontend tools",
-      "repo": "run-llama/llama_index",
-      "number": 23497,
-      "url": "https://github.com/run-llama/llama_index/pull/23497",
-      "createdAt": "2026-10-14T06:48:09.000Z",
-      "updatedAt": "2026-10-14T16:20:09.000Z",
-      "comments": 0,
-      "additions": 109,
-      "deletions": 27
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(ag-ui): keep the server system_prompt out of MESSAGES_SNAPSHOT",
-      "repo": "run-llama/llama_index",
-      "number": 23495,
-      "url": "https://github.com/run-llama/llama_index/pull/23495",
-      "createdAt": "2026-10-14T06:24:16.000Z",
-      "updatedAt": "2026-10-14T16:20:07.000Z",
-      "comments": 0,
-      "additions": 118,
-      "deletions": 4
-    },
-    {
-      "kind": "issue",
-      "state": "closed",
-      "title": "Peek & Pop results in crash, fails to validateLayoutInRect",
-      "repo": "cnoon/CollectionViewAnimations",
-      "number": 6,
-      "url": "https://github.com/cnoon/CollectionViewAnimations/issues/6",
-      "createdAt": "2017-11-17T22:58:56.000Z",
-      "updatedAt": "2026-10-14T07:04:35.000Z",
-      "comments": 1
     }
   ]
 }
