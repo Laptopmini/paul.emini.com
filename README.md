@@ -106,4 +106,9 @@ docs/         project notes: decisions and page rules
 
 ## License
 
-The code is [MIT](LICENSE). The résumé content (`content/`), the headshot and the résumé PDF are not: they stay all rights reserved. The fonts in `assets/fonts/` are under the SIL Open Font License.
+The code is [MIT](LICENSE). These are not covered and stay all rights reserved:
+
+- `content/`: résumé data, case studies, mentions and recommendations (quoted with their authors' permission; they belong to them)
+- `public/paul.jpg` (headshot), `public/resume.pdf` and `content/resume.pdf`
+
+The fonts in `assets/fonts/` are third-party, under the SIL Open Font License 1.1 (`OFL-*.txt` next to each font).

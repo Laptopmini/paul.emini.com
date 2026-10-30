@@ -19,18 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Not covered by this license
-
-The MIT License above applies to the code only. The following are not licensed
-for reuse and remain all rights reserved:
-
-- content/ (résumé data, case studies, mentions and recommendations; the
-  recommendations are quoted with their authors' permission and belong to them)
-- public/paul.jpg (headshot)
-- public/resume.pdf and content/resume.pdf
-
-The fonts in assets/fonts/ are third-party and licensed under the SIL Open Font
-License 1.1; see the OFL-*.txt file next to each font.
