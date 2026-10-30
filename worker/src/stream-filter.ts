@@ -8,7 +8,10 @@ import { itemEvents } from './canned';
 // - the turn ends as soon as suggestFollowUps has returned: the Worker sends
 //   RUN_FINISHED itself and stops the run, so nothing the model produces after the
 //   follow-up pills reaches the visitor (or costs more tokens). If the model called it
-//   before writing anything, the turn ends after its first text message instead.
+//   before writing anything, the turn ends after its first text message instead;
+// - text written before the first data tool is narration ("I'll pull up…"), written
+//   blind: it's held back and only sent if the model never writes its real answer.
+//   Text before suggestFollowUps with no data tool (a decline, a greeting) is the answer.
 
 const HIDDEN = /^(REASONING|THINKING)_/;
 const CLOSING_TOOL = 'suggestFollowUps';
@@ -112,6 +115,11 @@ export function filterSseStream(
   let buffer = '';
   let run: RunIds = {};
   let open = true;
+  // Text frames before the first tool call; set aside as narration if it's a data tool.
+  let held: [AgUiEvent, string][] = [];
+  let narration: [AgUiEvent, string][] = [];
+  let toolSeen = false;
+  let answered = false;
 
   const send = async (frame: string) => {
     if (!open) return;
@@ -142,12 +150,6 @@ export function filterSseStream(
     }
     if (!event) return send(frame);
     if (event.type === 'RUN_STARTED') run = { threadId: event.threadId, runId: event.runId };
-    const end = async () => {
-      const threadId = clientThreadId ?? run.threadId;
-      await send(`data: ${JSON.stringify({ type: 'RUN_FINISHED', threadId, runId: run.runId })}`);
-      await close();
-      await onFinish?.(run);
-    };
 
     if (hold && event.type !== 'RUN_STARTED') {
       const replacement = await hold;
@@ -166,6 +168,19 @@ export function filterSseStream(
       await send(`data: ${JSON.stringify({ type: 'RUN_FINISHED', threadId, runId: run.runId })}`);
       return close();
     }
+    if (!toolSeen && event.type?.startsWith('TEXT_MESSAGE_')) {
+      held.push([event, frame]);
+      return;
+    }
+    if (!toolSeen && event.type === 'TOOL_CALL_START') {
+      toolSeen = true;
+      if (event.toolCallName === CLOSING_TOOL) {
+        for (const [e, f] of held) await forward(e, f);
+      } else {
+        narration = held;
+      }
+      held = [];
+    }
     if (event.type === 'TOOL_CALL_START' && event.toolCallName === CLOSING_TOOL) {
       followUpsCallId = event.toolCallId;
     }
@@ -179,6 +194,8 @@ export function filterSseStream(
     }
     if (event.type === 'RUN_FINISHED') {
       report(true);
+      // No real answer: the held text is better than none.
+      for (const [e, f] of toolSeen ? (answered ? [] : narration) : held) await pass(e, f);
       const questions = followUpsCallId ? [] : (options.fallbackQuestions?.() ?? []);
       if (questions.length > 0) {
         const items = [{ kind: 'tool', name: CLOSING_TOOL, result: { questions } } as const];
@@ -186,6 +203,22 @@ export function filterSseStream(
       }
     }
 
+    await forward(event, frame);
+  };
+
+  const pass = (event: AgUiEvent, frame: string) => {
+    if (event.type === 'TEXT_MESSAGE_CONTENT' && event.delta?.trim()) answered = true;
+    return send(frame);
+  };
+
+  const end = async () => {
+    const threadId = clientThreadId ?? run.threadId;
+    await send(`data: ${JSON.stringify({ type: 'RUN_FINISHED', threadId, runId: run.runId })}`);
+    await close();
+    await onFinish?.(run);
+  };
+
+  const forward = async (event: AgUiEvent, frame: string) => {
     const decision = decide(event);
     if (decision === 'drop') return;
     // RUN_STARTED echoes the whole (server-side) input: every message plus the session
@@ -198,7 +231,7 @@ export function filterSseStream(
     const forClient = rewrite
       ? `data: ${JSON.stringify({ ...rest, ...(clientThreadId && event.threadId ? { threadId: clientThreadId } : {}) })}`
       : frame;
-    await send(forClient);
+    await pass(event, forClient);
     if (event.type === 'RUN_STARTED') {
       for (const e of afterStart) await send(`data: ${JSON.stringify(e)}`);
     }

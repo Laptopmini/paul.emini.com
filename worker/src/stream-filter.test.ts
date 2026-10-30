@@ -115,6 +115,52 @@ describe('event filter', () => {
     ]);
   });
 
+  it('drops narration written before the first data tool', async () => {
+    const events = await run([
+      { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+      { type: 'TEXT_MESSAGE_START', messageId: 'n' },
+      { type: 'TEXT_MESSAGE_CONTENT', messageId: 'n', delta: 'I’ll pull up the details.' },
+      { type: 'TEXT_MESSAGE_END', messageId: 'n' },
+      { type: 'TOOL_CALL_START', toolCallId: 'x', toolCallName: 'getSiteArchitecture' },
+      { type: 'TOOL_CALL_END', toolCallId: 'x' },
+      { type: 'TOOL_CALL_RESULT', toolCallId: 'x' },
+      { type: 'TEXT_MESSAGE_START', messageId: 'a' },
+      { type: 'TEXT_MESSAGE_CONTENT', messageId: 'a', delta: 'I built it myself.' },
+      { type: 'TEXT_MESSAGE_END', messageId: 'a' },
+      { type: 'TOOL_CALL_START', toolCallId: 'f', toolCallName: 'suggestFollowUps' },
+      { type: 'TOOL_CALL_RESULT', toolCallId: 'f' },
+      { type: 'RUN_FINISHED', threadId: 't', runId: 'r' },
+    ]);
+    const text = events.filter((e) => e.type === 'TEXT_MESSAGE_CONTENT');
+    expect(text.map((e) => (e as { delta?: string }).delta)).toEqual(['I built it myself.']);
+    expect(events.filter((e) => e.type === 'TEXT_MESSAGE_START')).toHaveLength(1);
+  });
+
+  it('sends the narration when the model never writes its answer', async () => {
+    const events = await run([
+      { type: 'RUN_STARTED', threadId: 't', runId: 'r' },
+      { type: 'TEXT_MESSAGE_START', messageId: 'n' },
+      { type: 'TEXT_MESSAGE_CONTENT', messageId: 'n', delta: 'Here’s the case study.' },
+      { type: 'TEXT_MESSAGE_END', messageId: 'n' },
+      { type: 'TOOL_CALL_START', toolCallId: 'x', toolCallName: 'getCaseStudy' },
+      { type: 'TOOL_CALL_RESULT', toolCallId: 'x' },
+      { type: 'TOOL_CALL_START', toolCallId: 'f', toolCallName: 'suggestFollowUps' },
+      { type: 'TOOL_CALL_RESULT', toolCallId: 'f' },
+      { type: 'RUN_FINISHED', threadId: 't', runId: 'r' },
+    ]);
+    expect(events.map((e) => e.type)).toEqual([
+      'RUN_STARTED',
+      'TOOL_CALL_START',
+      'TOOL_CALL_RESULT',
+      'TOOL_CALL_START',
+      'TOOL_CALL_RESULT',
+      'TEXT_MESSAGE_START',
+      'TEXT_MESSAGE_CONTENT',
+      'TEXT_MESSAGE_END',
+      'RUN_FINISHED',
+    ]);
+  });
+
   it('sends the quota after RUN_STARTED and reports a finished run', async () => {
     const outcomes: boolean[] = [];
     const events = await run(
