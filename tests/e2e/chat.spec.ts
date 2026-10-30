@@ -363,13 +363,67 @@ test.describe('chat', () => {
     expect(small).toEqual([]);
   });
 
-  test('says so when the agent is unreachable', async ({ page, isMobile }) => {
+  test('says so when the agent is unreachable, links to the résumé and retries', async ({
+    page,
+    isMobile,
+  }) => {
     test.skip(isMobile, 'one viewport is enough; this waits for the connection timeout');
     await page.route('**/api/copilotkit/**', (route) => route.abort());
     await askFromLanding(page, 'What are your top skills?');
-    await expect(page.getByRole('main', { name: 'Conversation' }).getByRole('alert')).toContainText(
-      'isn’t reachable',
-      { timeout: 15_000 },
+    const alert = page.getByRole('main', { name: 'Conversation' }).getByRole('alert');
+    await expect(alert).toContainText('isn’t reachable', { timeout: 15_000 });
+
+    await alert.getByRole('link', { name: 'Read the résumé' }).click();
+    await expect(page).toHaveURL(/#resume$/);
+    await expect(page.locator('#resume')).toBeInViewport();
+
+    await page.goBack();
+    await page.unroute('**/api/copilotkit/**');
+    await alert.getByRole('button', { name: 'Try again' }).click();
+    await expect(alert).toBeHidden();
+    await expect(agentTurns(page).first()).toBeVisible({ timeout: 15_000 });
+  });
+
+  test('retries a failed human check, then says so and offers another try', async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile, 'one viewport is enough');
+    // A stand-in for Turnstile that fails (code 600010, a failed challenge) until told not to.
+    await page.addInitScript(() => {
+      Object.assign(window, { turnstileFails: true, turnstileAttempts: 0 });
+    });
+    await page.route('https://challenges.cloudflare.com/turnstile/**', (route) =>
+      route.fulfill({
+        contentType: 'text/javascript',
+        body: `(() => {
+          const widgets = {};
+          const attempt = (options) => setTimeout(() => {
+            window.turnstileAttempts += 1;
+            if (window.turnstileFails) options['error-callback']('600010');
+            else options.callback('XXXX.DUMMY.TOKEN.XXXX');
+          }, 0);
+          let next = 0;
+          window.turnstile = {
+            render: (el, options) => { const id = String(++next); widgets[id] = options; attempt(options); return id; },
+            reset: (id) => attempt(widgets[id]),
+            remove: (id) => { delete widgets[id]; },
+          };
+        })();`,
+      }),
     );
+    await askFromLanding(page, 'What are your top skills?');
+    const alert = page.getByRole('main', { name: 'Conversation' }).getByRole('alert');
+    await expect(alert).toContainText('didn’t go through');
+    expect(
+      await page.evaluate(
+        () => (window as unknown as { turnstileAttempts: number }).turnstileAttempts,
+      ),
+    ).toBe(3);
+
+    await page.evaluate(() => Object.assign(window, { turnstileFails: false }));
+    await alert.getByRole('button', { name: 'Try again' }).click();
+    await expect(alert).toBeHidden();
+    await expect(agentTurns(page).first()).toBeVisible({ timeout: 15_000 });
   });
 });

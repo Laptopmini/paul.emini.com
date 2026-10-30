@@ -311,6 +311,19 @@
   background: var(--surface);
 }
 
+.errorActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* The résumé link wears the same pill as the retry button. */
+.errorActions a.pill {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
 /* Dock */
 
 .dockBar {

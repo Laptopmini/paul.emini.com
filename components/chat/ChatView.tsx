@@ -9,9 +9,16 @@ import {
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { CardEnter } from '@/components/cards';
 import { ChatDock } from '@/components/landing/ChatDock';
+import { RESUME_ID } from '@/components/landing/copy';
 import { DEFAULT_PERSONA, github, meta, personas } from '@/content';
 import { personaIds } from '@/content/schema';
-import { isHumanCheckShown, onHumanCheckChange, setTurnstileSlot } from '@/lib/agent-session';
+import {
+  hasHumanCheckFailed,
+  isHumanCheckShown,
+  onHumanCheckChange,
+  onHumanCheckFailedChange,
+  setTurnstileSlot,
+} from '@/lib/agent-session';
 import { reportChat, showSection, takePending, useChatState } from '@/lib/chat-store';
 import {
   arrangeItems,
@@ -121,7 +128,7 @@ function AgentTurn({
   );
 }
 
-export function ChatView({ active }: { active: boolean }) {
+export function ChatView({ active, onReconnect }: { active: boolean; onReconnect: () => void }) {
   const { agent, isReady } = useAgent({
     updates: [UseAgentUpdate.OnMessagesChanged, UseAgentUpdate.OnRunStatusChanged],
   });
@@ -131,6 +138,11 @@ export function ChatView({ active }: { active: boolean }) {
   const [unavailable, setUnavailable] = useState(false);
   const [quota, setQuota] = useState<QuotaValue | null>(null);
   const humanCheck = useSyncExternalStore(onHumanCheckChange, isHumanCheckShown, () => false);
+  const checkFailed = useSyncExternalStore(
+    onHumanCheckFailedChange,
+    hasHumanCheckFailed,
+    () => false,
+  );
   const { pending } = useChatState();
   const inputRef = useRef<HTMLInputElement>(null);
   const stickToBottom = useRef(true);
@@ -246,7 +258,7 @@ export function ChatView({ active }: { active: boolean }) {
                 />
               </div>
             ))}
-            {turns.length === 0 && !unavailable && (
+            {turns.length === 0 && !unavailable && !checkFailed && (
               <div className={styles.turn}>
                 {pending && <UserBubble text={pending.prompt} />}
                 <p className={styles.working} role="status">
@@ -259,12 +271,22 @@ export function ChatView({ active }: { active: boolean }) {
                 </p>
               </div>
             )}
-            {unavailable && !isReady && (
+            {(unavailable || checkFailed) && !isReady && (
               <div className={styles.error} role="alert">
                 <p className={styles.text}>
-                  The agent isn’t reachable right now. Everything on the home page still works, and
-                  the résumé is one click away.
+                  {checkFailed
+                    ? 'The quick check that keeps bots away from the agent didn’t go through. A privacy extension or VPN can get in its way.'
+                    : 'The agent isn’t reachable right now.'}{' '}
+                  Everything on the home page still works, and the résumé is one click away.
                 </p>
+                <div className={styles.errorActions}>
+                  <button type="button" className={styles.pill} onClick={onReconnect}>
+                    Try again
+                  </button>
+                  <a href={`${HOME}#${RESUME_ID}`} className={styles.pill}>
+                    Read the résumé
+                  </a>
+                </div>
               </div>
             )}
           </div>

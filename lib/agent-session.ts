@@ -10,12 +10,14 @@ type TurnstileApi = {
     options: {
       sitekey: string;
       appearance: 'interaction-only';
+      retry: 'never';
       callback: (token: string) => void;
-      'error-callback': () => void;
+      'error-callback': (code: string) => boolean;
       'before-interactive-callback': () => void;
       'after-interactive-callback': () => void;
     },
   ) => string;
+  reset: (widgetId: string) => void;
   remove: (widgetId: string) => void;
 };
 
@@ -28,6 +30,11 @@ declare global {
 const SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 /** Renew a little before the Worker would reject the token. */
 const RENEW_MARGIN_MS = 5 * 60_000;
+/** Turnstile challenges fail now and then for real visitors; a fresh one often passes. */
+const CHECK_ATTEMPTS = 3;
+const CHECK_RETRY_DELAY_MS = 1_000;
+/** 110xxx codes are configuration errors (site key, domain): retrying can't help. */
+const isConfigError = (code: string) => code.startsWith('110');
 
 export const SESSION_URL = AGENT_URL.replace(/\/copilotkit\/?$/, '/session');
 
@@ -52,6 +59,27 @@ export function onHumanCheckChange(listener: () => void) {
     checkListeners.delete(listener);
   };
 }
+
+/**
+ * True once the visitor couldn't get past the check (Turnstile failed every attempt,
+ * or the Worker refused its token). The agent itself may be fine.
+ */
+let checkFailed = false;
+const failListeners = new Set<() => void>();
+function setCheckFailed(value: boolean) {
+  if (checkFailed === value) return;
+  checkFailed = value;
+  for (const listener of failListeners) listener();
+}
+export const hasHumanCheckFailed = () => checkFailed;
+export function onHumanCheckFailedChange(listener: () => void) {
+  failListeners.add(listener);
+  return () => {
+    failListeners.delete(listener);
+  };
+}
+
+class HumanCheckError extends Error {}
 
 /** Where a Turnstile challenge appears if Cloudflare asks the visitor to interact. */
 export function setTurnstileSlot(el: HTMLElement | null) {
@@ -84,18 +112,27 @@ function loadTurnstile(): Promise<TurnstileApi> {
 async function turnstileToken(): Promise<string> {
   const [turnstile, el] = await Promise.all([loadTurnstile(), waitForSlot()]);
   return new Promise((resolve, reject) => {
+    let attempts = 1;
     const id = turnstile.render(el, {
       sitekey: TURNSTILE_SITE_KEY,
       appearance: 'interaction-only',
+      // Retries are ours, so a failure that ends the check really is the last one.
+      retry: 'never',
       callback: (token) => {
         setChecking(false);
         turnstile.remove(id);
         resolve(token);
       },
-      'error-callback': () => {
+      'error-callback': (code) => {
+        if (attempts < CHECK_ATTEMPTS && !isConfigError(code)) {
+          attempts += 1;
+          window.setTimeout(() => turnstile.reset(id), CHECK_RETRY_DELAY_MS);
+          return true;
+        }
         setChecking(false);
         turnstile.remove(id);
-        reject(new Error('Turnstile check failed'));
+        reject(new HumanCheckError(`Turnstile check failed (${code})`));
+        return true;
       },
       'before-interactive-callback': () => setChecking(true),
       'after-interactive-callback': () => setChecking(false),
@@ -104,11 +141,23 @@ async function turnstileToken(): Promise<string> {
 }
 
 async function newSession(): Promise<string> {
+  setCheckFailed(false);
+  try {
+    return await requestSession(await turnstileToken());
+  } catch (error) {
+    if (error instanceof HumanCheckError) setCheckFailed(true);
+    throw error;
+  }
+}
+
+async function requestSession(turnstileToken: string): Promise<string> {
   const response = await fetch(SESSION_URL, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ token: await turnstileToken() }),
+    body: JSON.stringify({ token: turnstileToken }),
   });
+  // 403: the Worker's own Turnstile verification refused the token.
+  if (response.status === 403) throw new HumanCheckError('Session refused (403)');
   if (!response.ok) throw new Error(`Session refused (${response.status})`);
   const { session: token, expiresAt } = (await response.json()) as {
     session: string;
