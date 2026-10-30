@@ -323,9 +323,14 @@ test.describe('landing and résumé on one page', () => {
 
   test('the closing band is fully opaque at the end of the page', async ({ page }) => {
     await page.goto('/');
-    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    // Scroll on each try: the page can still grow (fonts, images) after the first one.
     await expect
-      .poll(() => page.locator('[data-ask-cta]').evaluate((el) => getComputedStyle(el).opacity))
+      .poll(() =>
+        page.locator('[data-ask-cta]').evaluate((el) => {
+          window.scrollTo(0, document.documentElement.scrollHeight);
+          return getComputedStyle(el).opacity;
+        }),
+      )
       .toBe('1');
   });
 

@@ -27,6 +27,16 @@
   margin-top: 2px;
 }
 
+/* Wide screens: one line, even where fonts render wider than the dock (centered, it
+   may spill past the dock's edges; the panel has 48px on each side). */
+@media (min-width: 961px) {
+  .foot {
+    align-self: center;
+    width: max-content;
+    max-width: calc(100vw - 96px);
+  }
+}
+
 .disclaimer {
   margin: 0;
   text-align: center;
@@ -41,7 +51,8 @@
   background: var(--line-2);
 }
 
-@media (max-width: 900px) {
+/* Stacked, without the divider, wherever one line might not fit. */
+@media (max-width: 960px) {
   .foot {
     flex-direction: column;
     gap: 2px;
