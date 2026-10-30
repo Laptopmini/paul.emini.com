@@ -61,6 +61,12 @@ export function pageMetadata({
 
 const url = (path: string) => new URL(path, SITE_URL).href;
 
+/**
+ * schema.org dates are DateTime: Google flags a bare `YYYY-MM-DD`. /content keeps dates only,
+ * so they become the start of that day, UTC.
+ */
+const dateTime = (date: string | undefined) => (date ? `${date}T00:00:00Z` : undefined);
+
 /** schema.org Person: who Paul is, where to find him, what he knows. */
 export function personData() {
   return {
@@ -113,7 +119,7 @@ export function profilePageData() {
     '@id': url('/#profile'),
     url: url('/'),
     isPartOf: { '@id': url('/#website') },
-    dateModified: meta.resumeSyncedAt,
+    dateModified: dateTime(meta.resumeSyncedAt),
     mainEntity: person,
   };
 }
@@ -129,9 +135,9 @@ export function caseStudyData(study: CaseStudy) {
     description: study.summary,
     url: url(`/work/${study.id}/`),
     image: url(OG_IMAGE.url),
-    datePublished: pages.caseStudyPublished[study.id],
+    datePublished: dateTime(pages.caseStudyPublished[study.id]),
     // Case studies change only through /sync-resume, so the last sync bounds the last edit.
-    dateModified: meta.resumeSyncedAt,
+    dateModified: dateTime(meta.resumeSyncedAt),
     isPartOf: { '@id': url('/#website') },
     author: { '@id': url('/#person'), '@type': 'Person', name: profile.name, url: url('/') },
     ...(company ? { about: { '@type': 'Organization', name: company } } : {}),

@@ -211,7 +211,7 @@ test.describe('machine-readable layer', () => {
       const study = await blocks();
       expect(study.find((b) => b['@type'] === 'Article')).toMatchObject({
         headline: c.title,
-        datePublished: pages.caseStudyPublished[c.id],
+        datePublished: `${pages.caseStudyPublished[c.id]}T00:00:00Z`,
       });
       const trail = study.find((b) => b['@type'] === 'BreadcrumbList');
       expect(trail.itemListElement.at(-1)).toMatchObject({ name: c.title });
