@@ -17,8 +17,8 @@ import { PrintExpand } from '@/components/resume/PrintExpand';
 import { ScrollSpy } from '@/components/resume/ScrollSpy';
 import { StatTiles } from '@/components/resume/StatTiles';
 import type { CaseStudy } from '@/content';
-import { caseStudies, experience, mentions, profile, recommendations } from '@/lib/content';
-import { formatYearMonth } from '@/lib/format';
+import { caseStudies, experience, mentions, pages, profile, recommendations } from '@/lib/content';
+import { formatDate, formatYearMonth } from '@/lib/format';
 import { readingMinutes, splitLead, splitTitle } from '@/lib/resume';
 import { breadcrumbData, caseStudyData, pageMetadata } from '@/lib/seo';
 
@@ -95,6 +95,7 @@ export default async function CaseStudyPage({ params }: Props) {
   const study = caseStudies.find((c) => c.id === id);
   if (!study) notFound();
   const role = experience.find((e) => e.id === study.experienceId);
+  const published = pages.caseStudyPublished[study.id];
   const credits = mentions.filter((m) => m.caseStudyId === study.id);
   const [titleLead, titleRest] = splitTitle(study.title);
   const nav = study.sections.map((s) => ({ id: s.id, label: s.navLabel ?? s.heading }));
@@ -157,6 +158,14 @@ export default async function CaseStudyPage({ params }: Props) {
                     {formatYearMonth(study.start)} – {formatYearMonth(study.end)}
                   </dd>
                 </div>
+                {published && (
+                  <div>
+                    <dt className={layout.mono}>Published</dt>
+                    <dd>
+                      <time dateTime={published}>{formatDate(published)}</time>
+                    </dd>
+                  </div>
+                )}
                 {study.designCredit && (
                   <div>
                     <dt className={layout.mono}>Design</dt>

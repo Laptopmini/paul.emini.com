@@ -11,6 +11,12 @@ export function formatYearMonth(value: string): string {
   return `${MONTHS[Number(month) - 1]} ${year}`;
 }
 
+/** "2026-10-18" → "Oct 18, 2026". Locale-independent, like formatYearMonth. */
+export function formatDate(value: string): string {
+  const [year, month, day] = value.split('-');
+  return `${MONTHS[Number(month) - 1]} ${Number(day)}, ${year}`;
+}
+
 /** "2020-01".."2026-06" → "2020 – 2026"; same year → "2015"; null end → "Present". */
 export function formatYearRange(start: string, end: string | null): string {
   const from = start.slice(0, 4);
