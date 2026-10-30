@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-29T18:47:21.346Z",
+  "fetchedAt": "2026-10-30T18:25:17.541Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-10-28T18:39:32.000Z",
+      "pushedAt": "2026-10-30T17:21:26.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -67,12 +67,51 @@
     {
       "kind": "pr",
       "state": "open",
+      "title": "feat(shell-docs): show a progress bar during client navigations",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 7824,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/7824",
+      "createdAt": "2026-10-14T21:30:21.000Z",
+      "updatedAt": "2026-10-29T20:18:34.000Z",
+      "comments": 6,
+      "additions": 109,
+      "deletions": 0
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "feat(react-core): add CopilotKitHeadlessProvider to /v2/headless",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8033,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/8033",
+      "createdAt": "2026-10-27T21:41:47.000Z",
+      "updatedAt": "2026-10-29T20:18:25.000Z",
+      "comments": 1,
+      "additions": 1703,
+      "deletions": 1093
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "feat(mcp-apps): add sandboxOrigin for a separate sandbox origin",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8055,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/8055",
+      "createdAt": "2026-10-28T17:32:56.000Z",
+      "updatedAt": "2026-10-29T20:18:24.000Z",
+      "comments": 1,
+      "additions": 715,
+      "deletions": 99
+    },
+    {
+      "kind": "pr",
+      "state": "open",
       "title": "docs(repo): point \"file an issue first\" at the CopilotKit tracker",
       "repo": "CopilotKit/CopilotKit",
       "number": 8068,
       "url": "https://github.com/CopilotKit/CopilotKit/pull/8068",
       "createdAt": "2026-10-28T22:55:40.000Z",
-      "updatedAt": "2026-10-28T22:59:21.000Z",
+      "updatedAt": "2026-10-29T20:18:23.000Z",
       "comments": 1,
       "additions": 2,
       "deletions": 2
@@ -85,7 +124,7 @@
       "number": 8067,
       "url": "https://github.com/CopilotKit/CopilotKit/pull/8067",
       "createdAt": "2026-10-28T22:46:09.000Z",
-      "updatedAt": "2026-10-28T22:56:05.000Z",
+      "updatedAt": "2026-10-29T20:18:23.000Z",
       "comments": 1,
       "additions": 1,
       "deletions": 1
@@ -104,32 +143,6 @@
       "deletions": 0
     },
     {
-      "kind": "pr",
-      "state": "open",
-      "title": "feat(mcp-apps): add sandboxOrigin for a separate sandbox origin",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 8055,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/8055",
-      "createdAt": "2026-10-28T17:32:56.000Z",
-      "updatedAt": "2026-10-28T17:49:51.000Z",
-      "comments": 1,
-      "additions": 715,
-      "deletions": 99
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "feat(react-core): add CopilotKitHeadlessProvider to /v2/headless",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 8033,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/8033",
-      "createdAt": "2026-10-27T21:41:47.000Z",
-      "updatedAt": "2026-10-27T22:56:31.000Z",
-      "comments": 1,
-      "additions": 1703,
-      "deletions": 1093
-    },
-    {
       "kind": "issue",
       "state": "open",
       "title": "🐛 Bug: `@copilotkit/react-core/v2/headless` has no web provider, so a headless web app still bundles the whole chat rendering stack",
@@ -139,19 +152,6 @@
       "createdAt": "2026-10-19T21:39:05.000Z",
       "updatedAt": "2026-10-27T21:42:55.000Z",
       "comments": 5
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "feat(shell-docs): show a progress bar during client navigations",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7824,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/7824",
-      "createdAt": "2026-10-14T21:30:21.000Z",
-      "updatedAt": "2026-10-27T21:21:07.000Z",
-      "comments": 6,
-      "additions": 109,
-      "deletions": 0
     },
     {
       "kind": "issue",
