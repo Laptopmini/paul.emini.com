@@ -35,10 +35,12 @@ export function toTurns(messages: readonly MessageLike[]): Turn[] {
 
   const turns: Turn[] = [];
   let shownRecommendations = new Set<string>();
+  let shownContact = false;
   for (const m of messages) {
     if (m.role === 'user') {
       turns.push({ id: m.id, prompt: textOf(m.content), items: [] });
       shownRecommendations = new Set();
+      shownContact = false;
       continue;
     }
     const turn = turns.at(-1);
@@ -46,6 +48,11 @@ export function toTurns(messages: readonly MessageLike[]): Turn[] {
     const text = textOf(m.content).trim();
     if (text) turn.items.push({ kind: 'text', id: `${m.id}:text`, text });
     for (const call of (m.toolCalls as ToolCallLike[] | undefined) ?? []) {
+      // The model sometimes drafts the email twice: one contact card per turn.
+      if (call.function.name === 'draftContactEmail') {
+        if (shownContact) continue;
+        shownContact = true;
+      }
       if (call.function.name === 'showRecommendation') {
         const id = parseArgs(call.function.arguments)?.id;
         if (typeof id === 'string') {

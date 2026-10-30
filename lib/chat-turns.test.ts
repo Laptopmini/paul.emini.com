@@ -51,6 +51,20 @@ describe('toTurns', () => {
     expect(turns[0]?.items.map((i) => i.id)).toEqual(['1', '2']);
   });
 
+  it('shows one email draft per turn', () => {
+    const turns = toTurns([
+      { id: 'u', role: 'user', content: 'What did you think of your managers?' },
+      {
+        id: 'a',
+        role: 'assistant',
+        toolCalls: [call('1', 'draftContactEmail'), call('2', 'draftContactEmail')],
+      },
+      { id: 'u2', role: 'user', content: 'How can I reach you?' },
+      { id: 'b', role: 'assistant', toolCalls: [call('3', 'draftContactEmail')] },
+    ]);
+    expect(turns.map((t) => t.items.map((i) => i.id))).toEqual([['1'], ['3']]);
+  });
+
   it('keeps a tool call whose arguments are still streaming', () => {
     const turns = toTurns([
       { id: 'u', role: 'user', content: 'q' },
