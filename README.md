@@ -103,3 +103,7 @@ evals/        agent evals against the real model
 scripts/      the daily GitHub fetch and build helpers
 docs/         project notes: decisions and page rules
 ```
+
+## License
+
+The code is [MIT](LICENSE). The résumé content (`content/`), the headshot and the résumé PDF are not: they stay all rights reserved. The fonts in `assets/fonts/` are under the SIL Open Font License.
