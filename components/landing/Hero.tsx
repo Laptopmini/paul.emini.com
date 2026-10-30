@@ -1,11 +1,8 @@
 import { Icon } from '@/components/Icon';
-import { profile } from '@/lib/content';
+import { profile, surname } from '@/lib/content';
 import { noBreakHyphens } from '@/lib/format';
 import { ContactLinks } from './ContactLinks';
 import styles from './Hero.module.css';
-
-// The content test guarantees the full name starts with the first name.
-const surname = profile.name.slice(profile.firstName.length).trim();
 
 export function Hero() {
   return (

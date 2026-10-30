@@ -22,6 +22,11 @@ export const profileSchema = z.strictObject({
   tagline: text.refine((t) => /^[A-Z]/.test(t), 'a full sentence, starting uppercase'),
   /** Profile paragraph from the résumé. */
   summary: text,
+  /**
+   * Hand-curated third-person identity line for machines (schema.org Person, llms.txt), so a
+   * quoted passage says who it's about. Starts with the full name; never shown on the page.
+   */
+  bio: text,
   /** Hand-curated "Focus" line in the /resume "At a glance" card. */
   focus: z.array(text).min(1).max(5),
 });
@@ -110,6 +115,8 @@ export const educationSchema = z.strictObject({
   degree: text,
   school: text,
   schoolShort: text.optional(),
+  /** Hand-curated Wikipedia page of the school, the `sameAs` of its schema.org entity. */
+  schoolWikipedia: httpsUrl.optional(),
   /** Experience id of the capstone partnership, if any. */
   capstoneExperienceId: id.optional(),
 });

@@ -14,5 +14,6 @@
   },
   "tagline": "Ten years of shipping developer platforms at Samsung — now building with applied AI, generative UI and developer tooling.",
   "summary": "Senior Software Developer with 10+ years of experience building at a global scale. Expert in React, Next.js, and modern JavaScript ecosystems, with a proven track record of overhauling developer consoles and building robust internal component libraries. Today I work across both halves of that stack: shipping production frontend at scale while applying deep expertise in Applied AI, Prompt Engineering, and LLM integrations to build tools that accelerate developer workflows and bootstrap product integrations. I have a proven track record of leading complex, cross-functional projects from proof-of-concept to zero-break production releases for enterprise platforms like Samsung SmartThings.",
+  "bio": "Paul-Valentin Mini is a Senior Software Developer in San Francisco who spent ten years building developer platforms at Samsung, most recently SmartThings, and now builds applied-AI, generative UI and developer tooling.",
   "focus": ["React", "Next.js", "Generative UI", "Applied AI"]
 }

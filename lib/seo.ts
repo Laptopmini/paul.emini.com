@@ -11,6 +11,7 @@ import {
   skills,
 } from '@/content';
 import { SITE_URL } from './brand';
+import { surname } from './content';
 
 // Metadata and schema.org data for search engines and AI crawlers. Everything comes from
 // /content, so the machine-readable record never drifts from the page.
@@ -74,8 +75,10 @@ export function personData() {
     '@type': 'Person',
     '@id': url('/#person'),
     name: profile.name,
+    givenName: profile.firstName,
+    familyName: surname,
     jobTitle: profile.title,
-    description: profile.summary,
+    description: profile.bio,
     image: { '@type': 'ImageObject', ...PHOTO, url: url(PHOTO.url) },
     url: url('/'),
     email: `mailto:${profile.email}`,
@@ -87,7 +90,11 @@ export function personData() {
     },
     sameAs: Object.values(profile.links),
     knowsAbout: skills.flatMap((g) => g.featured),
-    alumniOf: education.map((e) => ({ '@type': 'CollegeOrUniversity', name: e.school })),
+    alumniOf: education.map((e) => ({
+      '@type': 'CollegeOrUniversity',
+      name: e.school,
+      ...(e.schoolWikipedia ? { sameAs: e.schoolWikipedia } : {}),
+    })),
     award: awards.map((a) => `${a.name}, ${a.issuer}`),
     hasOccupation: experience.map((e) => ({
       '@type': 'Occupation',

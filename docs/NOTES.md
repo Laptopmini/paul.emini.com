@@ -9,6 +9,9 @@ Decisions and context that the code, `README.md` and `CLAUDE.md` don't record. T
 - Persona toggle: `Friend` (default) · `Recruiter` · `Engineer`, introduced by "Answer as if I’m a". The choice persists per visitor and changes the agent's tone and depth as well as the suggested prompts.
 - All four recommenders (Sandra Martocchia, Derek Warner, Jeanine Jue, Dr. Luc Julia) agreed to public display of their recommendations.
 - No `Review` or `AggregateRating` schema for the recommendations: Google treats reviews about yourself as self-serving, so they're ineligible.
+- `robots.txt` allows every crawler, AI training bots included: a résumé site wants to be found and quoted.
+- The headshot (`public/paul.jpg`) is `Person.image` only and never shown on the page. No FAQPage schema.
+- Machine-facing copy is third person (`profile.bio` → `Person.description`, the `llms.txt` lede) so a quoted passage names who it's about; the page itself stays first person.
 
 ## `content/recommendations.md` format
 

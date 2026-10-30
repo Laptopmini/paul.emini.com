@@ -47,6 +47,10 @@ describe('content', () => {
     expect(profile.name.startsWith(`${profile.firstName} `)).toBe(true);
   });
 
+  it('the bio opens with the full name and title', () => {
+    expect(profile.bio.startsWith(`${profile.name} is a ${profile.title} `)).toBe(true);
+  });
+
   it('the profile title matches the résumé summary', () => {
     expect(profile.summary.startsWith(`${profile.title} `)).toBe(true);
   });

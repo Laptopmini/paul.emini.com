@@ -49,7 +49,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
 
 4. **Curated card copy.** `short` (experience highlights), `blurb` (projects, awards) and `tags` are condensed versions written for the cards, not résumé text. When the underlying `text`/`summary`/`description` changes, or a new entry is added, draft a new `short`/`blurb`/`tags` that states only what the source says, and list each one in the summary for the owner to review. Never introduce facts, numbers or names that aren't in the source.
 
-   Some card copy has no source field and is hand-curated here, so a sync keeps it as is: `profile.focus`, `experience[].oneLiner` and `projects[].highlights[].short`. Flag any of them that a change makes inaccurate; don't rewrite them silently.
+   Some card copy has no source field and is hand-curated here, so a sync keeps it as is: `profile.focus`, `profile.bio`, `education[].schoolWikipedia`, `experience[].oneLiner` and `projects[].highlights[].short`. Flag any of them that a change makes inaccurate; don't rewrite them silently.
 
    Each experience, project and award has a `curatedFrom` fingerprint of the source fields its curated copy was written from. After a source change, `pnpm test:content` fails and prints the new fingerprint for every stale entry. Re-review (and redraft if needed) that entry's `short`/`blurb`/`tags`, then set `curatedFrom` to the printed value. Never update a fingerprint without reviewing the copy: the fingerprint is the record that the review happened.
 

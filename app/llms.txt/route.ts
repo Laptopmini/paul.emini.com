@@ -12,7 +12,9 @@ export function GET() {
   const text = [
     `# ${profile.name}`,
     '',
-    `> ${profile.summary}`,
+    `> ${profile.bio}`,
+    '',
+    profile.summary,
     '',
     `Based in ${profile.location.city}, ${profile.location.region}.`,
     '',
