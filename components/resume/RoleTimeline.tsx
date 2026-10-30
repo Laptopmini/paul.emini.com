@@ -7,7 +7,7 @@ import { PageLink } from './PageLink';
 import styles from './RoleTimeline.module.css';
 
 /** Roles shown expanded; the rest collapse to a one-line summary (still in the HTML). */
-const OPEN_ROLES = 2;
+const OPEN_ROLES = 1;
 
 /**
  * Experience as a timeline: dates on the left, a node on the line, the role as a

@@ -126,7 +126,7 @@ export function createTools(
             end: e.end ?? 'present',
             highlights: e.highlights.map((h) => `${h.label}: ${h.text}`),
             stack: e.stack,
-            page: sitePage(`/resume/#${e.id}`),
+            page: sitePage(`/#${e.id}`),
             caseStudies: caseStudies
               .filter((c) => c.experienceId === e.id)
               .map((c) => ({ id: c.id, title: c.title })),
@@ -194,7 +194,7 @@ export function createTools(
             lastPush: r.pushedAt.slice(0, 10),
             url: r.url,
           })),
-          resumePage: sitePage('/resume/#projects'),
+          resumePage: sitePage('/#projects'),
         };
       },
     }),

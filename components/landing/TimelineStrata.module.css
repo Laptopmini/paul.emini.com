@@ -1,12 +1,6 @@
-.wrap {
-  flex: 1 1 380px;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
+/* Rows are 380px; the list is wider by the deepest stagger. */
 .strata {
+  flex: 0 1 428px;
   min-width: 0;
   margin: 0;
   padding: 0;
@@ -16,12 +10,17 @@
   gap: 10px;
 }
 
+/* Staggered to the right, row by row; every row keeps the same width. */
 .item {
+  width: calc(100% - 48px);
+  margin-left: var(--x);
   border-radius: 16px;
   background: var(--surface);
   border: 1px solid var(--line);
-  translate: var(--x) 0;
-  transition: box-shadow var(--duration) var(--ease);
+  transition:
+    transform var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease);
 }
 
 /* The whole row is the link to its part of the résumé. */
@@ -35,33 +34,19 @@
   border-radius: inherit;
 }
 
+.link:hover {
+  color: inherit;
+}
+
 .item:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-strong);
   box-shadow: var(--shadow-card);
-}
-
-.full {
-  align-self: flex-end;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: var(--target-min);
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--accent-strong);
-}
-
-.full svg {
-  transition: transform var(--duration) var(--ease);
-}
-
-@media (hover: hover) {
-  .full:hover svg {
-    transform: translate(2px, -2px);
-  }
 }
 
 .eyebrow {
   display: block;
+  white-space: nowrap;
   font-family: var(--font-mono);
   font-size: 12px;
   text-transform: uppercase;
@@ -82,18 +67,37 @@
   text-align: right;
 }
 
-.feature {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--ground);
+/* Newest layer: the latest public GitHub activity, from the daily refresh. */
+.live {
+  box-shadow: var(--shadow-lift);
 }
 
-.feature .eyebrow {
-  color: var(--on-ink-muted);
+.live .link {
+  min-height: 64px;
+  padding: 12px 16px 12px 20px;
 }
 
-.feature .detail {
-  color: var(--on-ink-2);
+.liveText {
+  min-width: 0;
+}
+
+.liveText .eyebrow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.repo {
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pill {
+  align-self: center;
 }
 
 .earlier .link {
@@ -108,41 +112,37 @@
 }
 
 /*
- * Parallax: as the page scrolls, rows fan in toward the axis and rise at different
- * depths. Pure CSS scroll-driven animation; rows stay at their resting offsets where
- * scroll timelines are unsupported or motion is reduced.
+ * Parallax: as the first screen scrolls away (`--first`, declared by the page), the
+ * rows drift apart, the top one furthest. Static where scroll timelines are
+ * unsupported or motion is reduced.
  */
-@supports (animation-timeline: scroll()) {
+@supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .item {
       animation: drift linear both;
-      animation-timeline: scroll(root block);
-      animation-range: 0 70vh;
+      animation-timeline: --first;
+      animation-range: exit 0% exit 100%;
     }
   }
 }
 
 @keyframes drift {
   to {
-    translate: calc(var(--x) * 0.25) calc(var(--depth) * -1px);
+    translate: 0 var(--drift);
   }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1140px) {
   .detail {
     white-space: nowrap;
   }
 }
 
-/* Phone: hidden so the ask panel sits closer to the fold. Everything here is also
-   reachable through the agent. */
-@media (max-width: 640px) {
+/* Hidden wherever it would wrap under the hero copy (below 1140px: 560px copy, 56px
+   gap, 428px timeline and the gutters), which also brings the ask panel closer to the
+   fold. Everything here is also in the résumé below and reachable through the agent. */
+@media (max-width: 1139px) {
   .strata {
-    display: none;
-  }
-
-  /* Phones skip the timeline, and its link with it. */
-  .full {
     display: none;
   }
 }

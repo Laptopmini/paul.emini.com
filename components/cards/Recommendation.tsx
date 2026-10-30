@@ -11,7 +11,7 @@ import s from './cards.module.css';
 /**
  * A recommendation with the excerpt the agent picked for the question. The excerpt is
  * only shown if it's verbatim from the source; the full text expands inline.
- * `highlight` (the /resume carousel) shows the full text from the start, with the
+ * `highlight` (the résumé carousel) shows the full text from the start, with the
  * excerpt marked in place.
  */
 export function Recommendation({

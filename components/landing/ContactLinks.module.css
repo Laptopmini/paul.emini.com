@@ -50,3 +50,10 @@
     white-space: nowrap;
   }
 }
+
+/* Short phones: tighter, so the ask panel fits the first screen (page.module.css). */
+@media (max-width: 640px) and (max-height: 800px) {
+  .nav {
+    margin-top: 16px;
+  }
+}

@@ -2,7 +2,7 @@ import { skills } from '@/lib/content';
 import layout from './layout.module.css';
 import styles from './resume.module.css';
 
-/** One card per group; featured skills first, in ink. */
+/** One card per group, all at the same height; featured skills first. */
 export function Skills() {
   return (
     <section aria-labelledby="skills" className={layout.section}>
@@ -15,12 +15,7 @@ export function Skills() {
             <dt>{g.label}</dt>
             <dd>
               {[...g.featured, ...g.items.filter((s) => !g.featured.includes(s))].map((s) => (
-                <span
-                  key={s}
-                  className={
-                    g.featured.includes(s) ? `${layout.chip} ${layout.chipInk}` : layout.chip
-                  }
-                >
+                <span key={s} className={layout.chip}>
                   {s}
                 </span>
               ))}

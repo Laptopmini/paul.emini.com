@@ -1,0 +1,96 @@
+/* Pill-shaped hit area around the text and the round arrow. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--target-min);
+  padding: 0 6px 0 14px;
+  border-radius: var(--radius-pill);
+  color: var(--ink-2);
+  font-size: 16px;
+}
+
+.link:hover {
+  background: var(--chip);
+  color: var(--ink-2);
+}
+
+.link:active {
+  transform: scale(0.96);
+}
+
+.link strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Small phones: one line at 390px. */
+@media (max-width: 400px) {
+  .link {
+    font-size: 15px;
+  }
+}
+
+.arrow {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Visible and still unless motion is welcome. `both` keeps it hidden through the
+   reveal's delay; each hop cycle rests from 40%, where ReadLink.tsx holds or stops it. */
+@media (prefers-reduced-motion: no-preference) {
+  .link {
+    animation: reveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) 1100ms both;
+  }
+
+  .arrow {
+    animation: hop 2.4s cubic-bezier(0.3, 0.7, 0.4, 1) 2.6s infinite;
+  }
+
+  .arrow.done {
+    animation: none;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}
+
+/* ~0.85s double hop, then a rest from 40% (REST in ReadLink.tsx). */
+@keyframes hop {
+  0%,
+  40%,
+  100% {
+    translate: 0 0;
+  }
+
+  8% {
+    translate: 0 -14px;
+  }
+
+  16% {
+    translate: 0 0;
+  }
+
+  23% {
+    translate: 0 -7px;
+  }
+
+  30% {
+    translate: 0 0;
+  }
+
+  35% {
+    translate: 0 -2px;
+  }
+}

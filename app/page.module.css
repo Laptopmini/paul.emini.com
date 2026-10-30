@@ -1,33 +1,152 @@
+/*
+ * The landing page: the first screen (hero, timeline, ask panel), then the résumé. One
+ * sticky header (SiteHeader) serves the whole page.
+ */
 .page {
-  min-height: 100dvh;
+  --header-h: 76px;
+  /* Where sticky pieces sit and anchors land: below the header. */
+  --anchor-offset: calc(var(--header-h) + 20px);
+  /* Side padding, shared with the header, hero and ask panel (20px on phones). */
+  --gutter: 48px;
+
+  padding-bottom: 76px;
+  /* The header and the scroll-driven pieces read the named timelines declared below. */
+  timeline-scope: --first, --resume;
+}
+
+/* Fills the viewport under the header. */
+.first {
+  min-height: calc(100svh - var(--header-h));
   display: flex;
   flex-direction: column;
 }
 
-.main {
+.hero {
   flex: 1;
   width: 100%;
   max-width: 1340px;
   margin: 0 auto;
   padding: 24px 48px 0;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.hero {
-  display: flex;
   flex-wrap: wrap;
   gap: 56px;
   align-items: center;
+  align-content: center;
+}
+
+.wrap {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.wrap :where([id]) {
+  scroll-margin-top: var(--anchor-offset);
+}
+
+/* Résumé body: the "On this page" rail beside the sections. */
+.resume {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  column-gap: 64px;
+}
+
+.resume .rail {
+  display: block;
+  position: sticky;
+  top: var(--anchor-offset);
+  align-self: start;
+  /* Level with the first section's heading (sections open with 88px of padding). */
+  margin-top: 88px;
+  padding-top: 0;
+}
+
+.tabs {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .page {
+    --anchor-offset: calc(var(--header-h) + 76px);
+  }
+
+  .resume {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .resume .rail {
+    display: none;
+  }
+
+  /* Phone: the section tabs stick under the header, only while inside the résumé. */
+  .tabs {
+    display: block;
+    position: sticky;
+    top: var(--header-h);
+    z-index: 4;
+    margin: 40px calc(-1 * var(--gutter)) 0;
+    padding: 10px 4px 2px;
+    background: color-mix(in srgb, var(--ground) 86%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
 }
 
 @media (max-width: 640px) {
-  .main {
-    padding: 8px 20px 0;
+  .page {
+    --header-h: 64px;
+    --gutter: 20px;
   }
 
   .hero {
+    padding: 8px 20px 0;
     gap: 40px;
+  }
+}
+
+/* Short phones: tighter, so the dock and the way down to the résumé fit the first
+   screen (with Hero, AskPanel and PromptPills). */
+@media (max-width: 640px) and (max-height: 800px) {
+  .hero {
+    gap: 24px;
+  }
+}
+
+/* Named timelines for the scroll-driven pieces (strata drift, ask panel recede, header
+   icons and progress). Static where unsupported or under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .first {
+      view-timeline: --first block;
+    }
+
+    .resume {
+      view-timeline: --resume block;
+    }
+  }
+}
+
+@media print {
+  .page {
+    padding-bottom: 0;
+  }
+
+  .first {
+    min-height: 0;
+  }
+
+  .wrap {
+    max-width: none;
+    padding: 0;
+  }
+
+  .resume {
+    display: block;
+  }
+
+  .resume .rail,
+  .tabs {
+    display: none;
   }
 }

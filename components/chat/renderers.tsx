@@ -118,7 +118,7 @@ function ExperienceResult({ ids }: IdsResult) {
   const roles = byIds(experience, ids);
   const [only] = roles;
   if (roles.length === 1 && only) {
-    return <ExperienceCard experience={only} detailsHref={asset(`/resume/#${only.id}`)} />;
+    return <ExperienceCard experience={only} detailsHref={asset(`/#${only.id}`)} />;
   }
   return roles.length > 0 ? (
     <ExperienceTimeline

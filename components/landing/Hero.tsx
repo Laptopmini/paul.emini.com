@@ -16,7 +16,7 @@ export function Hero() {
         <br />
         <span className={styles.accent}>{noBreakHyphens(profile.firstName)}.</span>
       </h1>
-      <p className={styles.lede}>{`${profile.title} ${profile.tagline}`}</p>
+      <p className={styles.lede}>{profile.tagline}</p>
       <ContactLinks />
     </div>
   );

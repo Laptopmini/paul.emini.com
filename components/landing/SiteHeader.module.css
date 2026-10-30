@@ -69,7 +69,7 @@
     padding: 0 14px;
   }
 
-  /* Phone: show "Résumé" (as in Chat.dc.html); the accessible name stays "Download résumé". */
+  /* Phone: show "Résumé"; the accessible name stays "Download résumé". */
   .long {
     position: absolute;
     width: 1px;
@@ -101,7 +101,155 @@
   }
 }
 
-/* /resume and /work/*: a compact bar with site navigation (inside a sticky top bar). */
+/*
+ * Landing page: one sticky bar for the whole page, 76px (64px on phones). Frosted by
+ * default; where scroll timelines run it starts transparent and frosts over the first
+ * 80px of scroll. Contact icons and the reading-progress line show only while the
+ * résumé is in view (`--resume`, declared by the page), so they stay hidden elsewhere.
+ */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--ground) 86%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.landing {
+  height: 76px;
+  padding-block: 0;
+  flex-wrap: nowrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.more {
+  display: flex;
+  gap: 8px;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.iconLink {
+  width: var(--target-min);
+  height: var(--target-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-link);
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.iconLink:hover {
+  transform: translateY(-2px);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-lift);
+}
+
+.iconLink:active {
+  transform: scale(0.96);
+}
+
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+  transform-origin: left;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .bar {
+      background: transparent;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      border-bottom-color: transparent;
+      animation: frost linear both;
+      animation-timeline: scroll(nearest);
+      animation-range: 0px 80px;
+    }
+
+    .more,
+    .progress {
+      animation: show linear both;
+      animation-timeline: --resume;
+      animation-range: entry 10% entry 30%;
+    }
+
+    .progress {
+      animation:
+        show linear both,
+        fill linear both;
+      animation-timeline: --resume, --resume;
+      animation-range:
+        entry 10% entry 30%,
+        entry 100% exit 0%;
+    }
+  }
+}
+
+@keyframes frost {
+  to {
+    background: color-mix(in srgb, var(--ground) 86%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom-color: var(--line);
+  }
+}
+
+@keyframes show {
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .more {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing {
+    height: 64px;
+    padding-block: 0;
+  }
+}
+
+@media print {
+  .bar {
+    position: static;
+  }
+
+  .more,
+  .progress {
+    display: none;
+  }
+}
+
+/* /work/*: a compact bar with site navigation (inside a sticky top bar). */
 .pageHeader {
   padding-block: 12px;
 }

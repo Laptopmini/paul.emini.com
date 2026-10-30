@@ -77,7 +77,7 @@ export async function GET() {
             maxWidth: 1000,
           }}
         >
-          {`${profile.title} ${profile.tagline}`}
+          {profile.tagline}
         </div>
       </div>
 

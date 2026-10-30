@@ -1,4 +1,3 @@
-import { ExternalLink } from '@/components/ExternalLink';
 import { Icon } from '@/components/Icon';
 import type { Experience } from '@/content';
 import { currentYearMonth, formatDuration, formatMonthRange } from '@/lib/cards';
@@ -7,7 +6,8 @@ import s from './cards.module.css';
 
 /**
  * A single role, expanded: curated `short` bullets and card tags. `detailsHref` links
- * the full write-up on /resume (new tab, so a chat keeps its place).
+ * the full write-up in the résumé on the landing page; the chat keeps its place (it
+ * closes over the résumé, see ChatView).
  */
 export function ExperienceCard({
   experience,
@@ -46,11 +46,11 @@ export function ExperienceCard({
         ))}
       </ul>
       {detailsHref && (
-        <ExternalLink href={detailsHref} className={s.textLink}>
+        <a href={detailsHref} className={s.textLink}>
           Full details on the résumé
           <span className="sr-only">: {experience.company}</span>
           <Icon name="arrowUpRight" size={16} />
-        </ExternalLink>
+        </a>
       )}
     </Card>
   );

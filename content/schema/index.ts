@@ -18,8 +18,8 @@ export const profileSchema = z.strictObject({
   location: z.strictObject({ city: text, region: text }),
   email: z.email(),
   links: z.strictObject({ linkedin: httpsUrl, github: httpsUrl }),
-  /** Hero lede, rendered after `title`: "<title> <tagline>". Keep the title out of it. */
-  tagline: text.refine((t) => /^[a-z]/.test(t), 'starts lowercase; the title precedes it'),
+  /** Hero lede on the landing page, a sentence of its own. The résumé intro opens with `summary`. */
+  tagline: text.refine((t) => /^[A-Z]/.test(t), 'a full sentence, starting uppercase'),
   /** Profile paragraph from the résumé. */
   summary: text,
   /** Hand-curated "Focus" line in the /resume "At a glance" card. */
@@ -267,12 +267,25 @@ export const siteSchema = z.strictObject({
   sections: z.array(z.strictObject({ id, label: text, points: z.array(text).min(1) })).min(1),
 });
 
-/** Settings for the static pages (/resume, /work/<id>). Not résumé content. */
+/** The ask button's label and suggested question while a résumé section is being read. */
+const askPromptSchema = z.strictObject({ label: text, prompt: text.max(400) });
+
+/** Settings for the static pages (/, /work/<id>). Not résumé content. */
 export const pagesSchema = z.strictObject({
   /** Recommendation carousel autoplay interval. */
   carouselIntervalMs: z.number().int().min(4000).max(15000),
   /** GitHub owner → name shown in the "At a glance" open-source line. */
   ossDisplayNames: z.record(z.string(), text),
+  /** Keyed by the résumé section's id on the landing page. */
+  askBySection: z.strictObject({
+    highlights: askPromptSchema,
+    experience: askPromptSchema,
+    projects: askPromptSchema,
+    skills: askPromptSchema,
+    recommendations: askPromptSchema,
+    education: askPromptSchema,
+    'open-source': askPromptSchema,
+  }),
 });
 
 /** Bookkeeping written by /sync-resume. */

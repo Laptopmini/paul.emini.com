@@ -2,7 +2,11 @@
   width: 100%;
   max-width: 1340px;
   margin: 0 auto;
-  padding: 48px 48px 36px;
+  /* It ends the first screen: tight on top so the footer row keeps room below it,
+     above the fold, at 1440×900. */
+  padding: 16px 48px 40px;
+  /* The header is sticky: #ask lands below it. */
+  scroll-margin-top: 96px;
 }
 
 .inner {
@@ -13,16 +17,78 @@
   gap: 14px;
 }
 
+/* Disclaimer | the way down to the résumé, centered under the dock. */
+.foot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 2px;
+}
+
 .disclaimer {
   margin: 0;
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
+}
+
+.rule {
+  width: 1px;
+  height: 20px;
+  background: var(--line-2);
+}
+
+@media (max-width: 900px) {
+  .foot {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .rule {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
   .section {
     padding: 32px 20px 28px;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 800px) {
+  .section {
+    padding: 16px 20px 20px;
+  }
+
+  .inner {
+    gap: 10px;
+  }
+}
+
+/* As the first screen leaves (`--first`, declared by the page), the panel recedes a
+   little: a chapter break, not a disappearance. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section {
+      animation: recede linear both;
+      animation-timeline: --first;
+      animation-range: exit 40% exit 100%;
+    }
+  }
+}
+
+@keyframes recede {
+  to {
+    opacity: 0.35;
+    scale: 0.97;
+  }
+}
+
+@media print {
+  .section {
+    display: none;
   }
 }

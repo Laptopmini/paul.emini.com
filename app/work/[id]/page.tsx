@@ -24,7 +24,7 @@ import { breadcrumbData, caseStudyData, pageMetadata } from '@/lib/seo';
 
 // One page per case study (/work/<id>/): the owner's write-up, word for word, with the
 // public mention it led to. People named in the text who also wrote a recommendation
-// link to it on /resume.
+// link to it in the résumé on the landing page.
 
 export const dynamicParams = false;
 
@@ -63,7 +63,7 @@ function withRecommenderLinks(text: string) {
     const rec = recommendations.find((r) => r.name === part);
     return rec ? (
       // biome-ignore lint/suspicious/noArrayIndexKey: static text, never reordered
-      <PageLink key={i} href={`/resume/#${rec.id}`} className={styles.inlineLink}>
+      <PageLink key={i} href={`/#${rec.id}`} className={styles.inlineLink}>
         {part}
       </PageLink>
     ) : (
@@ -119,13 +119,11 @@ export default async function CaseStudyPage({ params }: Props) {
             <nav aria-label="Breadcrumb">
               <ol className={styles.breadcrumb}>
                 <li>
-                  <PageLink href="/resume/">Résumé</PageLink>
+                  <PageLink href="/#resume">Résumé</PageLink>
                 </li>
                 {role && (
                   <li>
-                    <PageLink href={`/resume/#${role.id}`}>
-                      {role.shortName ?? role.company}
-                    </PageLink>
+                    <PageLink href={`/#${role.id}`}>{role.shortName ?? role.company}</PageLink>
                   </li>
                 )}
                 <li aria-current="page">Case study</li>
@@ -165,7 +163,7 @@ export default async function CaseStudyPage({ params }: Props) {
                     <dd>
                       {study.designCredit.recommendationId ? (
                         <PageLink
-                          href={`/resume/#${study.designCredit.recommendationId}`}
+                          href={`/#${study.designCredit.recommendationId}`}
                           className={styles.factLink}
                         >
                           {study.designCredit.name}
@@ -275,7 +273,7 @@ export default async function CaseStudyPage({ params }: Props) {
               )}
 
               <footer className={styles.footer}>
-                <PageLink href={`/resume/#${study.experienceId}`} className={layout.ghost}>
+                <PageLink href={`/#${study.experienceId}`} className={layout.ghost}>
                   ← {COPY.backToResume}
                 </PageLink>
                 <Link href="/" className={layout.primary}>
@@ -287,7 +285,7 @@ export default async function CaseStudyPage({ params }: Props) {
         </article>
       </main>
       <BottomBar>
-        <PageLink href={`/resume/#${study.experienceId}`} className={layout.ghost}>
+        <PageLink href={`/#${study.experienceId}`} className={layout.ghost}>
           Résumé
         </PageLink>
         <Link href="/" className={layout.primary}>

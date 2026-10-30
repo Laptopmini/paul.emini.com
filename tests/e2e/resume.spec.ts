@@ -17,7 +17,6 @@ const certifications: { name: string; issuer: string }[] = json('certifications.
 const experience: { id: string; company: string; highlights: { text: string }[] }[] =
   json('experience.json');
 const mentions: { authorTitle: string }[] = json('mentions.json');
-const profile: { firstName: string } = json('profile.json');
 const projects: { id: string; summary: string; repo?: string }[] = json('projects.json');
 const github: { repos: { name: string; readme?: string; description: string | null }[] } =
   json('github.json');
@@ -36,15 +35,18 @@ const recommendations = read('recommendations.md')
       .filter((p) => p && !p.startsWith('-')),
   }));
 
-// The static pages exist for people who won't chat and for crawlers that can't: every
-// fact must be in the server-rendered HTML, with JavaScript off.
+// The résumé on the landing page and the case studies exist for people who won't chat
+// and for crawlers that can't: every fact must be in the server-rendered HTML, with
+// JavaScript off.
 
 test.describe('static résumé pages', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('/resume has every role, project, recommendation, award and mention', async ({ page }) => {
-    await page.goto('/resume/');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Paul.Valentin Mini/);
+  test('the landing page has every role, project, recommendation, award and mention', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 2, name: 'Résumé' })).toBeAttached();
     for (const e of experience) {
       await expect(page.locator(`#${e.id}`).getByRole('heading', { level: 3 })).toHaveText(
         e.company,
@@ -72,10 +74,25 @@ test.describe('static résumé pages', () => {
     }
     for (const a of awards) await expect(page.getByText(a.name)).toBeVisible();
     for (const m of mentions) await expect(page.getByText(m.authorTitle)).toBeVisible();
-    await expect(page.getByRole('link', { name: /Download PDF/ })).toHaveAttribute(
+    await expect(page.getByRole('link', { name: 'Download résumé' })).toHaveAttribute(
       'href',
       /resume\.pdf$/,
     );
+  });
+
+  test('only the latest role starts open; the others are closed <details>', async ({ page }) => {
+    await page.goto('/');
+    const [latest, ...earlier] = experience.map((e) => page.locator(`#${e.id} details`));
+    if (latest) await expect(latest).toHaveAttribute('open', '');
+    for (const role of earlier) await expect(role).not.toHaveAttribute('open');
+  });
+
+  test('every anchor id is unique', async ({ page }) => {
+    await page.goto('/');
+    const ids = await page.locator('[id]').evaluateAll((els) => els.map((el) => el.id));
+    expect(ids.length).toBe(new Set(ids).size);
+    for (const id of ['ask', 'resume']) expect(ids).toContain(id);
+    expect(ids).not.toContain('chat');
   });
 
   test('each case study page has every heading, paragraph and bullet', async ({ page }) => {
@@ -93,20 +110,40 @@ test.describe('static résumé pages', () => {
     }
   });
 
-  test('the landing links into the résumé', async ({ page, isMobile }) => {
-    test.skip(isMobile, 'phones hide the timeline and its link');
+  test('“Rather read?” links into the résumé', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('link', { name: 'Full résumé' }).click();
-    await expect(page).toHaveURL(/\/resume\/$/);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(
-      new RegExp(profile.firstName.replace('-', '[-‑]')),
-    );
+    await page.getByRole('link', { name: /Rather read\? My résumé is right below/ }).click();
+    await expect(page).toHaveURL(/#resume$/);
+    await expect(page.locator('#resume')).toBeInViewport();
+  });
+});
+
+test.describe('/resume moved to the landing page', () => {
+  test('/resume/ lands on /#resume', async ({ page }) => {
+    await page.goto('/resume/');
+    await expect(page).toHaveURL(/\/#resume$/);
+  });
+
+  test('/resume/#<id> keeps the anchor', async ({ page }) => {
+    await page.goto(`/resume/#${experience[0]?.id}`);
+    await expect(page).toHaveURL(new RegExp(`/#${experience[0]?.id}$`));
+  });
+
+  test('the stub redirects without JS, and is not indexed', async ({ browser, request }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    await page.goto('/resume/');
+    await expect(page).toHaveURL(/\/#resume$/);
+    await context.close();
+    const stub = await (await request.get('/resume/')).text();
+    expect(stub).toContain('<meta name="robots" content="noindex">');
+    expect(stub).toMatch(/<link rel="canonical" href="https:\/\/[^"]+\/">/);
   });
 });
 
 test.describe('static résumé pages, with JavaScript', () => {
   test('at the end of the page, the last section is the current one', async ({ page }) => {
-    for (const path of ['/resume/', ...caseStudies.map((c) => `/work/${c.id}/`)]) {
+    for (const path of ['/', ...caseStudies.map((c) => `/work/${c.id}/`)]) {
       await page.goto(path);
       await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
       // Every copy of the section links is kept in sync, including ones hidden at this width.
@@ -117,7 +154,7 @@ test.describe('static résumé pages, with JavaScript', () => {
     }
   });
 
-  for (const path of ['/resume/', ...caseStudies.map((c) => `/work/${c.id}/`)]) {
+  for (const path of caseStudies.map((c) => `/work/${c.id}/`)) {
     test(`${path} has no axe violations (WCAG 2.2 AA)`, async ({ page }) => {
       await page.goto(path);
       const results = await new AxeBuilder({ page })
@@ -139,26 +176,28 @@ test.describe('machine-readable layer', () => {
 
   test('the sitemap lists every page', async ({ request }) => {
     const sitemap = await (await request.get('/sitemap.xml')).text();
-    for (const path of ['/', '/resume/', ...caseStudies.map((c) => `/work/${c.id}/`)]) {
+    for (const path of ['/', ...caseStudies.map((c) => `/work/${c.id}/`)]) {
       expect(sitemap).toContain(`${path}</loc>`);
     }
+    expect(sitemap).not.toContain('/resume/');
   });
 
   test('llms.txt links the résumé and case studies', async ({ request }) => {
     const llms = await (await request.get('/llms.txt')).text();
-    expect(llms).toContain('/resume/');
+    expect(llms).toContain('/#resume');
+    expect(llms).toContain(`/#${experience[0]?.id}`);
+    expect(llms).not.toContain('/resume/');
     for (const c of caseStudies) expect(llms).toContain(`/work/${c.id}/`);
   });
 
   test('pages carry valid schema.org data from /content', async ({ page }) => {
-    for (const path of ['/', '/resume/']) {
-      await page.goto(path);
-      const data = JSON.parse(
-        (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}',
-      );
-      expect(data).toMatchObject({ '@type': 'Person', name: 'Paul-Valentin Mini' });
-      expect(data.award.join(' ')).toContain(awards[0]?.name);
-    }
+    await page.goto('/');
+    const data = JSON.parse(
+      (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}',
+    );
+    expect(data).toMatchObject({ '@type': 'ProfilePage' });
+    expect(data.mainEntity).toMatchObject({ '@type': 'Person', name: 'Paul-Valentin Mini' });
+    expect(data.mainEntity.award.join(' ')).toContain(awards[0]?.name);
     for (const c of caseStudies) {
       await page.goto(`/work/${c.id}/`);
       const blocks = (
@@ -167,13 +206,25 @@ test.describe('machine-readable layer', () => {
       expect(blocks.find((b) => b['@type'] === 'Article')).toMatchObject({ headline: c.title });
       const trail = blocks.find((b) => b['@type'] === 'BreadcrumbList');
       expect(trail.itemListElement.at(-1)).toMatchObject({ name: c.title });
+      expect(trail.itemListElement[0].item).toMatch(/\/#resume$/);
     }
   });
 });
 
-test('timeline rows open their part of the résumé', async ({ page, isMobile }) => {
+test('timeline rows jump to their part of the résumé', async ({ page, isMobile }) => {
   test.skip(isMobile, 'the timeline is hidden on phones');
   await page.goto('/');
-  await page.getByRole('list', { name: 'Recent timeline' }).getByRole('link').nth(2).click();
-  await expect(page).toHaveURL(new RegExp(`/resume/#${experience[0]?.id}$`));
+  await page
+    .getByRole('list', { name: 'Recent timeline' })
+    .getByRole('link', { name: /SmartThings/ })
+    .click();
+  await expect(page).toHaveURL(new RegExp(`/#${experience[0]?.id}$`));
+  await expect(page.locator(`#${experience[0]?.id}`)).toBeInViewport();
+});
+
+test('case-study links back to the résumé land on the landing page', async ({ page }) => {
+  await page.goto(`/work/${caseStudies[0]?.id}/`);
+  await expect(
+    page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link').first(),
+  ).toHaveAttribute('href', /\/#resume$/);
 });

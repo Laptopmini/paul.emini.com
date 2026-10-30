@@ -12,7 +12,7 @@ import { ChatDock } from '@/components/landing/ChatDock';
 import { DEFAULT_PERSONA, github, meta, personas } from '@/content';
 import { personaIds } from '@/content/schema';
 import { isHumanCheckShown, onHumanCheckChange, setTurnstileSlot } from '@/lib/agent-session';
-import { takePending, useChatState } from '@/lib/chat-store';
+import { reportChat, showSection, takePending, useChatState } from '@/lib/chat-store';
 import {
   arrangeItems,
   type MessageLike,
@@ -21,6 +21,7 @@ import {
   type Turn,
   toTurns,
 } from '@/lib/chat-turns';
+import { asset } from '@/lib/paths';
 import { usePersona } from '@/lib/persona-store';
 import { QUOTA_EVENT, type QuotaValue } from '@/shared/agent';
 import { ChatActions } from './ChatActions';
@@ -29,6 +30,17 @@ import styles from './chat.module.css';
 import { FormattedText } from './FormattedText';
 
 const personaOptions = personas.map(({ id, label, hint }) => ({ id, label, hint }));
+const HOME = asset('/');
+
+/** A card's link to the résumé on the landing page (/#<id>): the anchor id, else null. */
+function resumeAnchor(target: EventTarget | null): string | null {
+  const link = target instanceof Element ? target.closest('a') : null;
+  if (!link || link.target === '_blank' || !link.hash) return null;
+  const url = new URL(link.href);
+  return url.origin === window.location.origin && url.pathname === HOME
+    ? decodeURIComponent(url.hash.slice(1))
+    : null;
+}
 const READY_TIMEOUT_MS = 10_000;
 /** The footnote starts counting down at this many questions left. */
 const QUOTA_NOTICE_AT = 5;
@@ -198,6 +210,10 @@ export function ChatView({ active }: { active: boolean }) {
     window.scrollTo({ top: document.documentElement.scrollHeight });
   }, [contentKey, active]);
 
+  // The landing's ask button shows the answer count and questions left.
+  const answers = turns.filter((t) => t.items.length > 0).length;
+  useEffect(() => reportChat(answers, quota?.remaining ?? null), [answers, quota]);
+
   const lastTurn = turns.at(-1);
   const note = quotaNote(quota);
   const suggestions = (personas.find((p) => p.id === persona) ?? personas[0])?.prompts ?? [];
@@ -205,7 +221,18 @@ export function ChatView({ active }: { active: boolean }) {
     <ChatActions.Provider value={{ ask, busy: running, suggestions }}>
       <div className={styles.chat}>
         <ChatHeader personas={personaOptions} persona={persona} onPersona={setPersona} />
-        <main className={styles.main} aria-label="Conversation">
+        {/* Links to the résumé close the chat over it instead of reloading the page. */}
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: delegated link clicks; links handle keys */}
+        <main
+          className={styles.main}
+          aria-label="Conversation"
+          onClick={(event) => {
+            const id = resumeAnchor(event.target);
+            if (!id || event.metaKey || event.ctrlKey || event.shiftKey) return;
+            event.preventDefault();
+            showSection(id);
+          }}
+        >
           <h1 className="sr-only">Conversation with Paul’s agent</h1>
           <div role="log" aria-live="polite" aria-busy={running} className={styles.log}>
             {turns.map((turn) => (

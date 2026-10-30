@@ -48,7 +48,12 @@ export function ChatHeader({
         </a>
         {selected && (
           <div className={styles.persona}>
-            <PersonaToggle compact personas={personas} selected={selected} onSelect={onPersona} />
+            <PersonaToggle
+              variant="compact"
+              personas={personas}
+              selected={selected}
+              onSelect={onPersona}
+            />
           </div>
         )}
         <nav aria-label="Contact" className={styles.contact}>

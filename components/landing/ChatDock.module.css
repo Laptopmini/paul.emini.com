@@ -89,7 +89,7 @@
     font-size: 16px;
   }
 
-  /* Phone: the counter appears once there is something to count (Mobile.dc.html). */
+  /* Phone: the counter appears once there is something to count. */
   .counter[data-empty="true"] {
     display: none;
   }

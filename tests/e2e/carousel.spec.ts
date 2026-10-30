@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, type Page, test } from '@playwright/test';
 
-// The recommendation carousel on /resume: every slide is server-rendered (see
+// The recommendation carousel in the résumé on the landing page: every slide is server-rendered (see
 // resume.spec.ts); these check the behaviour the client island adds.
 
 const pages: { carouselIntervalMs: number } = JSON.parse(
@@ -21,7 +21,7 @@ const carousel = (page: Page) => page.locator('[aria-roledescription="carousel"]
 
 /** Brings the carousel on screen with the pointer and focus elsewhere, so autoplay runs. */
 async function open(page: Page) {
-  await page.goto('/resume/');
+  await page.goto('/');
   await carousel(page).scrollIntoViewIfNeeded();
   await page.mouse.move(1, 1);
   await expect(dot(page, 0)).toHaveAttribute('aria-current', 'true');
@@ -65,7 +65,7 @@ test.describe('recommendation carousel', () => {
   });
 
   test('a link to a recommendation selects its slide', async ({ page }) => {
-    await page.goto('/resume/#derek-warner');
+    await page.goto('/#derek-warner');
     const index = names.indexOf('Derek Warner');
     expect(index).toBe(1);
     await expect(dot(page, index)).toHaveAttribute('aria-current', 'true');

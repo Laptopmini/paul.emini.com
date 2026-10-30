@@ -1,10 +1,9 @@
-/** Interface copy on /resume and /work/* (labels and calls to action, not résumé facts). */
+/** Interface copy on the résumé and /work/* (labels and calls to action, not résumé facts). */
 export const COPY = {
   askAgent: 'Ask my agent',
-  askInstead: 'Ask my agent instead',
+  emailMe: 'Email me',
   askAbout: 'Ask my agent about it',
   askShort: 'Ask about it',
-  downloadPdf: 'Download PDF',
   readCaseStudy: 'Read the case study',
   viewRepo: 'View the repo',
   allRepos: 'All repos on GitHub',

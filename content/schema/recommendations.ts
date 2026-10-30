@@ -1,6 +1,6 @@
 import { type Recommendation, recommendationsSchema } from './index';
 
-// Parses content/recommendations.md (format in docs/IMPLEMENTATION_BRIEF.md §5).
+// Parses content/recommendations.md (format in docs/NOTES.md).
 // Anything before the first `## ` heading is a preamble and is ignored.
 
 const MONTHS = [

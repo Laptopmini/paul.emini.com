@@ -158,9 +158,10 @@ describe.concurrent('case study, public mention and site pages', () => {
     expectClean(r);
   });
 
-  it('points to the résumé page when asked for the full details', async () => {
+  it('points to the résumé on the home page when asked for the full details', async () => {
     const r = await ask('Where can I read your full résumé online?');
-    expect(r.text).toMatch(/paul\.emini\.com\/resume/);
+    expect(r.text).toMatch(/paul\.emini\.com\/?(#resume)?/);
+    expect(r.text).not.toMatch(/paul\.emini\.com\/resume/);
     expectClean(r);
   });
 });

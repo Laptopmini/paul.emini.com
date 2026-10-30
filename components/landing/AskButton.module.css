@@ -1,0 +1,242 @@
+/* Bottom-right: the button, and the chat box above it when open. */
+.dock {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/*
+ * Always mounted; `.hidden` toggles it. Show: rises 16px, scales up from 0.92 and fades
+ * in (240ms); hide is the reverse, and `visibility` flips only once it has faded, so a
+ * hidden button can't take focus. Its width morphs between labels (AskButton.tsx).
+ */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 20px 0 10px;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--ground);
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition:
+    opacity 240ms var(--ease),
+    translate 240ms var(--ease),
+    scale 240ms var(--ease),
+    visibility 240ms var(--ease) allow-discrete,
+    width 280ms var(--ease),
+    transform var(--duration) var(--ease),
+    background-color var(--duration) var(--ease);
+}
+
+.button:hover {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: scale(0.96);
+}
+
+.hidden {
+  opacity: 0;
+  translate: 0 16px;
+  scale: 0.92;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 9px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+/* Keyed by its text, so each new label fades up from 8px. */
+.label {
+  display: inline-block;
+  animation: swap 280ms var(--ease);
+}
+
+@keyframes swap {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+.count {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.button:hover .count {
+  background: var(--ink);
+}
+
+/* The chat box. */
+.box {
+  width: 440px;
+  max-width: calc(100vw - 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border-radius: var(--radius-input);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.close {
+  width: var(--target-min);
+  height: var(--target-min);
+  flex: none;
+  border: 0;
+  border-radius: var(--radius-link);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--ground);
+}
+
+.close:active {
+  transform: scale(0.96);
+}
+
+/* Shown in the dock's focused style: this is where the question goes. */
+.field {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 8px 8px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-ring);
+}
+
+.field textarea {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+/* The field's ring is the focus indicator for the textarea. */
+.field textarea:focus-visible {
+  outline: none;
+}
+
+.foot {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.scrim {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .dock {
+    right: 16px;
+    bottom: 20px;
+  }
+
+  /* Phone: a bottom sheet over a 32% ink scrim. */
+  .scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: color-mix(in srgb, var(--ink) 32%, transparent);
+  }
+
+  /* The sheet covers the button's spot: hide the button so it can't cover Send. */
+  .box ~ .button {
+    visibility: hidden;
+  }
+
+  .box {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-width: none;
+    padding: 18px 16px 24px;
+    border-radius: var(--radius-input) var(--radius-input) 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .label {
+    transition: none;
+    animation: none;
+  }
+}
+
+@media print {
+  .dock {
+    display: none;
+  }
+}

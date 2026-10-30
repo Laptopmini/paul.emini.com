@@ -79,6 +79,18 @@ export function personData() {
   };
 }
 
+/** schema.org ProfilePage for the landing page, which carries the whole résumé. */
+export function profilePageData(dateModified: string) {
+  const { '@context': context, ...person } = personData();
+  return {
+    '@context': context,
+    '@type': 'ProfilePage',
+    url: url('/'),
+    dateModified,
+    mainEntity: person,
+  };
+}
+
 /** schema.org Article for a case study, by Paul. */
 export function caseStudyData(study: CaseStudy) {
   const mention = mentions.find((m) => m.caseStudyId === study.id);
@@ -99,8 +111,8 @@ export function caseStudyData(study: CaseStudy) {
 export function breadcrumbData(study: CaseStudy) {
   const company = experience.find((e) => e.id === study.experienceId)?.company;
   const trail = [
-    { name: 'Résumé', path: '/resume/' },
-    ...(company ? [{ name: company, path: `/resume/#${study.experienceId}` }] : []),
+    { name: 'Résumé', path: '/#resume' },
+    ...(company ? [{ name: company, path: `/#${study.experienceId}` }] : []),
     { name: study.title, path: `/work/${study.id}/` },
   ];
   return {

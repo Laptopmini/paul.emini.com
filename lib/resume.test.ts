@@ -5,6 +5,7 @@ import {
   experienceLabel,
   readingMinutes,
   splitLead,
+  splitSummary,
   splitTitle,
   topOwners,
 } from './resume';
@@ -44,6 +45,14 @@ describe('static page values', () => {
       'rebuilding: how',
     ]);
     expect(splitTitle('No colon')).toEqual(['No colon', null]);
+  });
+
+  it('splits the summary into its lead-in sentence and the rest', () => {
+    expect(splitSummary('Senior dev with 10+ years. Expert in React. More.')).toEqual([
+      'Senior dev with 10+ years.',
+      'Expert in React. More.',
+    ]);
+    expect(splitSummary('One sentence.')).toEqual(['One sentence.', '']);
   });
 
   it('estimates reading time', () => {

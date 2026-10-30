@@ -4,5 +4,35 @@
     "CopilotKit": "CopilotKit",
     "run-llama": "LlamaIndex",
     "ag-ui-protocol": "AG-UI"
+  },
+  "askBySection": {
+    "highlights": {
+      "label": "Ask about the Unified Journey",
+      "prompt": "How did the Unified Journey ship with zero breakage?"
+    },
+    "experience": {
+      "label": "Ask about my experience",
+      "prompt": "What did you lead at SmartThings?"
+    },
+    "projects": {
+      "label": "Ask about my projects",
+      "prompt": "What have you been building on your own lately?"
+    },
+    "skills": {
+      "label": "Ask about my skills",
+      "prompt": "Which of these skills do you use most today?"
+    },
+    "recommendations": {
+      "label": "Ask what people say",
+      "prompt": "What do people you’ve worked with say about you?"
+    },
+    "education": {
+      "label": "Ask about my education",
+      "prompt": "What did you take away from the agent courses?"
+    },
+    "open-source": {
+      "label": "Ask about my open source work",
+      "prompt": "What have you been contributing to lately?"
+    }
   }
 }

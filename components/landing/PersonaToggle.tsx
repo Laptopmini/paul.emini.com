@@ -9,29 +9,43 @@ export function PersonaToggle({
   personas,
   selected,
   onSelect,
-  compact = false,
+  variant = 'row',
 }: {
   personas: PersonaOption[];
   selected: PersonaOption;
   onSelect: (id: Persona['id']) => void;
-  /** Chat header: the segmented control only (legend stays for assistive tech). */
-  compact?: boolean;
+  /**
+   * `row`: lead-in, control and hint on one line (ask panel). `compact`: the control
+   * only, legend kept for assistive tech (chat header). `stacked`: the lead-in above a
+   * full-width control with equal segments (the ask button's chat box).
+   */
+  variant?: 'row' | 'compact' | 'stacked';
 }) {
-  if (compact) {
+  const segments = personas.map((p) => (
+    <button
+      key={p.id}
+      type="button"
+      aria-pressed={p.id === selected.id}
+      className={styles.segment}
+      onClick={() => onSelect(p.id)}
+    >
+      {p.label}
+    </button>
+  ));
+
+  if (variant === 'compact') {
     return (
       <fieldset className={`${styles.track} ${styles.compact}`}>
         <legend className="sr-only">{LEAD}</legend>
-        {personas.map((p) => (
-          <button
-            key={p.id}
-            type="button"
-            aria-pressed={p.id === selected.id}
-            className={styles.segment}
-            onClick={() => onSelect(p.id)}
-          >
-            {p.label}
-          </button>
-        ))}
+        {segments}
+      </fieldset>
+    );
+  }
+  if (variant === 'stacked') {
+    return (
+      <fieldset className={styles.stacked}>
+        <legend className={styles.lead}>{LEAD}</legend>
+        <div className={`${styles.track} ${styles.full}`}>{segments}</div>
       </fieldset>
     );
   }
@@ -43,17 +57,7 @@ export function PersonaToggle({
       </span>
       <fieldset className={styles.track}>
         <legend className="sr-only">{LEAD}</legend>
-        {personas.map((p) => (
-          <button
-            key={p.id}
-            type="button"
-            aria-pressed={p.id === selected.id}
-            className={styles.segment}
-            onClick={() => onSelect(p.id)}
-          >
-            {p.label}
-          </button>
-        ))}
+        {segments}
       </fieldset>
       <span className={styles.hint} aria-live="polite">
         {selected.hint}

@@ -6,6 +6,7 @@ import { contributionPill } from '@/lib/resume';
 import { COPY } from './copy';
 import layout from './layout.module.css';
 import styles from './resume.module.css';
+import { StatusPill } from './StatusPill';
 
 const SHOWN = 6;
 
@@ -25,7 +26,7 @@ export function OpenSource() {
           const pill = contributionPill(c);
           return (
             <li key={c.url}>
-              <span className={`${styles.status} ${styles[pill.tone]}`}>{pill.label}</span>
+              <StatusPill {...pill} className={styles.ossPill} />
               <span>
                 <ExternalLink href={c.url} className={styles.ossTitle}>
                   {c.title}

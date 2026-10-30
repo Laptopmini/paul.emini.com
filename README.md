@@ -8,8 +8,7 @@ The site is part of my portfolio, so the code is public. It's a static site plus
 
 ## What's on it
 
-- **Landing page:** server-rendered, works with JavaScript off. Two ways in: download the résumé, or ask the agent.
-- **[/resume](https://paul.emini.com/resume/):** the whole résumé as plain HTML, for people who'd rather read than chat and for search engines and AI crawlers.
+- **Landing page:** server-rendered, works with JavaScript off. Ask the agent first; the whole résumé follows below it as plain HTML, for people who'd rather read than chat and for search engines and AI crawlers. While reading, a floating button asks the agent about the section in view. (`/resume/` redirects there.)
 - **[/work/unified-journey](https://paul.emini.com/work/unified-journey/):** a long-form case study.
 - **The agent:** ask "What have you been up to lately?" and it answers in my voice, then shows project cards, a skills breakdown, recommendation quotes or an email draft, all rendered from the same content as the pages. Pick a persona (Friend, Recruiter, Engineer) to change the tone and depth.
 
@@ -102,5 +101,5 @@ worker/       the Cloudflare Worker: runtime, tools, guardrails
 shared/       the tool contract between the Worker and the chat
 evals/        agent evals against the real model
 scripts/      the daily GitHub fetch and build helpers
-docs/         the implementation brief and design references
+docs/         project notes: decisions and page rules
 ```

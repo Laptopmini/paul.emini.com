@@ -1,4 +1,4 @@
-/* Shared content styles for the generative UI cards (Catalogue.dc.html, Chat.dc.html). */
+/* Shared content styles for the generative UI cards. */
 
 .meta {
   display: flex;
@@ -328,7 +328,7 @@ mark.skill {
   gap: 10px;
 }
 
-/* Full text with the excerpt marked in place (/resume). */
+/* Full text with the excerpt marked in place (the résumé carousel). */
 .fullQuote {
   margin: 0;
   display: flex;

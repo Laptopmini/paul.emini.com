@@ -5,8 +5,10 @@ import { preloadChat, startChat } from '@/lib/chat-store';
 import { usePersona } from '@/lib/persona-store';
 import styles from './AskPanel.module.css';
 import { ChatDock } from './ChatDock';
+import { ASK_ID, ASK_INPUT_ID } from './copy';
 import { PersonaToggle } from './PersonaToggle';
 import { PromptPills } from './PromptPills';
+import { ReadLink } from './ReadLink';
 
 export function AskPanel({
   personas,
@@ -27,6 +29,7 @@ export function AskPanel({
 
   return (
     <section
+      id={ASK_ID}
       aria-label="Ask the agent"
       className={styles.section}
       onFocus={preloadChat}
@@ -35,11 +38,14 @@ export function AskPanel({
       <div className={styles.inner}>
         <PersonaToggle personas={personas} selected={persona} onSelect={setPersona} />
         <PromptPills prompts={persona.prompts} onPick={ask} />
-        <ChatDock onSubmit={ask} />
-        <p className={styles.disclaimer}>
-          An AI agent that only talks about Paul’s career, from his résumé and public GitHub — it
-          can make mistakes.
-        </p>
+        <ChatDock onSubmit={ask} inputId={ASK_INPUT_ID} />
+        <div className={styles.foot}>
+          <p className={styles.disclaimer}>
+            AI answers from my résumé and GitHub. It can make mistakes.
+          </p>
+          <span className={styles.rule} aria-hidden="true" />
+          <ReadLink />
+        </div>
       </div>
     </section>
   );

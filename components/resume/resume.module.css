@@ -1,69 +1,49 @@
-/* /resume sections. Shell and shared pieces live in layout.module.css. */
+/* Résumé sections on the landing page. Shell and shared pieces live in layout.module.css. */
 
-/* Hero: intro | "At a glance" */
-.hero {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
-  gap: 56px;
-  align-items: end;
-  padding: 72px 0 64px;
-  border-bottom: 1px solid var(--line);
-}
-
+/* Intro: lead-in and summary | "At a glance" */
 .intro {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+  padding-top: 72px;
 }
 
-.location {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-}
-
-.name {
-  margin: 0;
+/* News-style lead-in: the summary's first sentence, in the display face. */
+.lead {
+  margin: 0 0 14px;
+  max-width: 680px;
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 88px;
-  line-height: 0.95;
-  letter-spacing: -0.035em;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
   text-wrap: balance;
-}
-
-.title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--accent-strong);
 }
 
 .summary {
   margin: 0;
-  max-width: 640px;
+  max-width: 680px;
   font-size: 18px;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--ink-2);
+  text-wrap: pretty;
 }
 
 .glance {
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
+  margin-top: 12px;
+  padding: 26px;
 }
 
 .glanceList {
   margin: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px 24px;
+  gap: 24px 28px;
 }
 
 .glanceList dd {
-  margin: 4px 0 0;
+  margin: 8px 0 0;
   font-size: 15px;
   line-height: 1.45;
 }
@@ -71,58 +51,23 @@
 .glanceList .glanceLead {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 40px;
-  line-height: 1.1;
+  font-size: 44px;
+  line-height: 1;
   letter-spacing: -0.02em;
 }
 
 .glanceList .glanceStrong {
-  font-weight: 600;
-  font-size: 17px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
 }
 
 .glanceDetail {
   display: block;
+  font-family: var(--font-body);
   font-weight: 400;
   font-size: 15px;
   color: var(--muted);
-}
-
-.contacts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding-top: 18px;
-  border-top: 1px solid var(--divider);
-}
-
-.contact {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: var(--target-min);
-  padding: 0 14px;
-  border-radius: var(--radius-link);
-  border: 1px solid var(--line);
-  font-size: 14px;
-  font-weight: 500;
-}
-
-@media (hover: hover) {
-  .contact:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lift);
-  }
-}
-
-.contactShort {
-  display: none;
-}
-
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
 }
 
 /* Highlights bento */
@@ -130,7 +75,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .teaser {
@@ -211,15 +156,26 @@
 .award {
   padding: 24px;
   display: flex;
-  flex-direction: column;
-  gap: 14px;
+  align-items: flex-start;
+  gap: 16px;
 }
 
-.awardHead {
+.medal {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 16px;
+  background: var(--ground);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+}
+
+.awardText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
 }
 
 .awardName {
@@ -230,7 +186,7 @@
   line-height: 1.2;
 }
 
-.awardText {
+.awardBlurb {
   margin: 0;
   font-size: 15px;
   line-height: 1.55;
@@ -371,130 +327,54 @@
   overflow-wrap: anywhere;
 }
 
-/* Same width for every pill, label centred. */
-.status {
+/* Same width for every pill in the column, label centred. */
+.ossPill {
   width: 100%;
-  min-height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
   margin-top: 1px;
-  white-space: nowrap;
-  padding: 0 10px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-mono);
-  font-size: 12px;
 }
 
-.merged {
-  background: var(--ok-bg);
-  color: var(--ok-fg);
-}
-
-.open {
-  background: var(--accent-tint);
-  color: var(--accent-strong);
-}
-
-.issue {
-  background: var(--warn-bg);
-  color: var(--warn-fg);
-}
-
-.closed {
-  background: var(--chip);
-  color: var(--ink-2);
-}
-
-@media (max-width: 640px) {
-  .hero {
-    gap: 20px;
-    padding: 32px 0 0;
-    border-bottom: 0;
-  }
-
+@media (max-width: 900px) {
   .intro {
-    gap: 14px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding-top: 40px;
   }
 
-  .name {
-    font-size: 52px;
-  }
-
-  .title {
-    font-size: 19px;
+  .lead {
+    font-size: 24px;
   }
 
   .summary {
-    font-size: 16px;
+    font-size: 17px;
   }
 
-  /* Phone: glance shows the first two items as tiles; contact becomes three icon tiles. */
   .glance {
-    padding: 0;
-    gap: 8px;
-    background: none;
-    border: 0;
+    margin-top: 0;
+    padding: 20px;
   }
 
   .glanceList {
-    gap: 8px;
-  }
-
-  .glanceList div {
-    padding: 14px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-  }
-
-  .glanceList div:nth-child(n + 3) {
-    display: none;
+    gap: 18px 16px;
   }
 
   .glanceList .glanceLead {
-    font-size: 26px;
+    font-size: 34px;
   }
+}
 
-  .contacts {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    padding: 0;
-    border: 0;
-  }
-
-  .contact {
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-    min-height: 64px;
-    padding: 0 8px;
-    background: var(--surface);
-    font-size: 13px;
-  }
-
-  .contactLong {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .contactShort {
-    display: inline;
-  }
-
-  /* The bottom bar carries both actions on phones. */
-  .heroActions {
-    display: none;
-  }
-
+@media (max-width: 640px) {
   .teaser {
     gap: 12px;
     padding: 22px;
+  }
+
+  .award {
+    padding: 20px;
+  }
+
+  .medal {
+    width: 48px;
+    height: 48px;
   }
 
   .teaserTitle {
@@ -510,25 +390,15 @@
     gap: 6px;
   }
 
-  .status {
+  .ossPill {
     width: auto;
     justify-self: start;
   }
 }
 
 @media print {
-  .hero {
-    padding-top: 0;
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .name {
-    font-size: 48px;
-  }
-
-  .heroActions {
-    display: none;
+  .intro {
+    padding-top: 32px;
   }
 
   .teaser {

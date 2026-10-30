@@ -1,7 +1,9 @@
+/* Side by side at equal height, "View the repo" along the bottom; stacked on phones. */
 .row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 16px;
+  align-items: stretch;
 }
 
 .project {
@@ -145,6 +147,7 @@
 }
 
 .tileText {
+  flex: 1;
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
@@ -155,26 +158,31 @@
   margin-top: auto;
 }
 
-/* Phone: projects become a swipe row; the next card peeks in. */
-@media (max-width: 640px) {
-  .row {
+/* Phone: the other repos become a swipe row of 260px cards; the next one peeks in. */
+@media (max-width: 900px) {
+  .tiles {
     display: flex;
     gap: 12px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    margin: 0 -16px;
-    padding: 0 16px 4px;
-    scroll-padding: 0 16px;
+    margin: 0 calc(-1 * var(--gutter, 20px));
+    padding: 4px var(--gutter, 20px) 8px;
+    scroll-padding: 0 var(--gutter, 20px);
     scrollbar-width: none;
   }
 
-  .row::-webkit-scrollbar {
+  .tiles::-webkit-scrollbar {
     display: none;
   }
 
-  .project {
-    flex: 0 0 86%;
+  .tiles li {
+    flex: 0 0 260px;
     scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .project {
     padding: 18px;
   }
 

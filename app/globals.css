@@ -89,3 +89,21 @@ textarea {
     color: var(--ink);
   }
 }
+
+/* Where a chat card's link to the résumé lands: a brief accent outline (lib/chat-store).
+   It stands in for the card's scroll reveal, already finished by then. */
+[data-flash] {
+  animation: flash 1.2s var(--ease) both !important;
+}
+
+@keyframes flash {
+  from {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  to {
+    outline: 3px solid transparent;
+    outline-offset: 3px;
+  }
+}

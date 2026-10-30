@@ -58,3 +58,9 @@ export function splitLead(bullet: string): [string | null, string] {
   const match = bullet.match(/^\*\*(.+?)\*\*\s*(.*)$/s);
   return match ? [match[1] ?? null, match[2] ?? ''] : [null, bullet];
 }
+
+/** "Senior … at a global scale. Expert in …" → ["Senior … at a global scale.", "Expert in …"]. */
+export function splitSummary(summary: string): [string, string] {
+  const at = summary.search(/\.\s/);
+  return at < 0 ? [summary, ''] : [summary.slice(0, at + 1), summary.slice(at + 2).trimStart()];
+}

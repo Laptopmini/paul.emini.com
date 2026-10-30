@@ -6,19 +6,21 @@ export type PageSection = { id: string; label: string };
 const number = (i: number) => String(i + 1).padStart(2, '0');
 
 /**
- * Section links for /resume and /work/*. Plain #anchors, so they work without JS;
+ * Section links for the résumé and /work/*. Plain #anchors, so they work without JS;
  * ScrollSpy marks the section in view with aria-current. The rail shows from 1100px,
- * the tab strip or picker below it (CSS swaps them).
+ * the tab strip or picker below it (CSS swaps them; `className` can move the switch).
  */
 export function OnThisPage({
   sections,
   variant,
   note,
+  className,
 }: {
   sections: PageSection[];
   variant: 'rail' | 'tabs' | 'picker';
   /** Mono line under the rail, e.g. the reading time. */
   note?: string;
+  className?: string;
 }) {
   const links = (
     <ol className={styles.tocList}>
@@ -58,7 +60,9 @@ export function OnThisPage({
   return (
     <nav
       aria-label="On this page"
-      className={variant === 'rail' ? styles.rail : styles.tabs}
+      className={[variant === 'rail' ? styles.rail : styles.tabs, className]
+        .filter(Boolean)
+        .join(' ')}
       data-spy
     >
       {variant === 'rail' && <p className={styles.mono}>On this page</p>}

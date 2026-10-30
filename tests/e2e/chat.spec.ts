@@ -9,9 +9,16 @@ import { expect, type Page, test } from '@playwright/test';
 const agentTurns = (page: Page) => page.getByRole('article', { name: 'Paul’s agent' });
 const followUps = (page: Page) => page.getByRole('list', { name: 'Follow-up questions' });
 
-async function askFromLanding(page: Page, pill: string) {
+// Short screens show fewer suggested prompts, so ask through the dock.
+async function askFromLanding(page: Page, question: string) {
   await page.goto('/');
-  await page.getByRole('button', { name: pill }).click();
+  await askOnLanding(page, question);
+}
+
+async function askOnLanding(page: Page, question: string) {
+  const dock = page.getByRole('textbox', { name: 'Ask Paul’s agent' });
+  await dock.fill(question);
+  await dock.press('Enter');
   await expect(page.getByRole('log')).toBeVisible();
 }
 
@@ -26,7 +33,8 @@ test.describe('chat', () => {
   test('a landing pill opens the chat and renders the card, source and follow-ups', async ({
     page,
   }) => {
-    await askFromLanding(page, 'What’s your most recent experience?');
+    await page.goto('/');
+    await page.getByRole('button', { name: 'What’s your most recent experience?' }).click();
     await expect(page).toHaveURL(/#chat$/);
     await expect(page.getByText('What’s your most recent experience?').last()).toBeVisible();
     const turn = agentTurns(page).first();
@@ -59,7 +67,7 @@ test.describe('chat', () => {
 
     await page.goBack();
     await expect(page.getByRole('heading', { level: 1, name: /Hi, I’m/ })).toBeVisible();
-    await page.getByRole('button', { name: 'How was this site built?' }).click();
+    await askOnLanding(page, 'How was this site built?');
     await expect(followUps(page)).toHaveCount(4);
     await expect(agentTurns(page)).toHaveCount(4);
   });
@@ -183,11 +191,54 @@ test.describe('chat', () => {
     await expect(page.getByText(/checked public GitHub · refreshed/)).toBeVisible();
   });
 
-  test('the agent links to the case study and the résumé, in new tabs', async ({ page }) => {
+  test('a card link to the résumé closes the chat over it, and the ask button leads back', async ({
+    page,
+  }) => {
     await askFromLanding(page, 'What’s your most recent experience?');
-    const details = page.getByRole('link', { name: /Full details on the résumé/ });
-    await expect(details).toHaveAttribute('href', /\/resume\/#smartthings$/);
-    await expect(details).toHaveAttribute('target', '_blank');
+    await expect(followUps(page)).toHaveCount(1);
+    await page.getByRole('textbox', { name: 'Ask a follow-up' }).fill('Tell me about Prism');
+    await page.getByRole('textbox', { name: 'Ask a follow-up' }).press('Enter');
+    await expect(followUps(page)).toHaveCount(2);
+    const details = page.getByRole('link', { name: /Full details on the résumé/ }).last();
+    const href = await details.getAttribute('href');
+    expect(href).toMatch(/^\/#[a-z0-9-]+$/);
+    await expect(details).not.toHaveAttribute('target');
+    await details.click();
+
+    const id = href?.slice(2) ?? '';
+    await expect(page).toHaveURL(new RegExp(`/#${id}$`));
+    await expect(page.getByRole('log')).toBeHidden();
+    await expect(page.locator(`#${id} details`)).toHaveAttribute('open', '');
+    await expect(page.locator(`#${id}`)).toBeInViewport();
+
+    const back = page.getByRole('button', { name: /Back to our chat/ });
+    await expect(back).toContainText('2');
+    await back.click();
+    await expect(page.getByRole('log')).toBeVisible();
+    await expect(agentTurns(page)).toHaveCount(2);
+  });
+
+  test('the ask button’s chat box sends through the same path as the dock', async ({ page }) => {
+    await page.goto('/#experience');
+    const button = page.getByRole('button', { name: 'Ask about my experience' });
+    await expect(button).toBeVisible();
+    await button.click();
+    const box = page.getByRole('dialog', { name: 'Ask about my experience' });
+    const field = box.getByRole('textbox', { name: 'Your question' });
+    await expect(field).toHaveValue('What did you lead at SmartThings?');
+    await expect(field).toBeFocused();
+    await box.getByRole('button', { name: 'Send' }).click();
+    await expect(page).toHaveURL(/#chat$/);
+    await expect(page.getByText('What did you lead at SmartThings?').last()).toBeVisible();
+    await expect(followUps(page).first()).toBeVisible();
+  });
+
+  test('the agent links to the case study in a new tab', async ({ page }) => {
+    await askFromLanding(page, 'What’s your most recent experience?');
+    await expect(page.getByRole('link', { name: /Full details on the résumé/ })).toHaveAttribute(
+      'href',
+      /^\/#smartthings$/,
+    );
     await expect(followUps(page)).toHaveCount(1);
     const input = page.getByRole('textbox', { name: 'Ask a follow-up' });
     await input.fill('Tell me about the Unified Journey');

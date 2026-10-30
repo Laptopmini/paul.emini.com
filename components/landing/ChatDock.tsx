@@ -10,6 +10,7 @@ export function ChatDock({
   placeholder = DOCK_PLACEHOLDER,
   busy = false,
   className,
+  inputId: id,
   inputRef,
 }: {
   onSubmit: (prompt: string) => void;
@@ -18,9 +19,12 @@ export function ChatDock({
   /** While the agent answers: typing is allowed, sending waits. */
   busy?: boolean;
   className?: string;
+  /** A fixed id, for links that focus this dock. */
+  inputId?: string;
   inputRef?: Ref<HTMLInputElement>;
 }) {
-  const inputId = useId();
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
   const counterId = useId();
   const [value, setValue] = useState('');
 

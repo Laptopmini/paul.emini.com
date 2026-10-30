@@ -2,7 +2,7 @@
 
 Personal site + résumé for Paul-Valentin Mini (paul.emini.com), with an agent chat that renders résumé content as generative UI cards. The code is part of the portfolio: keep it clean.
 
-**Everything not covered here is in `docs/IMPLEMENTATION_BRIEF.md`. Read it before starting a phase.** `docs/design/*.dc.html` are visual references only (custom runtime, `{{holes}}`); rebuild them as real React, never copy their markup.
+Decisions and page rules not covered here are in `docs/NOTES.md`; the code is the reference for everything else. Design handoffs (`*.dc.html`) are visual references only (custom runtime, `{{holes}}`): rebuild them as real React, never copy their markup or class names.
 
 ## Stack and commands
 

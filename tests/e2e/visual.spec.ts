@@ -12,7 +12,7 @@ import { expect, test } from '@playwright/test';
 const caseStudies: { id: string }[] = JSON.parse(
   readFileSync(join(process.cwd(), 'content', 'case-studies.json'), 'utf8'),
 );
-const paths = ['/resume/', ...caseStudies.map((c) => `/work/${c.id}/`)];
+const paths = caseStudies.map((c) => `/work/${c.id}/`);
 
 test.describe('static pages look like the boards', () => {
   test.use({ reducedMotion: 'reduce' });
