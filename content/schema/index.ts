@@ -286,6 +286,8 @@ export const pagesSchema = z.strictObject({
     education: askPromptSchema,
     'open-source': askPromptSchema,
   }),
+  /** Case study id → the day its page went live on this site (schema.org `datePublished`). */
+  caseStudyPublished: z.record(id, isoDate),
 });
 
 /** Bookkeeping written by /sync-resume. */

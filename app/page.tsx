@@ -21,8 +21,8 @@ import { RoleTimeline } from '@/components/resume/RoleTimeline';
 import resume from '@/components/resume/resume.module.css';
 import { ScrollSpy } from '@/components/resume/ScrollSpy';
 import { Skills } from '@/components/resume/Skills';
-import { DEFAULT_PERSONA, github, meta, pages, personas, profile } from '@/lib/content';
-import { pageMetadata, profilePageData } from '@/lib/seo';
+import { DEFAULT_PERSONA, github, pages, personas, profile } from '@/lib/content';
+import { pageMetadata, profilePageData, websiteData } from '@/lib/seo';
 import styles from './page.module.css';
 
 // The landing page: the ask panel first, then the whole résumé as plain, server-rendered
@@ -62,7 +62,8 @@ export default function Home() {
   return (
     <ChatShell>
       <div className={styles.page}>
-        <JsonLd data={profilePageData(meta.resumeSyncedAt)} />
+        <JsonLd data={websiteData()} />
+        <JsonLd data={profilePageData()} />
         <SiteHeader />
         <main>
           <div className={styles.first}>

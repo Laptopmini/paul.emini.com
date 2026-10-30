@@ -17,6 +17,7 @@ const certifications: { name: string; issuer: string }[] = json('certifications.
 const experience: { id: string; company: string; highlights: { text: string }[] }[] =
   json('experience.json');
 const mentions: { authorTitle: string }[] = json('mentions.json');
+const pages: { caseStudyPublished: Record<string, string> } = json('pages.json');
 const projects: { id: string; summary: string; repo?: string }[] = json('projects.json');
 const github: { repos: { name: string; readme?: string; description: string | null }[] } =
   json('github.json');
@@ -191,22 +192,28 @@ test.describe('machine-readable layer', () => {
   });
 
   test('pages carry valid schema.org data from /content', async ({ page }) => {
+    const blocks = async () =>
+      (await page.locator('script[type="application/ld+json"]').allTextContents()).map((text) =>
+        JSON.parse(text),
+      );
     await page.goto('/');
-    const data = JSON.parse(
-      (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}',
-    );
-    expect(data).toMatchObject({ '@type': 'ProfilePage' });
+    const home = await blocks();
+    expect(home.find((b) => b['@type'] === 'WebSite')).toMatchObject({
+      name: 'Paul-Valentin Mini',
+    });
+    const data = home.find((b) => b['@type'] === 'ProfilePage');
     expect(data.mainEntity).toMatchObject({ '@type': 'Person', name: 'Paul-Valentin Mini' });
     expect(data.mainEntity.award.join(' ')).toContain(awards[0]?.name);
     for (const c of caseStudies) {
       await page.goto(`/work/${c.id}/`);
-      const blocks = (
-        await page.locator('script[type="application/ld+json"]').allTextContents()
-      ).map((text) => JSON.parse(text));
-      expect(blocks.find((b) => b['@type'] === 'Article')).toMatchObject({ headline: c.title });
-      const trail = blocks.find((b) => b['@type'] === 'BreadcrumbList');
+      const study = await blocks();
+      expect(study.find((b) => b['@type'] === 'Article')).toMatchObject({
+        headline: c.title,
+        datePublished: pages.caseStudyPublished[c.id],
+      });
+      const trail = study.find((b) => b['@type'] === 'BreadcrumbList');
       expect(trail.itemListElement.at(-1)).toMatchObject({ name: c.title });
-      expect(trail.itemListElement[0].item).toMatch(/\/#resume$/);
+      expect(trail.itemListElement[0].item).toMatch(/\/$/);
     }
   });
 });

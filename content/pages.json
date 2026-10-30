@@ -34,5 +34,8 @@
       "label": "Ask about my open source work",
       "prompt": "What have you been contributing to lately?"
     }
+  },
+  "caseStudyPublished": {
+    "unified-journey": "2026-10-18"
   }
 }

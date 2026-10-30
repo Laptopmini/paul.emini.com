@@ -9,6 +9,7 @@ import {
   experience,
   github,
   mentions,
+  pages,
   parseRecommendations,
   profile,
   projects,
@@ -89,6 +90,12 @@ describe('content', () => {
       expect(experiences).toContain(m.experienceId);
       if (m.caseStudyId) expect(studies).toContain(m.caseStudyId);
     }
+  });
+
+  it('every case study has a publish date, and only case studies do', () => {
+    expect(Object.keys(pages.caseStudyPublished).sort()).toEqual(
+      caseStudies.map((c) => c.id).sort(),
+    );
   });
 
   it('case study periods are in order and sections are unique', () => {

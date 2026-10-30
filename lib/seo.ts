@@ -5,6 +5,8 @@ import {
   education,
   experience,
   mentions,
+  meta,
+  pages,
   profile,
   skills,
 } from '@/content';
@@ -79,14 +81,29 @@ export function personData() {
   };
 }
 
+/** schema.org WebSite: the site name search engines show above the URL. */
+export function websiteData() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': url('/#website'),
+    name: profile.name,
+    alternateName: new URL(SITE_URL).host,
+    url: url('/'),
+    publisher: { '@id': url('/#person') },
+  };
+}
+
 /** schema.org ProfilePage for the landing page, which carries the whole résumé. */
-export function profilePageData(dateModified: string) {
+export function profilePageData() {
   const { '@context': context, ...person } = personData();
   return {
     '@context': context,
     '@type': 'ProfilePage',
+    '@id': url('/#profile'),
     url: url('/'),
-    dateModified,
+    isPartOf: { '@id': url('/#website') },
+    dateModified: meta.resumeSyncedAt,
     mainEntity: person,
   };
 }
@@ -94,25 +111,32 @@ export function profilePageData(dateModified: string) {
 /** schema.org Article for a case study, by Paul. */
 export function caseStudyData(study: CaseStudy) {
   const mention = mentions.find((m) => m.caseStudyId === study.id);
+  const company = experience.find((e) => e.id === study.experienceId)?.company;
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: study.title,
     description: study.summary,
     url: url(`/work/${study.id}/`),
-    author: { '@id': url('/#person'), '@type': 'Person', name: profile.name },
-    about: experience.find((e) => e.id === study.experienceId)?.company,
+    image: url(OG_IMAGE.url),
+    datePublished: pages.caseStudyPublished[study.id],
+    // Case studies change only through /sync-resume, so the last sync bounds the last edit.
+    dateModified: meta.resumeSyncedAt,
+    isPartOf: { '@id': url('/#website') },
+    author: { '@id': url('/#person'), '@type': 'Person', name: profile.name, url: url('/') },
+    ...(company ? { about: { '@type': 'Organization', name: company } } : {}),
     keywords: study.stack.join(', '),
     ...(mention ? { citation: mention.url } : {}),
   };
 }
 
-/** schema.org BreadcrumbList for a case study: Résumé › company › the study. */
+/**
+ * schema.org BreadcrumbList for a case study: Résumé › the study. Search engines ignore
+ * #fragments, so a company step (`/#smartthings`) would just repeat the landing page.
+ */
 export function breadcrumbData(study: CaseStudy) {
-  const company = experience.find((e) => e.id === study.experienceId)?.company;
   const trail = [
-    { name: 'Résumé', path: '/#resume' },
-    ...(company ? [{ name: company, path: `/#${study.experienceId}` }] : []),
+    { name: 'Résumé', path: '/' },
     { name: study.title, path: `/work/${study.id}/` },
   ];
   return {
