@@ -43,7 +43,8 @@ function Brand({ href }: { href: string }) {
       <span>{noBreakHyphens(profile.name)}</span>
     </>
   );
-  // On the landing page the brand is an in-page link back to the ask panel.
+  // On the landing page the brand is an in-page link back to the top (`#top` needs no
+  // element: browsers scroll to the top of the document).
   return href.startsWith('#') ? (
     <a href={href} className={styles.brand}>
       {content}
@@ -65,7 +66,7 @@ export function SiteHeader({ current }: { current?: SitePage }) {
     return (
       <header className={styles.bar}>
         <div className={`${styles.header} ${styles.landing}`}>
-          <Brand href="#ask" />
+          <Brand href="#top" />
           <div className={styles.actions}>
             <div className={styles.more}>
               {contacts.map((c) => {

@@ -75,7 +75,7 @@ export function Highlights() {
                 Award · {a.issuer} · {formatYearMonth(a.received)}
               </p>
               <h3 className={styles.awardName}>{a.name}</h3>
-              <p className={styles.awardBlurb}>{a.blurb}</p>
+              <p className={styles.awardBlurb}>{a.description}</p>
             </div>
           </article>
         ))}

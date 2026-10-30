@@ -334,6 +334,16 @@ test.describe('landing and résumé on one page', () => {
       .toBe('1');
   });
 
+  test('the brand in the header goes back to the top of the page', async ({ page }) => {
+    await page.goto('/#skills');
+    await page
+      .getByRole('banner')
+      .getByRole('link', { name: /Paul.Valentin Mini/ })
+      .click();
+    await expect(page).toHaveURL(/#top$/);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  });
+
   test('the closing band leads back to the dock', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('link', { name: 'Ask my agent' }).click();
