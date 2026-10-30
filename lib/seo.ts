@@ -44,9 +44,15 @@ export function pageMetadata({
       title,
       description,
       url: path,
+      locale: 'en_US',
       images: [OG_IMAGE],
     },
-    twitter: { card: 'summary_large_image', title, description, images: [OG_IMAGE.url] },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [{ url: OG_IMAGE.url, alt: OG_IMAGE.alt }],
+    },
   };
 }
 

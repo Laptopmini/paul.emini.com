@@ -43,6 +43,10 @@ describe('content', () => {
     }
   });
 
+  it('the full name starts with the first name', () => {
+    expect(profile.name.startsWith(`${profile.firstName} `)).toBe(true);
+  });
+
   it('the profile title matches the résumé summary', () => {
     expect(profile.summary.startsWith(`${profile.title} `)).toBe(true);
   });
