@@ -204,6 +204,8 @@ test.describe('machine-readable layer', () => {
     const data = home.find((b) => b['@type'] === 'ProfilePage');
     expect(data.mainEntity).toMatchObject({ '@type': 'Person', name: 'Paul-Valentin Mini' });
     expect(data.mainEntity.award.join(' ')).toContain(awards[0]?.name);
+    const photo = await page.request.get(new URL(data.mainEntity.image.url).pathname);
+    expect(photo.headers()['content-type']).toBe('image/jpeg');
     for (const c of caseStudies) {
       await page.goto(`/work/${c.id}/`);
       const study = await blocks();

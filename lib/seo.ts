@@ -22,6 +22,9 @@ const OG_IMAGE = {
   alt: `${profile.name}, ${profile.title}`,
 };
 
+// Headshot for the Person entity only. It is never shown on the page, on purpose.
+const PHOTO = { url: '/paul.jpg', width: 800, height: 800 };
+
 /** Title, description, canonical URL and link-preview tags for one page. */
 export function pageMetadata({
   title,
@@ -67,6 +70,7 @@ export function personData() {
     name: profile.name,
     jobTitle: profile.title,
     description: profile.summary,
+    image: { '@type': 'ImageObject', ...PHOTO, url: url(PHOTO.url) },
     url: url('/'),
     email: `mailto:${profile.email}`,
     address: {
