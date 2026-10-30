@@ -36,6 +36,8 @@ Full text.
 - The "Rather read?" arrow hops until the visitor scrolls or interacts, and only ever stops or holds at rest (the 40–100% rest of each cycle), never mid-air.
 - Short screens show fewer suggested prompts (`PromptPills.module.css`) so the dock and "Rather read?" fit the first screen. Every prompt still works when typed.
 
+- Every page in the sitemap keeps its `<title>` at 70 characters or less and its meta description at 25–160 (Bing flags anything else; `tests/e2e/seo.spec.ts` checks the built pages). A page whose real title or summary runs longer gets shorter search copy, as case studies do with `pages.caseStudySearch`: the page and its schema.org data keep the full text. A new page must also be added to `app/sitemap.ts`.
+
 ## Design system follow-ups
 
 The "paul.emini.com" design system on the design canvas predates the landing + résumé merge. Still to add:

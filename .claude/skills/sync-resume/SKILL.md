@@ -14,7 +14,7 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
 - Never change an existing `id`. A renamed company or project keeps its id. Only new entries get new ids (kebab-case).
 - Copy names verbatim. Certification names are official course titles (e.g. "Building Agentic RAG with Llamaindex"), so never "correct" their spelling or casing.
 - Case studies and mentions are owner-written copy: carry them over **word for word**, never rewrite, summarize or "improve" them. Mention quotes keep only Paul's name ("…" marks other names left out).
-- Do not touch `content/personas.json`, `content/site.json` and `content/pages.json` (site config), `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
+- Do not touch `content/personas.json`, `content/site.json` and `content/pages.json` (site config, except below), `content/recommendations.md` (hand-maintained), `content/github.json` (CI-generated) or `content/contributions-pinned.json`.
 
 ## Workflow
 
@@ -48,6 +48,8 @@ description: Pull résumé changes from the private ../my-resume repo into /cont
    After converting, check every case-study paragraph, bullet and summary, and every mention quote, appears verbatim in the source (whitespace-normalized). Fix the conversion, not the text.
 
 4. **Curated card copy.** `short` (experience highlights), `blurb` (projects, awards) and `tags` are condensed versions written for the cards, not résumé text. When the underlying `text`/`summary`/`description` changes, or a new entry is added, draft a new `short`/`blurb`/`tags` that states only what the source says, and list each one in the summary for the owner to review. Never introduce facts, numbers or names that aren't in the source.
+
+   A **new case study** also needs two entries in `content/pages.json`, or `pnpm test:content` fails: `caseStudyPublished` (the day its page goes live) and `caseStudySearch`, a search title (at most 70 characters once " · " and the full name are appended) and meta description (25–160 characters), written only from the frontmatter `title` and `summary`. List both for the owner to review.
 
    Some card copy has no source field and is hand-curated here, so a sync keeps it as is: `profile.focus`, `profile.bio`, `education[].schoolWikipedia`, `experience[].oneLiner` and `projects[].highlights[].short`. Flag any of them that a change makes inaccurate; don't rewrite them silently.
 
