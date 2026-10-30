@@ -295,6 +295,11 @@ export const pagesSchema = z.strictObject({
   }),
   /** Case study id → the day its page went live on this site (schema.org `datePublished`). */
   caseStudyPublished: z.record(id, isoDate),
+  /**
+   * Case study id → the shorter `<title>` (the site name is appended) and meta description
+   * search engines show. The page and its schema.org Article keep the full title and summary.
+   */
+  caseStudySearch: z.record(id, z.strictObject({ title: text, description: text })),
 });
 
 /** Bookkeeping written by /sync-resume. */

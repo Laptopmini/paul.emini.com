@@ -60,6 +60,9 @@ export function pageMetadata({
   };
 }
 
+/** A case study's `<title>`: its search title, then the site name. */
+export const caseStudyPageTitle = (title: string) => `${title} · ${profile.name}`;
+
 const url = (path: string) => new URL(path, SITE_URL).href;
 
 /**

@@ -37,5 +37,11 @@
   },
   "caseStudyPublished": {
     "unified-journey": "2026-10-18"
+  },
+  "caseStudySearch": {
+    "unified-journey": {
+      "title": "The Unified Journey · SmartThings case study",
+      "description": "I initiated and led the refactor of SmartThings partner onboarding: one overgrown form became a guided, modular journey. Every partner moved with zero breakage."
+    }
   }
 }

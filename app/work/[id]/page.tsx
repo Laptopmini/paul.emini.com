@@ -17,10 +17,10 @@ import { PrintExpand } from '@/components/resume/PrintExpand';
 import { ScrollSpy } from '@/components/resume/ScrollSpy';
 import { StatTiles } from '@/components/resume/StatTiles';
 import type { CaseStudy } from '@/content';
-import { caseStudies, experience, mentions, pages, profile, recommendations } from '@/lib/content';
+import { caseStudies, experience, mentions, pages, recommendations } from '@/lib/content';
 import { formatDate, formatYearMonth } from '@/lib/format';
 import { readingMinutes, splitLead, splitTitle } from '@/lib/resume';
-import { breadcrumbData, caseStudyData, pageMetadata } from '@/lib/seo';
+import { breadcrumbData, caseStudyData, caseStudyPageTitle, pageMetadata } from '@/lib/seo';
 
 // One page per case study (/work/<id>/): the owner's write-up, word for word, with the
 // public mention it led to. People named in the text who also wrote a recommendation
@@ -44,9 +44,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const study = caseStudies.find((c) => c.id === id);
   if (!study) return {};
+  const search = pages.caseStudySearch[study.id];
   return pageMetadata({
-    title: `${study.title} · ${profile.name}`,
-    description: study.summary,
+    title: caseStudyPageTitle(search?.title ?? study.title),
+    description: search?.description ?? study.summary,
     path: `/work/${study.id}/`,
     type: 'article',
   });

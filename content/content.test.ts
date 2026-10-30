@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { caseStudyPageTitle } from '@/lib/seo';
 import {
   awards,
   caseStudies,
@@ -97,6 +98,16 @@ describe('content', () => {
     for (const m of mentions) {
       expect(experiences).toContain(m.experienceId);
       if (m.caseStudyId) expect(studies).toContain(m.caseStudyId);
+    }
+  });
+
+  it('every case study has search copy that fits search results', () => {
+    expect(Object.keys(pages.caseStudySearch).sort()).toEqual(caseStudies.map((c) => c.id).sort());
+    for (const { title, description } of Object.values(pages.caseStudySearch)) {
+      // Bing flags titles over 70 characters and descriptions outside 25–160.
+      expect(caseStudyPageTitle(title).length).toBeLessThanOrEqual(70);
+      expect(description.length).toBeGreaterThanOrEqual(25);
+      expect(description.length).toBeLessThanOrEqual(160);
     }
   });
 
