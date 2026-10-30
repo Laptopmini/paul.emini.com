@@ -44,38 +44,25 @@ let script: Promise<TurnstileApi> | null = null;
 let slot: HTMLElement | null = null;
 let slotWaiters: ((el: HTMLElement) => void)[] = [];
 
-/** True while Turnstile waits for the visitor to tick its box (most never see it). */
-let checking = false;
+/**
+ * Where the human check stands: `running` from the first Turnstile attempt to the session
+ * (retries included), `shown` while Turnstile waits for the visitor to tick its box (most
+ * never see it), `failed` once the visitor couldn't get past it (Turnstile failed every
+ * attempt or didn't load, or the Worker refused its token). The agent itself may be fine.
+ */
+export type HumanCheck = 'idle' | 'running' | 'shown' | 'failed';
+let check: HumanCheck = 'idle';
 const checkListeners = new Set<() => void>();
-function setChecking(value: boolean) {
-  if (checking === value) return;
-  checking = value;
+function setCheck(value: HumanCheck) {
+  if (check === value) return;
+  check = value;
   for (const listener of checkListeners) listener();
 }
-export const isHumanCheckShown = () => checking;
+export const getHumanCheck = () => check;
 export function onHumanCheckChange(listener: () => void) {
   checkListeners.add(listener);
   return () => {
     checkListeners.delete(listener);
-  };
-}
-
-/**
- * True once the visitor couldn't get past the check (Turnstile failed every attempt,
- * or the Worker refused its token). The agent itself may be fine.
- */
-let checkFailed = false;
-const failListeners = new Set<() => void>();
-function setCheckFailed(value: boolean) {
-  if (checkFailed === value) return;
-  checkFailed = value;
-  for (const listener of failListeners) listener();
-}
-export const hasHumanCheckFailed = () => checkFailed;
-export function onHumanCheckFailedChange(listener: () => void) {
-  failListeners.add(listener);
-  return () => {
-    failListeners.delete(listener);
   };
 }
 
@@ -119,7 +106,6 @@ async function turnstileToken(): Promise<string> {
       // Retries are ours, so a failure that ends the check really is the last one.
       retry: 'never',
       callback: (token) => {
-        setChecking(false);
         turnstile.remove(id);
         resolve(token);
       },
@@ -129,23 +115,28 @@ async function turnstileToken(): Promise<string> {
           window.setTimeout(() => turnstile.reset(id), CHECK_RETRY_DELAY_MS);
           return true;
         }
-        setChecking(false);
         turnstile.remove(id);
         reject(new HumanCheckError(`Turnstile check failed (${code})`));
         return true;
       },
-      'before-interactive-callback': () => setChecking(true),
-      'after-interactive-callback': () => setChecking(false),
+      'before-interactive-callback': () => setCheck('shown'),
+      'after-interactive-callback': () => setCheck('running'),
     });
   });
 }
 
 async function newSession(): Promise<string> {
-  setCheckFailed(false);
+  setCheck('running');
   try {
-    return await requestSession(await turnstileToken());
+    const token = await turnstileToken().catch((error: unknown) => {
+      // Also when the script never loads (blocked by an extension, say).
+      throw error instanceof HumanCheckError ? error : new HumanCheckError(String(error));
+    });
+    const result = await requestSession(token);
+    setCheck('idle');
+    return result;
   } catch (error) {
-    if (error instanceof HumanCheckError) setCheckFailed(true);
+    setCheck(error instanceof HumanCheckError ? 'failed' : 'idle');
     throw error;
   }
 }

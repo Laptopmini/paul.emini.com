@@ -391,7 +391,9 @@ test.describe('chat', () => {
     test.skip(isMobile, 'one viewport is enough');
     // A stand-in for Turnstile that fails (code 600010, a failed challenge) until told not to.
     await page.addInitScript(() => {
-      Object.assign(window, { turnstileFails: true, turnstileAttempts: 0 });
+      // Slow enough that the retries outlast the chat's 10s connection timeout, as real
+      // interactive challenges can: a check still under way isn't "unreachable".
+      Object.assign(window, { turnstileFails: true, turnstileAttempts: 0, turnstileDelay: 4_000 });
     });
     await page.route('https://challenges.cloudflare.com/turnstile/**', (route) =>
       route.fulfill({
@@ -402,7 +404,7 @@ test.describe('chat', () => {
             window.turnstileAttempts += 1;
             if (window.turnstileFails) options['error-callback']('600010');
             else options.callback('XXXX.DUMMY.TOKEN.XXXX');
-          }, 0);
+          }, window.turnstileDelay);
           let next = 0;
           window.turnstile = {
             render: (el, options) => { const id = String(++next); widgets[id] = options; attempt(options); return id; },
@@ -414,14 +416,16 @@ test.describe('chat', () => {
     );
     await askFromLanding(page, 'What are your top skills?');
     const alert = page.getByRole('main', { name: 'Conversation' }).getByRole('alert');
-    await expect(alert).toContainText('didn’t go through');
+    // The first thing it says is the check's failure, never "unreachable" while retrying.
+    await expect(alert).toBeVisible({ timeout: 20_000 });
+    expect(await alert.textContent()).toContain('didn’t go through');
     expect(
       await page.evaluate(
         () => (window as unknown as { turnstileAttempts: number }).turnstileAttempts,
       ),
     ).toBe(3);
 
-    await page.evaluate(() => Object.assign(window, { turnstileFails: false }));
+    await page.evaluate(() => Object.assign(window, { turnstileFails: false, turnstileDelay: 0 }));
     await alert.getByRole('button', { name: 'Try again' }).click();
     await expect(alert).toBeHidden();
     await expect(agentTurns(page).first()).toBeVisible({ timeout: 15_000 });

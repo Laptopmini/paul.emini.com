@@ -12,13 +12,7 @@ import { ChatDock } from '@/components/landing/ChatDock';
 import { RESUME_ID } from '@/components/landing/copy';
 import { DEFAULT_PERSONA, github, meta, personas } from '@/content';
 import { personaIds } from '@/content/schema';
-import {
-  hasHumanCheckFailed,
-  isHumanCheckShown,
-  onHumanCheckChange,
-  onHumanCheckFailedChange,
-  setTurnstileSlot,
-} from '@/lib/agent-session';
+import { getHumanCheck, onHumanCheckChange, setTurnstileSlot } from '@/lib/agent-session';
 import { reportChat, showSection, takePending, useChatState } from '@/lib/chat-store';
 import {
   arrangeItems,
@@ -137,12 +131,8 @@ export function ChatView({ active, onReconnect }: { active: boolean; onReconnect
   const [failedTurn, setFailedTurn] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState(false);
   const [quota, setQuota] = useState<QuotaValue | null>(null);
-  const humanCheck = useSyncExternalStore(onHumanCheckChange, isHumanCheckShown, () => false);
-  const checkFailed = useSyncExternalStore(
-    onHumanCheckFailedChange,
-    hasHumanCheckFailed,
-    () => false,
-  );
+  const humanCheck = useSyncExternalStore(onHumanCheckChange, getHumanCheck, () => 'idle');
+  const checkFailed = humanCheck === 'failed';
   const { pending } = useChatState();
   const inputRef = useRef<HTMLInputElement>(null);
   const stickToBottom = useRef(true);
@@ -182,9 +172,10 @@ export function ChatView({ active, onReconnect }: { active: boolean; onReconnect
     if (prompt) ask(prompt);
   }, [pending, isReady, ask]);
 
-  // Waiting on the visitor to tick Turnstile's box isn't the agent being unreachable.
+  // A human check under way (retries, or the visitor ticking its box) isn't the agent being
+  // unreachable, and a failed one says so itself.
   useEffect(() => {
-    if (isReady || humanCheck) return;
+    if (isReady || humanCheck !== 'idle') return;
     const timer = window.setTimeout(() => setUnavailable(true), READY_TIMEOUT_MS);
     return () => window.clearTimeout(timer);
   }, [isReady, humanCheck]);
@@ -267,7 +258,9 @@ export function ChatView({ active, onReconnect }: { active: boolean; onReconnect
                     <span />
                     <span />
                   </span>
-                  {humanCheck ? 'One quick check: tick the box below to start.' : 'Connecting…'}
+                  {humanCheck === 'shown'
+                    ? 'One quick check: tick the box below to start.'
+                    : 'Connecting…'}
                 </p>
               </div>
             )}
