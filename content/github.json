@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-03T19:57:10.823Z",
+  "fetchedAt": "2026-11-04T20:16:22.581Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-02T22:07:35.000Z",
+      "pushedAt": "2026-11-03T19:57:25.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -64,6 +64,41 @@
     }
   ],
   "contributions": [
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(dotnet): provision the .NET 8 and 9 runtimes for local tests",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3308,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3308",
+      "createdAt": "2026-11-03T23:17:35.000Z",
+      "updatedAt": "2026-11-04T08:27:36.000Z",
+      "comments": 1,
+      "additions": 17,
+      "deletions": 2
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug] Building from source fails: the pinned ps5-homebrew-ui repository no longer exists",
+      "repo": "quatrixone/ProsperoAI",
+      "number": 48,
+      "url": "https://github.com/quatrixone/ProsperoAI/issues/48",
+      "createdAt": "2026-11-04T02:12:41.000Z",
+      "updatedAt": "2026-11-04T02:12:41.000Z",
+      "comments": 0
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug]: .NET `./build.sh --test` provisions only the .NET 10 runtime, so net8.0/net9.0 test runs abort",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3307,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/issues/3307",
+      "createdAt": "2026-11-03T23:12:46.000Z",
+      "updatedAt": "2026-11-03T23:12:46.000Z",
+      "comments": 0
+    },
     {
       "kind": "pr",
       "state": "open",
@@ -394,43 +429,6 @@
       "comments": 2,
       "additions": 229,
       "deletions": 31
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "🚀 Feature Request: docs.copilotkit.ai: show a progress bar during client navigations",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7823,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7823",
-      "createdAt": "2026-10-14T21:22:42.000Z",
-      "updatedAt": "2026-10-14T21:22:52.000Z",
-      "comments": 1
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "feat(ag-ui): stream ACTIVITY_SNAPSHOT and ACTIVITY_DELTA events",
-      "repo": "run-llama/llama_index",
-      "number": 23488,
-      "url": "https://github.com/run-llama/llama_index/pull/23488",
-      "createdAt": "2026-10-13T17:18:06.000Z",
-      "updatedAt": "2026-10-14T16:25:12.000Z",
-      "comments": 0,
-      "additions": 95,
-      "deletions": 1
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(ag-ui): pass RunAgentInput.context to the LLM",
-      "repo": "run-llama/llama_index",
-      "number": 23499,
-      "url": "https://github.com/run-llama/llama_index/pull/23499",
-      "createdAt": "2026-10-14T06:53:04.000Z",
-      "updatedAt": "2026-10-14T16:20:11.000Z",
-      "comments": 0,
-      "additions": 159,
-      "deletions": 3
     }
   ]
 }
