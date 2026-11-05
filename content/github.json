@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-04T20:16:22.581Z",
+  "fetchedAt": "2026-11-05T20:28:16.127Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-03T19:57:25.000Z",
+      "pushedAt": "2026-11-04T20:16:26.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -64,6 +64,41 @@
     }
   ],
   "contributions": [
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: channels-core warns \"clone() dropped resolvingPeerCeiling\" on every turn with its own HttpAgent",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8218,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/8218",
+      "createdAt": "2026-11-05T02:19:59.000Z",
+      "updatedAt": "2026-11-05T02:20:39.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(client): copy resolvingPeerCeiling in AbstractAgent.clone()",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3316,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3316",
+      "createdAt": "2026-11-05T02:14:28.000Z",
+      "updatedAt": "2026-11-05T02:14:29.000Z",
+      "comments": 0,
+      "additions": 23,
+      "deletions": 0
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug]: AbstractAgent.clone() leaves out resolvingPeerCeiling, so a clone is missing an own field a fresh agent has",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3315,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/issues/3315",
+      "createdAt": "2026-11-05T02:13:07.000Z",
+      "updatedAt": "2026-11-05T02:13:07.000Z",
+      "comments": 0
+    },
     {
       "kind": "pr",
       "state": "open",
@@ -392,43 +427,6 @@
       "createdAt": "2026-10-14T16:58:51.000Z",
       "updatedAt": "2026-10-19T11:13:29.000Z",
       "comments": 1
-    },
-    {
-      "kind": "pr",
-      "state": "merged",
-      "title": "fix(a2ui-renderer): type RendererProps.children as (id, basePath?)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7801,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/7801",
-      "createdAt": "2026-10-13T16:38:52.000Z",
-      "updatedAt": "2026-10-15T16:34:41.000Z",
-      "comments": 2,
-      "additions": 83,
-      "deletions": 2
-    },
-    {
-      "kind": "issue",
-      "state": "closed",
-      "title": "🐛 Bug: a2ui-renderer: RendererProps.children is typed (id) => ReactNode, but list templates need (id, basePath)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7800,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7800",
-      "createdAt": "2026-10-13T16:34:55.000Z",
-      "updatedAt": "2026-10-15T06:47:42.000Z",
-      "comments": 1
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(ag-ui): send earlier tool calls and results to the LLM natively",
-      "repo": "run-llama/llama_index",
-      "number": 23501,
-      "url": "https://github.com/run-llama/llama_index/pull/23501",
-      "createdAt": "2026-10-14T07:01:50.000Z",
-      "updatedAt": "2026-10-15T00:48:04.000Z",
-      "comments": 2,
-      "additions": 229,
-      "deletions": 31
     }
   ]
 }
