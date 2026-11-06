@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-05T20:28:16.127Z",
+  "fetchedAt": "2026-11-06T19:50:38.770Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-04T20:16:26.000Z",
+      "pushedAt": "2026-11-05T20:28:21.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -65,6 +65,78 @@
   ],
   "contributions": [
     {
+      "kind": "pr",
+      "state": "open",
+      "title": "fix(shared): strip the organization and project ids Intelligence adds to relayed events",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8252,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/8252",
+      "createdAt": "2026-11-06T18:13:41.000Z",
+      "updatedAt": "2026-11-06T18:54:31.000Z",
+      "comments": 4,
+      "additions": 45,
+      "deletions": 11
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🐛 Bug: Intelligence runs log two `[ag-ui][enforce]` warnings per event for `organization_id` and `project_id`",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8251,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/8251",
+      "createdAt": "2026-11-06T18:12:01.000Z",
+      "updatedAt": "2026-11-06T18:12:01.000Z",
+      "comments": 0
+    },
+    {
+      "kind": "issue",
+      "state": "closed",
+      "title": "[Bug]: .NET `./build.sh --test` provisions only the .NET 10 runtime, so net8.0/net9.0 test runs abort",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3307,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/issues/3307",
+      "createdAt": "2026-11-03T23:12:46.000Z",
+      "updatedAt": "2026-11-06T06:38:24.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(dotnet): provision the .NET 8 and 9 runtimes for local tests",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3308,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3308",
+      "createdAt": "2026-11-03T23:17:35.000Z",
+      "updatedAt": "2026-11-06T06:38:23.000Z",
+      "comments": 3,
+      "additions": 17,
+      "deletions": 2
+    },
+    {
+      "kind": "issue",
+      "state": "closed",
+      "title": "[Bug]: AbstractAgent.clone() leaves out resolvingPeerCeiling, so a clone is missing an own field a fresh agent has",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3315,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/issues/3315",
+      "createdAt": "2026-11-05T02:13:07.000Z",
+      "updatedAt": "2026-11-06T00:38:21.000Z",
+      "comments": 0
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(client): copy resolvingPeerCeiling in AbstractAgent.clone()",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3316,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3316",
+      "createdAt": "2026-11-05T02:14:28.000Z",
+      "updatedAt": "2026-11-06T00:38:20.000Z",
+      "comments": 2,
+      "additions": 23,
+      "deletions": 0
+    },
+    {
       "kind": "issue",
       "state": "open",
       "title": "🐛 Bug: channels-core warns \"clone() dropped resolvingPeerCeiling\" on every turn with its own HttpAgent",
@@ -76,43 +148,6 @@
       "comments": 1
     },
     {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(client): copy resolvingPeerCeiling in AbstractAgent.clone()",
-      "repo": "ag-ui-protocol/ag-ui",
-      "number": 3316,
-      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3316",
-      "createdAt": "2026-11-05T02:14:28.000Z",
-      "updatedAt": "2026-11-05T02:14:29.000Z",
-      "comments": 0,
-      "additions": 23,
-      "deletions": 0
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "[Bug]: AbstractAgent.clone() leaves out resolvingPeerCeiling, so a clone is missing an own field a fresh agent has",
-      "repo": "ag-ui-protocol/ag-ui",
-      "number": 3315,
-      "url": "https://github.com/ag-ui-protocol/ag-ui/issues/3315",
-      "createdAt": "2026-11-05T02:13:07.000Z",
-      "updatedAt": "2026-11-05T02:13:07.000Z",
-      "comments": 0
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "fix(dotnet): provision the .NET 8 and 9 runtimes for local tests",
-      "repo": "ag-ui-protocol/ag-ui",
-      "number": 3308,
-      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3308",
-      "createdAt": "2026-11-03T23:17:35.000Z",
-      "updatedAt": "2026-11-04T08:27:36.000Z",
-      "comments": 1,
-      "additions": 17,
-      "deletions": 2
-    },
-    {
       "kind": "issue",
       "state": "open",
       "title": "[Bug] Building from source fails: the pinned ps5-homebrew-ui repository no longer exists",
@@ -121,17 +156,6 @@
       "url": "https://github.com/quatrixone/ProsperoAI/issues/48",
       "createdAt": "2026-11-04T02:12:41.000Z",
       "updatedAt": "2026-11-04T02:12:41.000Z",
-      "comments": 0
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "[Bug]: .NET `./build.sh --test` provisions only the .NET 10 runtime, so net8.0/net9.0 test runs abort",
-      "repo": "ag-ui-protocol/ag-ui",
-      "number": 3307,
-      "url": "https://github.com/ag-ui-protocol/ag-ui/issues/3307",
-      "createdAt": "2026-11-03T23:12:46.000Z",
-      "updatedAt": "2026-11-03T23:12:46.000Z",
       "comments": 0
     },
     {
@@ -405,28 +429,6 @@
       "createdAt": "2026-10-14T16:56:45.000Z",
       "updatedAt": "2026-10-23T16:29:25.000Z",
       "comments": 4
-    },
-    {
-      "kind": "issue",
-      "state": "closed",
-      "title": "🐛 Bug: docs.copilotkit.ai ships the entire demo-content.json (40 MB of JS) to the browser on most pages, and re-downloads it on navigation",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7821,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7821",
-      "createdAt": "2026-10-14T21:07:38.000Z",
-      "updatedAt": "2026-10-19T19:44:54.000Z",
-      "comments": 1
-    },
-    {
-      "kind": "issue",
-      "state": "closed",
-      "title": "🐛 Bug: runtime-client-gql: published types import graphql and @graphql-typed-document-node/core, which are devDependencies (validate-dts-imports only runs for runtime)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7817,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7817",
-      "createdAt": "2026-10-14T16:58:51.000Z",
-      "updatedAt": "2026-10-19T11:13:29.000Z",
-      "comments": 1
     }
   ]
 }
