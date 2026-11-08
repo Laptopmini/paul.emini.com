@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-07T17:56:38.205Z",
+  "fetchedAt": "2026-11-08T18:12:29.372Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-06T19:50:44.000Z",
+      "pushedAt": "2026-11-07T17:56:42.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -64,6 +64,17 @@
     }
   ],
   "contributions": [
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "[Bug] Building from source fails: the pinned ps5-homebrew-ui repository no longer exists",
+      "repo": "quatrixone/ProsperoAI",
+      "number": 48,
+      "url": "https://github.com/quatrixone/ProsperoAI/issues/48",
+      "createdAt": "2026-11-04T02:12:41.000Z",
+      "updatedAt": "2026-11-08T09:15:04.000Z",
+      "comments": 2
+    },
     {
       "kind": "pr",
       "state": "open",
@@ -146,17 +157,6 @@
       "createdAt": "2026-11-05T02:19:59.000Z",
       "updatedAt": "2026-11-05T02:20:39.000Z",
       "comments": 1
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "[Bug] Building from source fails: the pinned ps5-homebrew-ui repository no longer exists",
-      "repo": "quatrixone/ProsperoAI",
-      "number": 48,
-      "url": "https://github.com/quatrixone/ProsperoAI/issues/48",
-      "createdAt": "2026-11-04T02:12:41.000Z",
-      "updatedAt": "2026-11-04T02:12:41.000Z",
-      "comments": 0
     },
     {
       "kind": "pr",
