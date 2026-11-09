@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-08T18:12:29.372Z",
+  "fetchedAt": "2026-11-09T22:51:39.742Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-07T17:56:42.000Z",
+      "pushedAt": "2026-11-08T18:12:33.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -64,6 +64,28 @@
     }
   ],
   "contributions": [
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "🚀 Feature Request: Let learned-skill delivery read from a custom skill source",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8284,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/8284",
+      "createdAt": "2026-11-09T21:55:06.000Z",
+      "updatedAt": "2026-11-09T21:55:38.000Z",
+      "comments": 1
+    },
+    {
+      "kind": "issue",
+      "state": "open",
+      "title": "📚 Documentation: Self-hosting docs name \"Team Self-hosted\", which the public pricing page doesn't list",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8283,
+      "url": "https://github.com/CopilotKit/CopilotKit/issues/8283",
+      "createdAt": "2026-11-09T21:50:06.000Z",
+      "updatedAt": "2026-11-09T21:50:40.000Z",
+      "comments": 1
+    },
     {
       "kind": "issue",
       "state": "open",
@@ -407,28 +429,6 @@
       "createdAt": "2026-10-26T17:14:05.000Z",
       "updatedAt": "2026-10-26T17:14:05.000Z",
       "comments": 0
-    },
-    {
-      "kind": "issue",
-      "state": "closed",
-      "title": "🐛 Bug: a2ui-renderer: createCatalog renderer props are typed as the raw schema (Action props aren't callable, bound values unresolved, set<Prop> setters missing)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7814,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7814",
-      "createdAt": "2026-10-14T16:26:15.000Z",
-      "updatedAt": "2026-10-23T19:09:24.000Z",
-      "comments": 1
-    },
-    {
-      "kind": "issue",
-      "state": "open",
-      "title": "🐛 Bug: react-core / mcp-apps-renderer .d.mts written for Zod 3 break type-checking when the app's zod is v4 (1,683 errors with skipLibCheck: false)",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 7816,
-      "url": "https://github.com/CopilotKit/CopilotKit/issues/7816",
-      "createdAt": "2026-10-14T16:56:45.000Z",
-      "updatedAt": "2026-10-23T16:29:25.000Z",
-      "comments": 4
     }
   ]
 }
