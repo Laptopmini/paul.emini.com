@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-17T21:29:42.395Z",
+  "fetchedAt": "2026-11-18T21:05:23.882Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-16T22:43:32.000Z",
+      "pushedAt": "2026-11-17T21:29:46.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -57,7 +57,7 @@
       "description": "RaspberryPi based custom head unit for classic Porsche, supporting wireless CarPlay and featuring an integrated Bang & Olufsen amplifier. ",
       "url": "https://github.com/Laptopmini/PorschePi",
       "language": "Shell",
-      "stars": 33,
+      "stars": 34,
       "createdAt": "2022-05-19T18:53:15.000Z",
       "pushedAt": "2023-01-16T21:15:16.000Z",
       "readme": "RaspberryPi based custom head unit for classic Porsche. Inspired by the Porsche Classic Communication Management (PCCM) (91164559100), featuring a much larger touchscreen and the ability to use CarPlay wirelessly."
