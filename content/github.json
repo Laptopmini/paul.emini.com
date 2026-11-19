@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-18T21:05:23.882Z",
+  "fetchedAt": "2026-11-19T21:10:10.728Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-17T21:29:46.000Z",
+      "pushedAt": "2026-11-18T21:05:28.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -72,8 +72,8 @@
       "number": 4269,
       "url": "https://github.com/a2ui-project/a2ui/pull/4269",
       "createdAt": "2026-11-17T08:03:52.000Z",
-      "updatedAt": "2026-11-17T08:56:08.000Z",
-      "comments": 0,
+      "updatedAt": "2026-11-19T11:44:31.000Z",
+      "comments": 1,
       "additions": 4,
       "deletions": 3
     },
@@ -241,19 +241,6 @@
     {
       "kind": "pr",
       "state": "merged",
-      "title": "fix(dotnet): provision the .NET 8 and 9 runtimes for local tests",
-      "repo": "ag-ui-protocol/ag-ui",
-      "number": 3308,
-      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3308",
-      "createdAt": "2026-11-03T23:17:35.000Z",
-      "updatedAt": "2026-11-16T00:01:11.000Z",
-      "comments": 3,
-      "additions": 17,
-      "deletions": 2
-    },
-    {
-      "kind": "pr",
-      "state": "merged",
       "title": "fix(client): copy resolvingPeerCeiling in AbstractAgent.clone()",
       "repo": "ag-ui-protocol/ag-ui",
       "number": 3316,
@@ -263,6 +250,19 @@
       "comments": 2,
       "additions": 23,
       "deletions": 0
+    },
+    {
+      "kind": "pr",
+      "state": "merged",
+      "title": "fix(dotnet): provision the .NET 8 and 9 runtimes for local tests",
+      "repo": "ag-ui-protocol/ag-ui",
+      "number": 3308,
+      "url": "https://github.com/ag-ui-protocol/ag-ui/pull/3308",
+      "createdAt": "2026-11-03T23:17:35.000Z",
+      "updatedAt": "2026-11-16T00:01:11.000Z",
+      "comments": 3,
+      "additions": 17,
+      "deletions": 2
     },
     {
       "kind": "pr",
