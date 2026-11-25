@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-24T22:54:22.776Z",
+  "fetchedAt": "2026-11-25T22:07:52.038Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-24T00:34:33.000Z",
+      "pushedAt": "2026-11-24T22:54:27.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -64,6 +64,19 @@
     }
   ],
   "contributions": [
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "chore(github): ask reporters for a version, install method and steps with issue forms",
+      "repo": "CopilotKit/OpenBot",
+      "number": 877,
+      "url": "https://github.com/CopilotKit/OpenBot/pull/877",
+      "createdAt": "2026-10-28T21:10:08.000Z",
+      "updatedAt": "2026-11-25T18:12:48.000Z",
+      "comments": 2,
+      "additions": 159,
+      "deletions": 0
+    },
     {
       "kind": "issue",
       "state": "open",
@@ -412,19 +425,6 @@
       "comments": 1,
       "additions": 1703,
       "deletions": 1093
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "feat(mcp-apps): add sandboxOrigin for a separate sandbox origin",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 8055,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/8055",
-      "createdAt": "2026-10-28T17:32:56.000Z",
-      "updatedAt": "2026-10-29T20:18:24.000Z",
-      "comments": 1,
-      "additions": 715,
-      "deletions": 99
     }
   ]
 }
