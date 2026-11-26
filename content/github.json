@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-25T22:07:52.038Z",
+  "fetchedAt": "2026-11-26T22:06:33.400Z",
   "user": "Laptopmini",
   "repos": [
     {
@@ -9,7 +9,7 @@
       "language": "TypeScript",
       "stars": 0,
       "createdAt": "2026-10-16T01:27:05.000Z",
-      "pushedAt": "2026-11-24T22:54:27.000Z",
+      "pushedAt": "2026-11-25T22:07:57.000Z",
       "readme": "My personal site and résumé, with an AI agent that answers questions about my career and replies with interactive cards instead of walls of text."
     },
     {
@@ -72,10 +72,23 @@
       "number": 877,
       "url": "https://github.com/CopilotKit/OpenBot/pull/877",
       "createdAt": "2026-10-28T21:10:08.000Z",
-      "updatedAt": "2026-11-25T18:12:48.000Z",
-      "comments": 2,
-      "additions": 159,
+      "updatedAt": "2026-11-26T18:22:29.000Z",
+      "comments": 3,
+      "additions": 151,
       "deletions": 0
+    },
+    {
+      "kind": "pr",
+      "state": "open",
+      "title": "feat(react-core): add CopilotKitHeadlessProvider to /v2/headless",
+      "repo": "CopilotKit/CopilotKit",
+      "number": 8033,
+      "url": "https://github.com/CopilotKit/CopilotKit/pull/8033",
+      "createdAt": "2026-10-27T21:41:47.000Z",
+      "updatedAt": "2026-11-26T13:42:08.000Z",
+      "comments": 2,
+      "additions": 1703,
+      "deletions": 1093
     },
     {
       "kind": "issue",
@@ -412,19 +425,6 @@
       "createdAt": "2026-11-05T02:19:59.000Z",
       "updatedAt": "2026-11-05T02:20:39.000Z",
       "comments": 1
-    },
-    {
-      "kind": "pr",
-      "state": "open",
-      "title": "feat(react-core): add CopilotKitHeadlessProvider to /v2/headless",
-      "repo": "CopilotKit/CopilotKit",
-      "number": 8033,
-      "url": "https://github.com/CopilotKit/CopilotKit/pull/8033",
-      "createdAt": "2026-10-27T21:41:47.000Z",
-      "updatedAt": "2026-10-29T20:18:25.000Z",
-      "comments": 1,
-      "additions": 1703,
-      "deletions": 1093
     }
   ]
 }
